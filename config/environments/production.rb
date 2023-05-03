@@ -91,4 +91,17 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
   config.force_ssl = true
+
+  config.action_mailer.default_url_options = { host:'https://fathomless-depths-83598.herokuapp.com' }
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.gmail.com',
+    port:                 25,
+    domain:               'https://fathomless-depths-83598.herokuapp.com/sign_up',
+    user_name:            'tacticalwarteam@gmail.com',
+    password:             'qhrwigtftxmjdytq',
+    authentication:       'plain',
+    enable_starttls_auto: true  
+  }
 end
