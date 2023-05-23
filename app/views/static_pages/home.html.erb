@@ -1,2 +1,12 @@
-<h1>StaticPages#home</h1>
-<p>Find me in app/views/static_pages/home.html.erb</p>
+<h1> Welcome to Tactical Warfare! </h1>
+
+<% if !@user.nil? %>
+<p>Already Signed In</p>
+<%= button_to "Continue", user_path(@user), method: :get %> <br>
+<%= button_to 'Sign Out', "/logout", method: :delete %>
+<% else %>
+<%= button_to "Sign Up!", "/sign_up", method: :get %> <br>
+<%= button_to "Sign In!", "/login", method: :get %> 
+<% end %>
+
+

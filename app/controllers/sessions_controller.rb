@@ -1,22 +1,22 @@
+# frozen_string_literal: true
+
 class SessionsController < ApplicationController
-  before_action :redirect_if_authenticated, only: [:create, :new]
   before_action :authenticate_user!, only: [:destroy]
 
   def create
     @user = User.authenticate_by(email: params[:user][:email].downcase, password: params[:user][:password])
     if @user
       if @user.unconfirmed?
-        redirect_to new_confirmation_path, alert: "Incorrect email or password."
+        redirect_to new_confirmation_path, alert: 'Incorrect email or password.'
       else
-        after_login_path = session[:user_return_to] || root_path
         login @user
-        remember(@user) if params[:user][:remember_me] == "1"
-        redirect_to after_login_path, notice: "Signed in."
+        remember(@user) if params[:user][:remember_me] == '1'
+        redirect_to user_path(@user), notice: 'Signed in.'
         active_session = login @user
-        remember(active_session) if params[:user][:remember_me] == "1"
+        remember(active_session) if params[:user][:remember_me] == '1'
       end
     else
-      flash.now[:alert] = "Incorrect email or password."
+      flash.now[:alert] = 'Incorrect email or password.'
       render :new, status: :unprocessable_entity
     end
   end
@@ -25,10 +25,14 @@ class SessionsController < ApplicationController
     forget_active_session
     forget(current_user)
     logout
-    redirect_to root_path, notice: "Signed out."
+    redirect_to root_path, notice: 'Signed out.'
   end
 
   def new
-  end
+    return unless user_signed_in?
 
+    @user = current_user
+    redirect_to user_path(@user)
+    flash[:alert] = 'Already Signed In'
+  end
 end

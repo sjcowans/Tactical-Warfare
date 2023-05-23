@@ -1,14 +1,17 @@
+# frozen_string_literal: true
+
 class ConfirmationsController < ApplicationController
-  before_action :redirect_if_authenticated, only: [:create, :new]
+  before_action :redirect_if_authenticated, only: %i[create new]
 
   def create
     @user = User.find_by(email: params[:user][:email].downcase)
 
     if @user.present? && @user.unconfirmed?
       @user.send_confirmation_email!
-      redirect_to root_path, notice: "Check your email for confirmation instructions."
+      redirect_to root_path, notice: 'Check your email for confirmation instructions.'
     else
-      redirect_to new_confirmation_path, alert: "We could not find a user with that email or that email has already been confirmed."
+      redirect_to new_confirmation_path,
+                  alert: 'We could not find a user with that email or that email has already been confirmed.'
     end
   end
 
@@ -18,14 +21,13 @@ class ConfirmationsController < ApplicationController
     if @user.present? && @user.unconfirmed_or_reconfirming?
       @user.confirm!
       login @user
-      redirect_to root_path, notice: "Your account has been confirmed."
+      redirect_to user_path(@user), notice: 'Your account has been confirmed.'
     else
-      redirect_to new_confirmation_path, alert: "Something went wrong."
+      redirect_to new_confirmation_path, alert: 'Something went wrong.'
     end
   end
 
   def new
     @user = User.new
   end
-
 end

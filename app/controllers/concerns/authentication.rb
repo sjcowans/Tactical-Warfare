@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Authentication
   extend ActiveSupport::Concern
 
@@ -30,17 +32,17 @@ module Authentication
   end
 
   def redirect_if_authenticated
-    redirect_to root_path, alert: "You are already logged in." if user_signed_in?
+    redirect_to root_path, alert: 'You are already logged in.' if user_signed_in?
   end
 
   def authenticate_user!
     store_location
-    redirect_to login_path, alert: "You need to login to access that page." unless user_signed_in?
+    redirect_to root_path, alert: 'You need to login to access that page.' unless user_signed_in?
   end
 
-  def forget(user)
+  def forget(_user)
     cookies.delete :remember_token
-    user.regenerate_remember_token
+    # user.regenerate_remember_token
   end
 
   def remember(user)
@@ -52,10 +54,10 @@ module Authentication
 
   def current_user
     Current.user = if session[:current_active_session_id].present?
-      ActiveSession.find_by(id: session[:current_active_session_id])&.user
-    elsif cookies.permanent.encrypted[:remember_token].present?
-      ActiveSession.find_by(remember_token: cookies.permanent.encrypted[:remember_token])&.user
-    end
+                     ActiveSession.find_by(id: session[:current_active_session_id])&.user
+                   elsif cookies.permanent.encrypted[:remember_token].present?
+                     ActiveSession.find_by(remember_token: cookies.permanent.encrypted[:remember_token])&.user
+                   end
   end
 
   def user_signed_in?
@@ -65,5 +67,4 @@ module Authentication
   def store_location
     session[:user_return_to] = request.original_url if request.get? && request.local?
   end
-
 end
