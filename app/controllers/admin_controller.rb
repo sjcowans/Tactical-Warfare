@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class AdminController < ApplicationController
-  def index
-    return if current_user.admin?
+  before_action :authenticate_admin!
 
-    render file: 'public/404.html', status: :not_found, layout: false
+  def index
   end
 end
