@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: %i[edit destroy update]
+  before_action :authenticate_user!, only: %i[edit destroy update show]
   before_action :redirect_if_authenticated, only: [:create]
 
   def create

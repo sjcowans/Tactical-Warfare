@@ -31,4 +31,11 @@ describe 'user authorization' do
     visit admin_index_path
     expect(page).to have_content("The page you were looking for doesn't exist.")
   end
+
+  it 'says you must login to view user show page' do
+    visit "/users/#{@user1.id}"
+
+    expect(current_path).to eq(root_path)
+    expect(page).to have_content('You need to login to access that page')
+  end
 end

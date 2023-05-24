@@ -40,6 +40,11 @@ module Authentication
     redirect_to root_path, alert: 'You need to login to access that page.' unless user_signed_in?
   end
 
+  def authenticate_admin!
+    store_location
+    render file: 'public/404.html', status: :not_found, layout: false unless user_admin?
+  end
+
   def forget(_user)
     cookies.delete :remember_token
     # user.regenerate_remember_token
@@ -53,6 +58,7 @@ module Authentication
   private
 
   def current_user
+
     Current.user = if session[:current_active_session_id].present?
                      ActiveSession.find_by(id: session[:current_active_session_id])&.user
                    elsif cookies.permanent.encrypted[:remember_token].present?
@@ -62,6 +68,10 @@ module Authentication
 
   def user_signed_in?
     Current.user.present?
+  end
+
+  def user_admin?
+    Current.user.admin?
   end
 
   def store_location
