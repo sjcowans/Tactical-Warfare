@@ -17,8 +17,8 @@ Rails.application.routes.draw do
       delete 'destroy_all'
     end
   end
-  resources :users, only: [:show] do
-    resources :games, only: [:new]
-  end
+  resources :users, only: [:show]
+  resources :games, only: [:show, :index] 
+  resources :user_games, only: [:show, :create]
   resources :admin, only: [:index]
 end

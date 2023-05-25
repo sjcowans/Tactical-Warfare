@@ -3,6 +3,7 @@
 class User < ApplicationRecord
   CONFIRMATION_TOKEN_EXPIRATION = 10.minutes
   has_many :active_sessions, dependent: :destroy
+  has_many :user_games
 
   enum :role, { default: 0, admin: 1 }
   attr_accessor :current_password
