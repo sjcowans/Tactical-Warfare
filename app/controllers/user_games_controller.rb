@@ -22,7 +22,21 @@ class UserGamesController < ApplicationController
   end
 
   def show
-    @user_game = UserGame.where(user_id: params[:id], game_id: params[:format])
-    @country = @user_game.first.game.countries.first #needs refactor
+    @user_game = UserGame.where(user_id: params[:id], game_id: params[:format]).first
+    @country = @user_game.game.countries.first #needs refactor
+    if !params[:explore_land].nil?
+      if @country.turns >= params[:explore_land].to_i
+        @country.explore_land(params[:explore_land])
+      else
+        flash[:alert] = 'Not Enough Turns'
+      end
+    end
+    if !params[:infrastructure].nil? || !params[:shops].nil? || !params[:barracks].nil? || !params[:armories].nil? || !params[:hangars].nil? || !params[:dockyards].nil? || !params[:labs].nil?
+      if @country.turns >= (params[:infrastructure].to_i + params[:shops].to_i + params[:barracks].to_i + params[:armories].to_i + params[:hangars].to_i + params[:dockyards].to_i + params[:labs].to_i)
+        @country.build(params[:infrastructure].to_i, params[:shops], params[:barracks], params[:armories], params[:hangars], params[:dockyards], params[:labs])
+      else
+        flash[:alert] = 'Not Enough Turns'
+      end
+    end
   end
 end
