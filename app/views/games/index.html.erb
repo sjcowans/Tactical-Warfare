@@ -1,0 +1,11 @@
+<h3> Active Games: </h3>
+
+<% @games.each do |game| %>
+<h4> Game: <%= game.id %> </h4>
+<%= form_with url: user_games_path(current_user, game), method: :post, local: true do |form| %>
+    <%= form.label :country_name %>
+    <%= form.text_field :country_name, required: true %>
+    <%= hidden_field_tag 'game_id', game.id %>
+  <%= form.submit "Join" %>
+<% end %>
+<% end %>
