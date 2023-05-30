@@ -3,6 +3,54 @@
 Country: <%= @country.name %> <br>
 Money: <%= @country.money %><br>
 Turns: <%= @country.turns %><br>
-Score: <%= @country.score %>
+Score: <%= @country.score %><br>
+Research Points: <%= @country.research_points %><br>
+Land: <%= @country.land %>
+
+<h4> Military: </h4>
+<ol>
+<li>Infantry: <%= @country.basic_infantry %></li>
+<li>Ships: <%= @country.basic_ship %></li>
+<li>Armored: <%= @country.basic_armored %></li>
+<li>Aircraft: <%= @country.basic_aircraft %></li>
+</ol>
+
+<h4> Buildings: </h4>
+<ol>
+<li>infrastructure: <%= @country.infrastructure %></li>
+<li>Shops: <%= @country.shops %></li>
+<li>Barracks: <%= @country.barracks %></li>
+<li>Armories: <%= @country.armory %></li>
+<li>Hangars: <%= @country.hangars %></li>
+<li>Dockyards: <%= @country.dockyards %></li>
+<li>Labs: <%= @country.labs %></li>
+</ol>
+
+
+
+<%= form_with url: user_game_path(current_user, @user_game.game_id), method: :get, local: true do |form| %>
+    <%= form.label :turns_to_explore_land %>
+    <%= form.number_field :explore_land, required: true %>
+  <%= form.submit "Explore" %>
+<% end %><br>
+
+<h4>Build: </h4> <small>(1 building per turn)</small>
+<%= form_with url: user_game_path(current_user, @user_game.game_id), method: :get, local: true do |form| %>
+    <%= form.label :turns_to_build_infrastructure %>
+    <%= form.number_field :infrastructure %> <br>
+    <%= form.label :turns_to_build_shops %>
+    <%= form.number_field :shops %><br>
+    <%= form.label :turns_to_build_barracks %>
+    <%= form.number_field :barracks %><br>
+    <%= form.label :turns_to_build_armories %>
+    <%= form.number_field :armories %><br>
+    <%= form.label :turns_to_build_hangars %>
+    <%= form.number_field :hangars %><br>
+    <%= form.label :turns_to_build_dockyards %>
+    <%= form.number_field :dockyards %><br>
+    <%= form.label :turns_to_build_labs %>
+    <%= form.number_field :labs %><br>
+  <%= form.submit "Build" %>
+<% end %><br>
 
 <%= button_to "Home", root_path, method: :get %>
