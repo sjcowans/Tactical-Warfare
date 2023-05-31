@@ -1,4 +1,12 @@
 <h4> Welcome User: <%= @user.id %> </h4>
 
-<%= link_to "Join a Game", games_path %>
+<h3> Active Games: </h3>
+<p>
+<% @user_games.each do |game| %>
+<%= link_to "Game: #{game.id}", user_game_path(current_user, game)%>
+<% end %>
+</p>
+
+
+<%= link_to "Join a Game", games_path %><br>
 <%= button_to 'Sign Out', "/logout", method: :delete %>
