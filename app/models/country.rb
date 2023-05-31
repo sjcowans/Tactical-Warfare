@@ -36,8 +36,10 @@ class Country < ApplicationRecord
 
   def self.add_turn
     Country.all.each do |country|
-      country.turns += 1
-      country.save
+      if country.turns < 1500
+        country.turns += 1
+        country.save
+      end
     end
   end
 end
