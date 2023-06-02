@@ -33,4 +33,13 @@ class Country < ApplicationRecord
     total_turns = infra.to_i + shops.to_i + barracks.to_i + armories.to_i + hangars.to_i + dockyards.to_i + labs.to_i
     self.take_turns(total_turns)
   end
+
+  def self.add_turn
+    Country.all.each do |country|
+      if country.turns < 3000
+        country.turns += 1
+        country.save
+      end
+    end
+  end
 end
