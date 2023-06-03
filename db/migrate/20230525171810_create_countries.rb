@@ -4,7 +4,7 @@ class CreateCountries < ActiveRecord::Migration[7.0]
       t.string :name, null: false
       t.integer :score, default: 0
       t.integer :land, default: 500
-      t.integer :money, default: 1000000
+      t.integer :money, default: 1_000_000
       t.integer :turns, default: 250
       t.integer :research_points, default: 0
       t.integer :armory, default: 0

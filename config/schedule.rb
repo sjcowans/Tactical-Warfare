@@ -19,7 +19,7 @@
 
 # Learn more: http://github.com/javan/whenever
 
-set :output, "log/cron.log"
+set :output, 'log/cron.log'
 
 every 1.minute do
   rake 'country_turns:add_turns'

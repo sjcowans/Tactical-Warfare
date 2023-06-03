@@ -53,4 +53,32 @@ Land: <%= @country.land %>
   <%= form.submit "Build" %>
 <% end %><br>
 
+<h4>Recruit Infantry: </h4>
+<%= form_with url: user_game_path(current_user, @user_game.game_id), method: :get, local: true do |form| %>
+    <%= form.label :turns_to_recruit_infantry %>
+    <%= form.number_field :infantry %> <br>
+  <%= form.submit "Recruit" %>
+<% end %><br>
+
+<h4>Recruit Armor: </h4>
+<%= form_with url: user_game_path(current_user, @user_game.game_id), method: :get, local: true do |form| %>
+    <%= form.label :turns_to_recruit_armored_vehicles %>
+    <%= form.number_field :armor %> <br>
+  <%= form.submit "Recruit" %>
+<% end %><br>
+
+<h4>Recruit Aircraft: </h4>
+<%= form_with url: user_game_path(current_user, @user_game.game_id), method: :get, local: true do |form| %>
+    <%= form.label :turns_to_recruit_aircraft %>
+    <%= form.number_field :aircraft %> <br>
+  <%= form.submit "Recruit" %>
+<% end %><br>
+
+<h4>Recruit Ships: </h4>
+<%= form_with url: user_game_path(current_user, @user_game.game_id), method: :get, local: true do |form| %>
+    <%= form.label :turns_to_recruit_ships %>
+    <%= form.number_field :ships %> <br>
+  <%= form.submit "Recruit" %>
+<% end %><br>
+
 <%= button_to "Home", root_path, method: :get %>
