@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     end
   end
   resources :users, only: [:show]
-  resources :games, only: [:show, :index] 
-  resources :user_games, only: [:show, :create]
+  resources :games, only: %i[show index]
+  resources :user_games, only: %i[show create]
   resources :admin, only: [:index]
 end
