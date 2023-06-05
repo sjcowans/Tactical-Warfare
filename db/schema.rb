@@ -10,9 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_25_183626) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_05_204209) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_sessions", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "user_agent"
@@ -52,24 +55,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_25_183626) do
     t.integer "sea_ship", default: 0
     t.integer "armor_ship", default: 0
     t.integer "basic_ship", default: 0
-    t.integer "game_id", null: false
+    t.bigint "game_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_countries_on_game_id"
   end
 
   create_table "games", force: :cascade do |t|
-    t.integer "user_game_id"
-    t.integer "country_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["country_id"], name: "index_games_on_country_id"
+    t.bigint "user_game_id"
+    t.bigint "contry_id"
+    t.index ["contry_id"], name: "index_games_on_contry_id"
     t.index ["user_game_id"], name: "index_games_on_user_game_id"
   end
 
   create_table "user_games", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "game_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "game_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_user_games_on_game_id"
@@ -84,15 +87,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_25_183626) do
     t.string "password_digest", null: false
     t.string "unconfirmed_email"
     t.integer "role", default: 0
-    t.integer "user_game_id"
+    t.bigint "user_game_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["user_game_id"], name: "index_users_on_user_game_id"
   end
 
   add_foreign_key "active_sessions", "users", on_delete: :cascade
   add_foreign_key "countries", "games"
-  add_foreign_key "games", "countries"
-  add_foreign_key "games", "user_games", on_delete: :cascade
   add_foreign_key "user_games", "games"
   add_foreign_key "user_games", "users"
 end
