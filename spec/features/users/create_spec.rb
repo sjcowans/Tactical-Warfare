@@ -19,7 +19,7 @@ describe 'create user' do
     click_button 'Sign Up'
 
     user = User.last
-    expect(user.email).to eq('Its_Jane_Doe@yahoo.com')
+    expect(user.email).to eq('its_jane_doe@yahoo.com')
     expect(current_path).to eq(root_path)
     expect(page).to have_content('Please check your email for confirmation instructions.')
   end
@@ -30,7 +30,7 @@ describe 'create user' do
     fill_in :user_password_confirmation, with: 'Password123'
 
     click_button 'Sign Up'
-    expect(User.last.email).to eq('JaJa@hotmail.com')
+    expect(User.last.email).to eq('jaja@hotmail.com')
     expect(current_path).to eq('/sign_up')
     expect(page).to have_content('Email has already been taken')
   end
@@ -41,7 +41,7 @@ describe 'create user' do
     fill_in :user_password_confirmation, with: 'Password123'
 
     click_button 'Sign Up'
-    expect(User.last.email).to eq('JaJa@hotmail.com')
+    expect(User.last.email).to eq('jaja@hotmail.com')
     expect(current_path).to eq('/sign_up')
     expect(page).to have_content('Email has already been taken')
   end
