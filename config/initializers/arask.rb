@@ -26,5 +26,5 @@ Arask.setup do |arask|
   #arask.on_exception do |exception, arask_job|
   #  MyExceptionHandler.new(exception)
   #end
-  arask.create task: 'heroku rake country_turns:add_turns', interval: 1.minute
+  arask.create task: 'rake country_turns:add_turns', interval: 1.minute
 end
