@@ -19,13 +19,14 @@ class Country < ApplicationRecord
   end
 
   def build(infra, shops, barracks, armories, hangars, dockyards, labs)
-    self.infrastructure = infrastructure + infra.to_i
-    self.shops = self.shops + shops.to_i
-    self.barracks = self.barracks + barracks.to_i
-    self.armory = armory + armories.to_i
-    self.hangars = self.hangars + hangars.to_i
-    self.dockyards = self.dockyards + dockyards.to_i
-    self.labs = self.labs + labs.to_i
+    bonus = ((self.infrastrucure + 10) / 10).round(0)
+    self.infrastructure = infrastructure + (infra.to_i * bonus)
+    self.shops = self.shops + (shops.to_i * bonus)
+    self.barracks = self.barracks + (barracks.to_i * bonus)
+    self.armory = armory + (armories.to_i * bonus)
+    self.hangars = self.hangars + (hangars.to_i * bonus)
+    self.dockyards = self.dockyards + (dockyards.to_i * bonus)
+    self.labs = self.labs + (labs.to_i * bonus)
     total_turns = infra.to_i + shops.to_i + barracks.to_i + armories.to_i + hangars.to_i + dockyards.to_i + labs.to_i
     take_turns(total_turns)
   end

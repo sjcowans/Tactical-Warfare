@@ -34,7 +34,7 @@ Land: <%= @country.land %>
   <%= form.submit "Explore" %>
 <% end %><br>
 
-<h4>Build: </h4> <small>(1 building per turn)</small>
+<h4>Build: </h4> <small>(1 building per turn + 1 extra building per 10 infrastructure)</small>
 <%= form_with url: user_game_path(current_user, @user_game.game_id), method: :get, local: true do |form| %>
     <%= form.label :turns_to_build_infrastructure %>
     <%= form.number_field :infrastructure %> <br>
