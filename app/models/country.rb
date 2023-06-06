@@ -19,7 +19,7 @@ class Country < ApplicationRecord
   end
 
   def build(infra, shops, barracks, armories, hangars, dockyards, labs)
-    bonus = ((self.infrastrucure + 10) / 10).round(0)
+    bonus = ((self.infrastructure + 10) / 10).round(0)
     self.infrastructure = infrastructure + (infra.to_i * bonus)
     self.shops = self.shops + (shops.to_i * bonus)
     self.barracks = self.barracks + (barracks.to_i * bonus)
