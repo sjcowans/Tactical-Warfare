@@ -9,7 +9,7 @@
   </ul>
 </nav>
 
-<h4>Build: </h4> <small>(1 building per turn + 1 extra building per 10 infrastructure)</small> <br>
+<h4>Build: </h4> <small>(1 building per turn + 1 extra building per 1000 infrastructure)</small> <br>
 <small>(max 10 building per land)</small>
 <%= form_with url: user_game_path(current_user, @user_game.game_id), method: :patch, local: true do |form| %>
     <%= form.label :turns_to_build_houses %>

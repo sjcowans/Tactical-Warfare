@@ -40,7 +40,7 @@ class Country < ApplicationRecord
   end
 
   def land_check(infra, shops, barracks, armories, hangars, dockyards, labs, houses)
-    bonus = ((infrastructure + 10) / 10).round(0)
+    bonus = ((infrastructure + 1000) / 1000).round(0)
     self.infrastructure = infrastructure + (infra.to_i * bonus)
     self.shops = self.shops + (shops.to_i * bonus)
     self.barracks = self.barracks + (barracks.to_i * bonus)
