@@ -19,7 +19,11 @@ class UserGamesController < ApplicationController
   end
 
   def destroy
-    UserGame.destroy(params[:id])
+    @user_game = UserGame.find(params[:user_game_id])
+    @country = Country.find_by(user_id: current_user.id, game_id: @user_game.game_id)
+    @country.destroy
+    @user_game.destroy
+    redirect_to user_path(current_user)
   end
 
   def show
