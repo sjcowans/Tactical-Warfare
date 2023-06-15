@@ -100,7 +100,6 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',
     port: 25,
-    domain: 'https://tactical-warfare.herokuapp.comsign_up',
     user_name: 'tacticalwarteam@gmail.com',
     password: 'qhrwigtftxmjdytq',
     authentication: 'plain',
