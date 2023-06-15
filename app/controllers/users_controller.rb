@@ -5,8 +5,8 @@ class UsersController < ApplicationController
   before_action :redirect_if_authenticated, only: [:create]
 
   def create
-    @user = User.authenticate_by(email: params[:user][:email].downcase, password: params[:user][:password])
-    if @user
+    @user = User.find_by_email(params[:user][:email].downcase)
+    if @user.unconfirmed?
       @user.send_confirmation_email!
       redirect_to new_confirmation_path, alert: 'Please confirm your email.'
     else

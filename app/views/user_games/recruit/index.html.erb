@@ -11,7 +11,7 @@
 
 
 <h4>Recruit Infantry: </h4>
-<%= form_with url: user_game_path(current_user, @user_game.game_id), method: :patch, local: true do |form| %>
+<%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
     <%= form.label :turns_to_recruit_infantry %> <br>
     <%= form.number_field :infantry %> <br> 
     <%= form.label :turns_to_recruit_anti_air_infantry %> <br>
@@ -24,7 +24,7 @@
 <% end %><br>
 
 <h4>Recruit Armor: </h4>
-<%= form_with url: user_game_path(current_user, @user_game.game_id), method: :patch, local: true do |form| %>
+<%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
     <%= form.label :turns_to_recruit_armored_vehicles %> <br>
     <%= form.number_field :armor %> <br> 
     <%= form.label :turns_to_recruit_anti_air_vehicles %> <br>
@@ -37,7 +37,7 @@
 <% end %><br>
 
 <h4>Recruit Aircraft: </h4>
-<%= form_with url: user_game_path(current_user, @user_game.game_id), method: :patch, local: true do |form| %>
+<%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
     <%= form.label :turns_to_recruit_multi_role_fighters %><br>
     <%= form.number_field :aircraft %><br> 
     <%= form.label :turns_to_recruit_fighter_jets %><br>
@@ -50,7 +50,7 @@
 <% end %><br>
 
 <h4>Recruit Ships: </h4>
-<%= form_with url: user_game_path(current_user, @user_game.game_id), method: :get, local: true do |form| %>
+<%= form_with url: user_game_path(@user_game), method: :get, local: true do |form| %>
     <%= form.label :turns_to_recruit_frigates %> <br>
     <%= form.number_field :ships %> <br>
     <%= form.label :turns_to_recruit_cruisers %> <br>

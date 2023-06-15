@@ -9,7 +9,7 @@
   </ul>
 </nav>
 
-<%= form_with url: user_game_path(current_user, @user_game.game_id), method: :patch, local: true do |form| %>
+<%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
     <%= form.label :turns_to_explore_land %>
     <%= form.number_field :explore_land, required: true %>
   <%= form.submit "Explore" %>
