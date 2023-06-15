@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
     @user = User.authenticate_by(email: params[:user][:email].downcase, password: params[:user][:password])
     if @user
       if @user.unconfirmed?
+        @user.send_confirmation_email!
         redirect_to new_confirmation_path, alert: 'Please confirm your email.'
       else
         login @user
