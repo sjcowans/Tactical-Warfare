@@ -28,6 +28,12 @@ class ConfirmationsController < ApplicationController
   end
 
   def new
-    @user = User.new
+    @user = User.find_by(email: params[:user][:email].downcase)
+    if @user.present? && @user.unconfirmed?
+      @user.send_confirmation_email!
+      redirect_to root_path, notice: 'Check your email for confirmation instructions.'
+    else
+      @user = User.new
+    end
   end
 end
