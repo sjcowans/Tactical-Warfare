@@ -45,14 +45,17 @@ module Authentication
     render file: 'public/404.html', status: :not_found, layout: false unless user_admin?
   end
 
-  def forget(_user)
+  def forget(user)
     cookies.delete :remember_token
-    # user.regenerate_remember_token
+    user.active_sessions.last.regenerate_remember_token
   end
 
   def remember(user)
-    user.regenerate_remember_token
-    cookies.permanent.encrypted[:remember_token] = user.remember_token
+    if user.class == ActiveSession
+      user = User.find(user.user_id)
+    end
+    user.active_sessions.last.regenerate_remember_token
+    cookies.permanent.encrypted[:remember_token] = user.active_sessions.last.remember_token
   end
 
   private

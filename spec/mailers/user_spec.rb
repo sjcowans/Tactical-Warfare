@@ -2,12 +2,11 @@
 
 require 'rails_helper'
 
-
 RSpec.describe UserMailer, type: :mailer do
   describe 'confirmation' do
     before(:each) do
       @user = User.create!(email: 'JoJo@hotmail.com', password: 'Password123', password_confirmation: 'Password123')
-      @mail = UserMailer.confirmation(@user, 12345)
+      @mail = UserMailer.confirmation(@user, 12_345)
     end
 
     it 'renders the headers' do

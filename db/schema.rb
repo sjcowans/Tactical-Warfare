@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_05_214929) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_15_173853) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,7 +38,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_05_214929) do
     t.string "name", null: false
     t.integer "score", default: 0
     t.integer "land", default: 500
-    t.integer "money", default: 1000000
+    t.bigint "money", default: 1000000
     t.integer "turns", default: 250
     t.integer "research_points", default: 0
     t.integer "armory", default: 0
@@ -67,7 +67,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_05_214929) do
     t.bigint "game_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "houses", default: 0
+    t.integer "population", default: 0
+    t.bigint "user_id", null: false
     t.index ["game_id"], name: "index_countries_on_game_id"
+    t.index ["user_id"], name: "index_countries_on_user_id"
   end
 
   create_table "games", force: :cascade do |t|
