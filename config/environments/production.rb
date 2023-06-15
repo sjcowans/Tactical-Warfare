@@ -100,7 +100,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',
     port: 25,
-    domain: 'https://fathomless-depths-83598.herokuapp.com/sign_up',
+    domain: 'https://tactical-warfare.herokuapp.comsign_up',
     user_name: 'tacticalwarteam@gmail.com',
     password: 'qhrwigtftxmjdytq',
     authentication: 'plain',
