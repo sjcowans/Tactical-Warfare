@@ -35,8 +35,8 @@ class UserGamesController < ApplicationController
   end
 
   def update
-    @user_game = UserGame.where(user_id: params[:id], game_id: params[:format]).first
-    @country = @user_game.game.countries.first # needs refactor
+    @user_game = UserGame.find_by_user_id(current_user.id)
+    @country = Country.find_by(user_id: current_user.id, game_id: @user_game.game_id)
     unless params[:explore_land].nil?
       if @country.turns >= params[:explore_land].to_i
         @country.explore_land(params[:explore_land])
