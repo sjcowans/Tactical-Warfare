@@ -218,4 +218,9 @@ class Country < ApplicationRecord
   def net
     gross - expenses
   end
+
+  def change_name(new_name)
+    self.name = new_name
+    save
+  end
 end

@@ -11,5 +11,5 @@
 
 
 <h3>Countries:</h3><br> <% @countries.each do |country|%>
-<%= link_to country.name, "/user_games/1/countries/#{country.id}"%>, Score: <%= country.score %><br>
+<%= link_to country.name, "/user_games/#{@user_game.id}/countries/#{country.id}"%>, Score: <%= country.score %><br>
 <% end %>

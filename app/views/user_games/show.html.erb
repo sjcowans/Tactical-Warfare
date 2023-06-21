@@ -62,7 +62,6 @@ Land: <%= number_with_delimiter(@country.land) %>
     </ul>
   </li>
 </ol>
-
   <h4> Buildings: </h4>
   <ol>
   <li>Houses: <%= number_with_delimiter(@country.houses) %></li>
@@ -74,3 +73,5 @@ Land: <%= number_with_delimiter(@country.land) %>
   <li>Dockyards: <%= number_with_delimiter(@country.dockyards) %></li>
   <li>Labs: <%= number_with_delimiter(@country.labs) %></li>
 </ol>
+
+<%= button_to "Change name", edit_user_game_country_path(@user_game, @country), method: :get, params: {user_game_id: @user_game.id, game_id: @game.id} %>

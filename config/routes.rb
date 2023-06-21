@@ -19,8 +19,11 @@ Rails.application.routes.draw do
   end
   resources :users, only: [:show]
   resources :games, only: %i[show index]
-  resources :user_games, only: %i[show create update destroy]
+  resources :user_games, only: %i[show create update destroy] do
+    resources :countries
+  end
   resources :admin, only: [:index]
+  resources :country, only: %i[update edit]
   get '/user_games/:id/recruit', to: 'user_games/recruit#index'
   get '/user_games/:id/build', to: 'user_games/build#index'
   get '/user_games/:id/explore', to: 'user_games/explore#index'
