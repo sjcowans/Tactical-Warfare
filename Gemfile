@@ -85,4 +85,3 @@ group :test do
   gem 'webdrivers'
 end
 
-gem "jsbundling-rails", "~> 1.1"
