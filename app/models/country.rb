@@ -1,5 +1,6 @@
 class Country < ApplicationRecord
   belongs_to :game
+  validates :name, uniqueness: true
 
   def explore_land(total_turns)
     @new_land = 0

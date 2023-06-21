@@ -10,6 +10,7 @@ class UserGamesController < ApplicationController
         @user_game = UserGame.where(user_id: params[:id], game_id: params[:format])
         @user_game.destroy(params[:id])
         render :new, status: :unprocessable_entity
+        flash[:alert] = "Error: #{error_message(@country.errors)}"
       end
     elsif UserGame.exists?(user_id: current_user.id, game_id: params[:game_id])
       redirect_to user_game_path(current_user.id, params[:game_id]), notice: 'Account Already Exists!'

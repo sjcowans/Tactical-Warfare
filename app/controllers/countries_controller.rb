@@ -3,6 +3,17 @@ class CountriesController < ApplicationController
 
   def new; end
 
+  def index
+    @user_game = UserGame.find_by_user_id(current_user.id)
+    @country = Country.where(:user_id => current_user.id, :game_id => @user_game.game_id).first
+    @countries = Country.all
+  end
+
+  def show
+    @user_game = UserGame.find_by_user_id(current_user.id)
+    @country = Country.find(params[:id])
+    @user = current_user
+  end
 
   def edit
     @user = current_user
@@ -18,6 +29,7 @@ class CountriesController < ApplicationController
       @country.change_name(params[:name])
     end
     redirect_to user_game_path(@user_game)
+    flash[:alert] = "Error: #{error_message(@country.errors)}"
   end
 
   private
