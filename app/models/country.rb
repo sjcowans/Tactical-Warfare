@@ -15,7 +15,7 @@ class Country < ApplicationRecord
     self.money = money + (net *
                           total_turns.to_i)
     self.research_points = research_points + (labs * 10 * total_turns.to_i)
-    self.score = score + (((labs + shops + barracks + hangars + armory) * 5) + land)
+    self.score = (((labs + shops + barracks + hangars + armory) * 5) + land)
     self.population =
       if population < (houses * 1000)
         population + (((houses * 1000) - population) * 0.04139268515).to_i
