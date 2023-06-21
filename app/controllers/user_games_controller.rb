@@ -73,7 +73,7 @@ class UserGamesController < ApplicationController
             redirect_to user_game_path(@user_game)
           else
             redirect_to user_game_path(@user_game)
-            flash[:alert] = 'Not Enough Population'
+            flash[:alert] = 'Not Enough Population or Capacity Reached'
           end
         else
           redirect_to user_game_path(@user_game)
@@ -95,7 +95,7 @@ class UserGamesController < ApplicationController
             redirect_to user_game_path(@user_game)
           else
             redirect_to user_game_path(@user_game)
-            flash[:alert] = 'Not Enough Population'
+            flash[:alert] = 'Not Enough Population or Capacity Reached'
           end
         else
           redirect_to user_game_path(@user_game)
@@ -114,7 +114,7 @@ class UserGamesController < ApplicationController
             redirect_to user_game_path(@user_game)
           else
             redirect_to user_game_path(@user_game)
-            flash[:alert] = 'Not Enough Population'
+            flash[:alert] = 'Not Enough Population or Capacity Reached'
           end
         else
           redirect_to user_game_path(@user_game)
@@ -139,7 +139,7 @@ class UserGamesController < ApplicationController
           redirect_to user_game_path(@user_game)
         else
           redirect_to user_game_path(@user_game)
-          flash[:alert] = 'Not Enough Population'
+          flash[:alert] = 'Not Enough Population or Capacity Reached'
         end
       else
         redirect_to user_game_path(@user_game)

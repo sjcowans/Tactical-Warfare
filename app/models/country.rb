@@ -40,78 +40,115 @@ class Country < ApplicationRecord
     self.dockyards = self.dockyards + (dockyards.to_i * bonus)
     self.labs = self.labs + (labs.to_i * bonus)
     self.houses = self.houses + (houses.to_i * bonus)
-    self.infrastructure + self.shops + self.barracks + self.armory + self.hangars + self.dockyards + self.labs + self.houses < land * 10
+    self.infrastructure + self.shops + self.barracks + self.armory + self.hangars + self.dockyards + self.labs + self.houses < land * 10  && self.infrastructure <= land
   end
 
   def infantry_recruit_cost_check(basic_infantry, air_infantry, sea_infantry, armor_infantry)
-    total = (basic_infantry * 1_500_000) +
-            (air_infantry * 1_500_000) +
-            (sea_infantry * 1_500_000) +
-            (armor_infantry * 2_500_000)
+    total = (
+              (basic_infantry * 1_500_000) +
+              (air_infantry * 1_500_000) +
+              (sea_infantry * 1_500_000) +
+              (armor_infantry * 2_500_000)
+            ) * 0.001 * self.barracks
     money
   end
 
   def total_military_pop
     (basic_infantry * 1) +
-      (air_infantry * 1) +
-      (sea_infantry * 1) +
-      (armor_infantry * 1) +
-      (basic_armored * 6) +
-      (air_armored * 6) +
-      (sea_armored * 4) +
-      (armor_armored * 8) +
-      (basic_ship * 300) +
-      (air_ship * 500) +
-      (sea_ship * 300) +
-      (armor_ship * 3000) +
-      (basic_aircraft * 10) +
-      (air_aircraft * 10) +
-      (sea_aircraft * 10) +
-      (armor_armored * 10)
+    (air_infantry * 1) +
+    (sea_infantry * 1) +
+    (armor_infantry * 1) +
+    (basic_armored * 6) +
+    (air_armored * 6) +
+    (sea_armored * 4) +
+    (armor_armored * 8) +
+    (basic_ship * 300) +
+    (air_ship * 500) +
+    (sea_ship * 300) +
+    (armor_ship * 3000) +
+    (basic_aircraft * 10) +
+    (air_aircraft * 10) +
+    (sea_aircraft * 10) +
+    (armor_armored * 10)
   end
 
   def infantry_recruit_pop_check(basic_infantry, air_infantry, sea_infantry, armor_infantry)
-    pop = ((basic_infantry + air_infantry + sea_infantry + armor_infantry) * 150)
-    population / (total_military_pop + pop) > 0.5
+    turns = basic_infantry + air_infantry + sea_infantry + armor_infantry
+    pop = (turns * self.barracks * 150 * 0.001)
+    if population / (total_military_pop + pop) > 0.1
+      infantry_recruit_capacity_check(turns)
+    end
+  end
+
+  def infantry_recruit_capacity_check(turns)
+    (self.basic_infantry + self.air_infantry + self.sea_infantry + self.armor_infantry) + (self.barracks * 150 * 0.001 * turns) <= (self.barracks * 150)
   end
 
   def armored_recruit_cost_check(basic_armored, air_armored, sea_armored, armor_armored)
-    total = (armor_armored * 250_000_000) +
-            (basic_armored * 50_000_000) +
-            (air_armored * 50_000_000) +
-            (sea_armored * 40_000_000)
+    total = (
+              (armor_armored * 250_000_000) +
+              (basic_armored * 50_000_000) +
+              (air_armored * 50_000_000) +
+              (sea_armored * 40_000_000)
+            ) * 0.001 * self.armory
     total < money
   end
 
   def armored_recruit_pop_check(basic_armored, air_armored, sea_armored, armor_armored)
-    pop = ((basic_armoered + air_armored + sea_armored + armor_armored) * 150)
-    population / (total_military_pop + pop) < 0.5
+    turns = basic_armored + air_armored + sea_armored + armor_armored
+    pop = (turns * self.barracks * 150 * 0.001)
+    turns = basic_armored + air_armored + sea_armored + (armor_armored * 2)
+    if population / (total_military_pop + pop) > 0.1
+      armored_recruit_capacity_check(turns)
+    end
+  end
+
+  def armored_recruit_capacity_check(turns)
+    (self.basic_armored + self.air_armored + self.sea_armored + (self.armor_armored * 2)) + (self.armory * 50 * 0.001 * turns) <= (self.armory * 50)
   end
 
   def ships_recruit_cost_check(basic_ship, air_ship, sea_ship, armor_ship)
-    total = (basic_ship * 5_000_000_000) +
-            (air_ship * 2_000_000_000) +
-            (sea_ship * 3_000_000_000) +
-            (armor_ship * 4_000_000_000)
+    total = (
+              (basic_ship * 5_000_000_000) +
+              (air_ship * 2_000_000_000) +
+              (sea_ship * 3_000_000_000) +
+              (armor_ship * 4_000_000_000)
+            ) * 0.001 * self.dockyards
     total < money
   end
 
   def ships_recruit_pop_check(basic_ship, air_ship, sea_ship, armor_ship)
-    pop = ((basic_ship + air_ship + sea_ship + armor_ship) * 150)
-    population / (total_military_pop + pop) > 0.5
+    pop = (((basic_ship * 5 * 300) + (air_ship * 2 * 500) + (sea_ship * 3 * 300) + (armor_ship * 3000)) * self.dockyards * 0.001)
+    if population / (total_military_pop + pop) > 0.1
+      shipyard_recruit_capacity_check(basic_ship, air_ship, sea_ship, armor_ship)
+    end
+  end
+
+  def shipyard_recruit_capacity_check(basic_ship, air_ship, sea_ship, armor_ship)
+    turns = (basic_ship + air_ship + sea_ship + armor_ship)
+    (self.basic_ship + (self.air_ship * 5/2) + (self.sea_ship * 5/3) + (self.armor_ship * 5)) + (self.dockyards * 5 * 0.001 * turns) <= (self.shipyard * 5)
   end
 
   def aircraft_recruit_cost_check(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft)
-    total = (basic_aircraft * 900_000_000) +
-            (air_aircraft * 1_500_000_000) +
-            (sea_aircraft * 6_000_000_000) +
-            (armor_aircraft * 5_000_000_000)
+    total = (
+              (basic_aircraft * 900_000_000) +
+              (air_aircraft * 1_500_000_000) +
+              (sea_aircraft * 6_000_000_000) +
+              (armor_aircraft * 5_000_000_000)
+            ) * 0.001 * self.hangars
     total < money
   end
 
   def aircraft_recruit_pop_check(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft)
-    pop = ((basic_aircraft + air_aircraft + sea_aircraft + armor_aircraft) * 150)
-    (population / (total_military_pop + pop)) > 0.5
+    pop = (((basic_aircraft * 15 * 10) + (air_aircraft * 10 * 10) + (sea_aircraft * 8 * 10) + (armor_aircraft * 5 * 10)) * self.hangars * 0.001)
+    if population / (total_military_pop + pop) > 0.1
+      hangar_recruit_capacity_check(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft)
+    end
+  end
+
+  def hangar_recruit_capacity_check(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft)
+    turns = (basic_aircraft + air_aircraft + sea_aircraft + armor_aircraft)
+    (self.basic_aircraft + (self.air_aircraft * 15/10) + (self.sea_aircraft * 15/8) + (self.armor_aircraft * 15/5)) + (self.hangars * 5 * 0.001 * turns) <= (self.hangars * 15)
   end
 
   def self.add_turn
@@ -124,34 +161,34 @@ class Country < ApplicationRecord
   end
 
   def recruit_infantry(basic_infantry, air_infantry, sea_infantry, armor_infantry)
-    self.basic_infantry += (barracks * 150 * basic_infantry.to_i)
-    self.air_infantry = air_infantry + (barracks * 150 * air_infantry.to_i)
-    self.sea_infantry = sea_infantry + (barracks * 150 * sea_infantry.to_i)
-    self.armor_infantry = armor_infantry + (barracks * 150 * armor_infantry.to_i)
+    self.basic_infantry += self.barracks * 150 * 0.001 * basic_infantry
+    self.air_infantry += self.barracks * 150 * 0.001 * air_infantry
+    self.sea_infantry += self.barracks * 150 * 0.001 * sea_infantry
+    self.armor_infantry += self.barracks * 150 * 0.001 * armor_infantry
     save
   end
 
   def recruit_armor(basic_armored, air_armored, sea_armored, armor_armored)
-    self.basic_armored = basic_armored + (armory * 50 * total_turns.to_i)
-    self.air_armored = air_armored + (armory * 50 * total_turns.to_i)
-    self.sea_armored = sea_armored + (armory * 50 * total_turns.to_i)
-    self.armor_armored = armor_armored + (armory * 25 * total_turns.to_i)
+    self.basic_armored = basic_armored + (armory * 50 * 0.001 * basic_armored)
+    self.air_armored = air_armored + (armory * 50 * 0.001 * air_armored)
+    self.sea_armored = sea_armored + (armory * 50 * 0.001 * sea_armored)
+    self.armor_armored = armor_armored + (armory * 25 * 0.001 * armor_armored)
     save
   end
 
   def recruit_ships(basic_ship, air_ship, sea_ship, armor_ship)
-    self.basic_ship += (dockyards * 5 * basic_ship.to_i)
-    self.air_ship = air_ship + (dockyards * 2 * total_turns.to_i)
-    self.sea_ship = sea_ship + (dockyards * 3 * total_turns.to_i)
-    self.armor_ship = armor_ship + (dockyards * 1 * total_turns.to_i)
+    self.basic_ship += (dockyards * 5 * 0.001 * basic_ship)
+    self.air_ship = air_ship + (dockyards * 2 * 0.001 * air_ship)
+    self.sea_ship = sea_ship + (dockyards * 3 * 0.001 * sea_ship)
+    self.armor_ship = armor_ship + (dockyards * 1 * 0.001 * armor_ship)
     save
   end
 
   def recruit_planes(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft)
-    self.basic_aircraft += (hangars * 15 * basic_aircraft.to_i)
-    self.air_aircraft += (hangars * 10 * air_aircraft.to_i)
-    self.sea_aircraft += (hangars * 8 * sea_aircraft.to_i)
-    self.armor_armored += armor_aircraft + (hangars * 5 * armor_aircraft.to_i)
+    self.basic_aircraft += (hangars * 15 * 0.001 * basic_aircraft)
+    self.air_aircraft += (hangars * 10 * 0.001 * air_aircraft)
+    self.sea_aircraft += (hangars * 8 * 0.001 * sea_aircraft)
+    self.armor_armored += (hangars * 5 * 0.001 * armor_aircraft)
     save
   end
 

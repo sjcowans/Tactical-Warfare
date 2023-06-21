@@ -27,9 +27,9 @@ module Authentication
     cookies.delete :remember_token
   end
 
-  def remember(active_session)
-    cookies.permanent.encrypted[:remember_token] = active_session.remember_token
-  end
+  # def remember(active_session)
+  #   cookies.permanent.encrypted[:remember_token] = active_session.remember_token
+  # end
 
   def redirect_if_authenticated
     redirect_to root_path, alert: 'You are already logged in.' if user_signed_in?
@@ -46,8 +46,12 @@ module Authentication
   end
 
   def forget(user)
-    cookies.delete :remember_token
-    user.active_sessions.last.regenerate_remember_token
+    if user 
+      cookies.delete :remember_token
+      user.active_sessions.last.regenerate_remember_token
+    else
+      cookies.delete :remember_token
+    end
   end
 
   def remember(user)
