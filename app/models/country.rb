@@ -167,7 +167,7 @@ class Country < ApplicationRecord
     save
   end
 
-  def recruit_armor(basic_armored, air_armored, sea_armored, armor_armored)
+  def recruit_armored(basic_armored, air_armored, sea_armored, armor_armored)
     self.basic_armored = basic_armored + (armory * 50 * 0.001 * basic_armored)
     self.air_armored = air_armored + (armory * 50 * 0.001 * air_armored)
     self.sea_armored = sea_armored + (armory * 50 * 0.001 * sea_armored)
