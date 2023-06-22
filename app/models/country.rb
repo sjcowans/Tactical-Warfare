@@ -102,7 +102,7 @@ class Country < ApplicationRecord
     end
   end
 
-  def armored_recruit_capacity_check(turns)
+  def armored_recruit_capacity_check(basic_armored, air_armored, sea_armored, armor_armored)
     (self.basic_armored + self.air_armored + self.sea_armored + (self.armor_armored * 2)) + (self.armory * 50 * 0.001 * turns) <= (self.armory * 50)
   end
 
