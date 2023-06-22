@@ -17,7 +17,7 @@ class Country < ApplicationRecord
       self.money = money + (net *
                             1)
       self.research_points = research_points + (labs * 10 * 1)
-      self.score = (((houses + infrastructure + labs + shops + barracks + hangars + armory) * 5) + land)
+      self.score_calc
       self.population =
         if population < (houses * 1000)
           population + (((houses * 1000) - population) * 0.0001).to_i
@@ -156,9 +156,14 @@ class Country < ApplicationRecord
     Country.all.each do |country|
       if country.turns < 3000
         country.turns += 1
+        country.score_calc
         country.save
       end
     end
+  end
+
+  def score_calc
+    self.score = (((houses + infrastructure + labs + shops + barracks + hangars + armory) * 5) + land)
   end
 
   def recruit_infantry(basic_infantry, air_infantry, sea_infantry, armor_infantry)
