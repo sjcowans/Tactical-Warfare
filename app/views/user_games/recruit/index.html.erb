@@ -25,13 +25,13 @@
 <h4>Recruit Armor: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
     <%= form.label :turns_to_recruit_armored_vehicles %> <br>
-    <%= form.number_field :armor %> <br> 
+    <%= form.number_field :armored %> <br> 
     <%= form.label :turns_to_recruit_anti_air_vehicles %> <br>
-    <%= form.number_field :air_armor %> <br> 
+    <%= form.number_field :air_armored %> <br> 
     <%= form.label :turns_to_recruit_amphibious_vehicles %> <br>
-    <%= form.number_field :sea_armor %> <br> 
+    <%= form.number_field :sea_armored %> <br> 
     <%= form.label :turns_to_recruit_tanks %> <br>
-    <%= form.number_field :armor_armor %> <br>
+    <%= form.number_field :armor_armored %> <br>
   <%= form.submit "Recruit" %>
 <% end %><br>
 
