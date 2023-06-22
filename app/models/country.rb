@@ -211,7 +211,7 @@ class Country < ApplicationRecord
       (basic_aircraft * 40_000) +
       (air_aircraft * 150_000) +
       (sea_aircraft * 600_000) +
-      (armor_armored * 1_000_000)
+      (armor_aircraft * 1_000_000)
   end
 
   def net
