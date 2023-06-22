@@ -96,11 +96,9 @@ class Country < ApplicationRecord
   end
 
   def armored_recruit_pop_check(basic_armored, air_armored, sea_armored, armor_armored)
-    turns = basic_armored + air_armored + sea_armored + armor_armored
-    pop = (turns * self.barracks * 150 * 0.001)
-    turns = basic_armored + air_armored + sea_armored + (armor_armored * 2)
+    pop = (((basic_armored * 6 * 50) + (air_armored * 6 * 50) + (sea_armored * 4 * 50) + (armor_armored * 8 * 25)) * self.armory * 0.001)
     if population / (total_military_pop + pop) > 0.1
-      armored_recruit_capacity_check(turns)
+      armored_recruit_capacity_check(basic_armored, air_armored, sea_armored, armor_armored)
     end
   end
 
