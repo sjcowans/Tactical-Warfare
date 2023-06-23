@@ -6,8 +6,11 @@
     <li><%= link_to 'Explore Land','/user_games/1/explore', style: 'pull-right' %></li>
     <li><%= link_to 'Build', '/user_games/1/build', style: 'pull-right' %></li>
     <li><%= link_to 'View Nations', '/user_games/1/countries', style: 'pull-right' %></li>
+    <li><%= link_to 'View Reports', '/user_games/1/reports', style: 'pull-right' %></li>
   </ul>
 </nav>
+
+Turns: <%=@country.turns%><br>
 
 <h4>Recruit Infantry: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
@@ -49,14 +52,14 @@
 <% end %><br>
 
 <h4>Recruit Ships: </h4>
-<%= form_with url: user_game_path(@user_game), method: :get, local: true do |form| %>
-    <%= form.label :turns_to_recruit_frigates %> <br>
+<%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
+    <%= form.label :turns_to_recruit_corvettes %> <br>
     <%= form.number_field :ships %> <br>
-    <%= form.label :turns_to_recruit_cruisers %> <br>
+    <%= form.label :turns_to_recruit_frigates %> <br>
     <%= form.number_field :air_ships %> <br>
     <%= form.label :turns_to_recruit_destroyers %> <br>
     <%= form.number_field :sea_ships %> <br>
-    <%= form.label :turns_to_recruit_battleships %> <br>
+    <%= form.label :turns_to_recruit_cruisers %> <br>
     <%= form.number_field :armor_ships %> <br>
   <%= form.submit "Recruit" %>
 <% end %><br>

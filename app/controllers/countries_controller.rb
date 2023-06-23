@@ -13,6 +13,7 @@ class CountriesController < ApplicationController
     @user_game = UserGame.find_by_user_id(current_user.id)
     @country = Country.find(params[:id])
     @user = current_user
+    @user_country = Country.find_by_user_id(@user.id)
   end
 
   def edit

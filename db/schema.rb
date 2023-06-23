@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_15_173853) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_23_221507) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,8 +70,67 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_173853) do
     t.integer "houses", default: 0
     t.integer "population", default: 0
     t.bigint "user_id", null: false
+    t.integer "taken_houses", default: 0
     t.index ["game_id"], name: "index_countries_on_game_id"
     t.index ["user_id"], name: "index_countries_on_user_id"
+  end
+
+  create_table "country_battle_reports", force: :cascade do |t|
+    t.integer "taken_land", default: 0
+    t.integer "taken_money", default: 0
+    t.integer "taken_armory", default: 0
+    t.integer "taken_labs", default: 0
+    t.integer "taken_dockyards", default: 0
+    t.integer "taken_barracks", default: 0
+    t.integer "taken_shops", default: 0
+    t.integer "taken_hangars", default: 0
+    t.integer "destroyed_armory", default: 0
+    t.integer "destroyed_labs", default: 0
+    t.integer "destroyed_dockyards", default: 0
+    t.integer "destroyed_barracks", default: 0
+    t.integer "destroyed_shops", default: 0
+    t.integer "destroyed_hangars", default: 0
+    t.integer "destroyed_infrastructure", default: 0
+    t.integer "killed_air_infantry", default: 0
+    t.integer "killed_sea_infantry", default: 0
+    t.integer "killed_armor_infantry", default: 0
+    t.integer "killed_basic_infantry", default: 0
+    t.integer "killed_air_armored", default: 0
+    t.integer "killed_sea_armored", default: 0
+    t.integer "killed_armor_armored", default: 0
+    t.integer "killed_basic_armored", default: 0
+    t.integer "killed_air_aircraft", default: 0
+    t.integer "killed_sea_aircraft", default: 0
+    t.integer "killed_armor_aircraft", default: 0
+    t.integer "killed_basic_aircraft", default: 0
+    t.integer "killed_air_ship", default: 0
+    t.integer "killed_sea_ship", default: 0
+    t.integer "killed_armor_ship", default: 0
+    t.integer "killed_basic_ship", default: 0
+    t.integer "defender_killed_air_infantry", default: 0
+    t.integer "defender_killed_sea_infantry", default: 0
+    t.integer "defender_killed_armor_infantry", default: 0
+    t.integer "defender_killed_basic_infantry", default: 0
+    t.integer "defender_killed_air_armored", default: 0
+    t.integer "defender_killed_sea_armored", default: 0
+    t.integer "defender_killed_armor_armored", default: 0
+    t.integer "defender_killed_basic_armored", default: 0
+    t.integer "defender_killed_air_aircraft", default: 0
+    t.integer "defender_killed_sea_aircraft", default: 0
+    t.integer "defender_killed_armor_aircraft", default: 0
+    t.integer "defender_killed_basic_aircraft", default: 0
+    t.integer "defender_killed_air_ship", default: 0
+    t.integer "defender_killed_sea_ship", default: 0
+    t.integer "defender_killed_armor_ship", default: 0
+    t.integer "defender_killed_basic_ship", default: 0
+    t.integer "attacker_country_id", null: false
+    t.integer "defender_country_id", null: false
+    t.bigint "game_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "taken_houses", default: 0
+    t.integer "destroyed_houses", default: 0
+    t.index ["game_id"], name: "index_country_battle_reports_on_game_id"
   end
 
   create_table "games", force: :cascade do |t|
@@ -107,6 +166,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_173853) do
 
   add_foreign_key "active_sessions", "users", on_delete: :cascade
   add_foreign_key "countries", "games"
+  add_foreign_key "country_battle_reports", "games"
   add_foreign_key "user_games", "games"
   add_foreign_key "user_games", "users"
 end

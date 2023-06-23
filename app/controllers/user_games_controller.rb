@@ -38,6 +38,7 @@ class UserGamesController < ApplicationController
 
   def update
     @user_game = UserGame.find_by_user_id(current_user.id)
+    @game = Game.find(@user_game.game_id)
     @country = Country.find_by(user_id: current_user.id, game_id: @user_game.game_id)
     unless params[:explore_land].nil?
       if @country.turns >= params[:explore_land].to_i
@@ -47,6 +48,15 @@ class UserGamesController < ApplicationController
         redirect_to user_game_path(@user_game)
         flash[:alert] = 'Not Enough Turns'
       end
+    end
+    if params[:defender_id] && params[:attacker_id]
+      @attacker = Country.find(params[:attacker_id])
+      @defender = Country.find(params[:defender_id])
+      @battle_report = CountryBattleReport.create!(attacker_country_id: @attacker.id, defender_country_id: @defender.id, game_id: @game.id)
+      @attacker.air_to_air_attack(@attacker, @defender, @battle_report)
+      @attacker.navy_to_navy_attack(@attacker, @defender, @battle_report)
+      @attacker.ground_to_ground_attack(@attacker, @defender, @battle_report)
+      redirect_to "/user_games/#{@user_game.id}/country_battle_reports/#{@battle_report.id}"
     end
     if !params[:infrastructure].nil? || !params[:shops].nil? || !params[:barracks].nil? || !params[:armories].nil? || !params[:hangars].nil? || !params[:dockyards].nil? || !params[:labs].nil? || !params[:houses].nil?
       if @country.turns >= (params[:infrastructure].to_i + params[:shops].to_i + params[:barracks].to_i + params[:armories].to_i + params[:hangars].to_i + params[:dockyards].to_i + params[:labs].to_i + params[:houses].to_i)
