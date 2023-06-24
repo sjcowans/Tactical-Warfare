@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.find_by_email(params[:user][:email].downcase)
-    if @user.unconfirmed?
+    if @user && @user.unconfirmed?
       @user.send_confirmation_email!
       redirect_to new_confirmation_path, alert: 'Please confirm your email.'
     else
