@@ -235,25 +235,25 @@ class Country < ApplicationRecord
     save
   end
   
-  def air_health(country)
-    (country.air_aircraft * 1000) + (country.basic_aircraft * 1250) + (country.sea_aircraft * 2500) + (country.armor_aircraft * 2500)
+  def air_health
+    (self.air_aircraft * 1000) + (self.basic_aircraft * 1250) + (self.sea_aircraft * 2500) + (self.armor_aircraft * 2500)
   end
 
-  def armor_health(country)
-    (country.air_armored * 50) + (country.sea_armored * 150) + (country.basic_armored * 100) + (country.armor_armored * 500)
+  def armor_health
+    (self.air_armored * 50) + (self.sea_armored * 150) + (self.basic_armored * 100) + (self.armor_armored * 500)
   end
 
-  def navy_health(country)
-    (country.air_ship * 20000) + (country.sea_ship * 15000) + (country.basic_ship * 5000) + (country.armor_ship * 30000)
+  def navy_health
+    (self.air_ship * 20000) + (self.sea_ship * 15000) + (self.basic_ship * 5000) + (self.armor_ship * 30000)
   end
 
-  def infantry_health(country)
-    (country.air_infantry * 10) + (country.sea_infantry * 10) + (country.basic_infantry * 10) + (country.armor_infantry * 10)
+  def infantry_health
+    (self.air_infantry * 10) + (self.sea_infantry * 10) + (self.basic_infantry * 10) + (self.armor_infantry * 10)
   end
 
   def air_to_air_attack(attacker, defender, battle_report)
     attacker_air_damage = (attacker.air_aircraft * 2000) + (attacker.basic_aircraft * 1250)
-    defender_air_health = defender.air_health(defender)
+    defender_air_health = defender.air_health
     damage_ratio = attacker_air_damage / defender_air_health.to_f
     survivors = 1 - (rand(0.01..0.02) * damage_ratio)
     if survivors < 0
@@ -272,7 +272,7 @@ class Country < ApplicationRecord
     if survivors == 0
       attacker.air_to_armor_attack(attacker, defender, battle_report)
     else
-      attacker_air_health = attacker.air_health(attacker)
+      attacker_air_health = attacker.air_health
       defender_air_damage = (defender.air_aircraft * 2000) + (defender.basic_aircraft * 1250)
       defender_damage_ratio = defender_air_damage / attacker_air_health.to_f
       survivors = 1 - (rand(0.01..0.02) * defender_damage_ratio)
@@ -294,7 +294,7 @@ class Country < ApplicationRecord
 
   def air_to_armor_attack(attacker, defender, battle_report)
     attacker_air_damage = (attacker.air_aircraft * 500) + (attacker.basic_aircraft * 1250) + (attacker.sea_aircraft * 2500) + (attacker.armor_aircraft * 10000)
-    defender_armor_health = defender.armor_health(defender)
+    defender_armor_health = defender.armor_health
     damage_ratio = attacker_air_damage / defender_armor_health.to_f
     survivors = 1 - (rand(0.01..0.02) * damage_ratio)
     if survivors < 0
@@ -313,7 +313,7 @@ class Country < ApplicationRecord
     if survivors == 0
       attacker.air_to_navy_attack(attacker, defender, battle_report)
     else
-      attacker_air_health = attacker.air_health(attacker)
+      attacker_air_health = attacker.air_health
       defender_air_damage = (defender.air_armored * 100) + (defender.sea_armored * 20)
       defender_damage_ratio = defender_air_damage / attacker_air_health.to_f
       survivors = 1 - (rand(0.01..0.02) * defender_damage_ratio)
@@ -335,7 +335,7 @@ class Country < ApplicationRecord
 
   def air_to_navy_attack(attacker, defender, battle_report)
     attacker_air_damage = (attacker.air_aircraft * 250) + (attacker.basic_aircraft * 1250) + (attacker.sea_aircraft * 10000) + (attacker.armor_aircraft * 5000)
-    defender_navy_health = defender.navy_health(defender)
+    defender_navy_health = defender.navy_health
     damage_ratio = attacker_air_damage / defender_navy_health.to_f
     survivors = 1 - (rand(0.01..0.02) * damage_ratio)
     if survivors < 0
@@ -354,7 +354,7 @@ class Country < ApplicationRecord
     if survivors == 0
       attacker.air_to_infantry_attack(attacker, defender, battle_report)
     else
-      attacker_air_health = attacker.air_health(attacker)
+      attacker_air_health = attacker.air_health
       defender_air_damage = (defender.air_ship * 20000) + (defender.sea_ship * 4000) + (defender.basic_ship * 2000) + (defender.armor_ship * 10000)
       defender_damage_ratio = defender_air_damage / attacker_air_health.to_f
       survivors = 1 - (rand(0.01..0.02) * defender_damage_ratio)
@@ -376,7 +376,7 @@ class Country < ApplicationRecord
 
   def air_to_infantry_attack(attacker, defender, battle_report)
     attacker_air_damage = (attacker.air_aircraft * 750) + (attacker.basic_aircraft * 1250) + (attacker.sea_aircraft * 250) + (attacker.armor_aircraft * 5000)
-    defender_infantry_health = defender.infantry_health(defender)
+    defender_infantry_health = defender.infantry_health
     damage_ratio = attacker_air_damage / defender_infantry_health.to_f
     survivors = 1 - (rand(0.01..0.02) * damage_ratio)
     if survivors < 0
@@ -392,7 +392,7 @@ class Country < ApplicationRecord
     defender.basic_infantry = defender.basic_infantry * survivors 
     defender.armor_infantry = defender.armor_infantry * survivors 
     defender.save
-    attacker_air_health = attacker.air_health(attacker)
+    attacker_air_health = attacker.air_health
     defender_air_damage = (defender.air_infantry * 5) + (defender.armor_infantry * 1)
     defender_damage_ratio = defender_air_damage / attacker_air_health.to_f
     survivors = 1 - (rand(0.01..0.02) * defender_damage_ratio)
@@ -413,7 +413,7 @@ class Country < ApplicationRecord
 
   def navy_to_navy_attack(attacker, defender, battle_report)
     attacker_sea_damage = (attacker.air_ship * 5000) + (attacker.sea_ship * 40000) + (attacker.basic_ship * 5000) + (attacker.armor_ship * 25000)
-    defender_sea_health = defender.navy_health(defender)
+    defender_sea_health = defender.navy_health
     damage_ratio = attacker_sea_damage / defender_sea_health.to_f
     survivors = 1 - (rand(0.01..0.02) * damage_ratio)
     if survivors < 0
@@ -432,7 +432,7 @@ class Country < ApplicationRecord
     if survivors == 0
       attacker.navy_to_armor_attack(attacker, defender, battle_report)
     else
-      attacker_sea_health = attacker.navy_health(attacker)
+      attacker_sea_health = attacker.navy_health
       defender_sea_damage = (defender.air_ship * 5000) + (defender.sea_ship * 40000) + (defender.basic_ship * 5000) + (defender.armor_ship * 25000)
       defender_damage_ratio = defender_sea_damage/ attacker_sea_health.to_f
       survivors = 1 - (rand(0.01..0.02) * defender_damage_ratio)
@@ -454,7 +454,7 @@ class Country < ApplicationRecord
 
   def navy_to_armor_attack(attacker, defender, battle_report)
     attacker_sea_damage = (attacker.air_ship * 3000) + (attacker.sea_ship * 10000) + (attacker.basic_ship * 1000) + (attacker.armor_ship * 15000)
-    defender_armor_health = defender.armor_health(defender)
+    defender_armor_health = defender.armor_health
     damage_ratio = attacker_sea_damage / defender_armor_health.to_f
     survivors = 1 - (rand(0.01..0.02) * damage_ratio)
     if survivors < 0
@@ -473,7 +473,7 @@ class Country < ApplicationRecord
     if survivors == 0
       attacker.navy_to_infantry_attack(attacker, defender, battle_report)
     else
-      attacker_sea_health = attacker.navy_health(attacker)
+      attacker_sea_health = attacker.navy_health
       defender_sea_damage = (defender.air_armored * 5) + (defender.sea_armored * 20)
       defender_damage_ratio = defender_sea_damage / attacker_sea_health.to_f
       survivors = 1 - (rand(0.01..0.02) * defender_damage_ratio)
@@ -495,7 +495,7 @@ class Country < ApplicationRecord
 
   def navy_to_infantry_attack(attacker, defender, battle_report)
     attacker_sea_damage = (attacker.air_ship * 2000) + (attacker.sea_ship * 5000) + (attacker.basic_ship * 1500) + (attacker.armor_ship * 8000)
-    defender_infantry_health = defender.infantry_health(defender)
+    defender_infantry_health = defender.infantry_health
     damage_ratio = attacker_sea_damage / defender_infantry_health.to_f
     survivors = 1 - (rand(0.01..0.02) * damage_ratio)
     if survivors < 0
@@ -515,7 +515,7 @@ class Country < ApplicationRecord
 
   def ground_to_ground_attack(attacker, defender, battle_report)
     attacker_armor_to_armor_damage = (attacker.air_armored * 10) + (attacker.sea_armored * 100) + (attacker.basic_armored * 50) + (attacker.armor_armored * 250) + (attacker.armor_infantry * 20)
-    defender_armor_health = defender.armor_health(defender)
+    defender_armor_health = defender.armor_health
     damage_ratio = attacker_armor_to_armor_damage / defender_armor_health.to_f
     survivors = 1 - (rand(0.01..0.02) * damage_ratio)
     if survivors < 0
@@ -533,7 +533,7 @@ class Country < ApplicationRecord
     defender.armor_armored = defender.armor_armored * survivors 
     defender.armor_infantry = defender.armor_infantry * (survivors * survivors)
     defender.save
-    attacker_armor_health = attacker.armor_health(attacker)
+    attacker_armor_health = attacker.armor_health
     defender_armor_to_armor_damage = (defender.air_armored * 10) + (defender.sea_armored * 100) + (defender.basic_armored * 50) + (defender.armor_armored * 250) + (defender.armor_infantry * 20)
     defender_damage_ratio = defender_armor_to_armor_damage / attacker_armor_health.to_f
     survivors = 1 - (rand(0.01..0.02) * defender_damage_ratio)
@@ -555,12 +555,12 @@ class Country < ApplicationRecord
 
     attacker_armor_to_infantry_damage = (attacker.air_armored * 50) + (attacker.sea_armored * 100) + (attacker.basic_armored * 100) + (attacker.armor_armored * 150)
     attacker_infantry_damage = (attacker.air_infantry * 5) + (attacker.sea_infantry * 10) + (attacker.basic_infantry * 8) + (attacker.armor_infantry * 5)
-    defender_infantry_health = defender.infantry_health(defender)
+    defender_infantry_health = defender.infantry_health
     damage_ratio = (attacker_armor_to_infantry_damage + attacker_infantry_damage) / defender_infantry_health.to_f
     survivors = 1 - (rand(0.01..0.02) * damage_ratio)
     if survivors < 0
       survivors = 0
-      defender_air_health = defender.air_health(defender)
+      defender_air_health = defender.air_health
       damage_ratio = (attacker_armor_to_armor_damage + attacker_infantry_damage) / defender_air_health.to_f
       air_survivors = 1 - (rand(0.01..0.02) * damage_ratio)
       if air_survivors < 0
@@ -588,7 +588,7 @@ class Country < ApplicationRecord
     defender.basic_infantry = defender.basic_infantry * survivors 
     defender.armor_infantry = defender.armor_infantry * survivors 
     defender.save
-    attacker_infantry_health = attacker.infantry_health(attacker)
+    attacker_infantry_health = attacker.infantry_health
     defender_infantry_damage = (defender.air_infantry * 5) + (defender.sea_infantry * 10) + (defender.basic_infantry * 8) + (defender.armor_infantry * 5)
     defender_armor_to_infantry_damage = (defender.air_armored * 50) + (defender.sea_armored * 100) + (defender.basic_armored * 100) + (defender.armor_armored * 150)
     damage_ratio = (defender_armor_to_infantry_damage + defender_infantry_damage) / attacker_infantry_health.to_f

@@ -50,7 +50,6 @@ class UserGamesController < ApplicationController
       end
     end
     if params[:defender_id] && params[:attacker_id]
-      require 'pry';binding.pry
       @attacker = Country.find(params[:attacker_id])
       @defender = Country.find(params[:defender_id])
       @battle_report = CountryBattleReport.create!(attacker_country_id: @attacker.id, defender_country_id: @defender.id, game_id: @game.id)
