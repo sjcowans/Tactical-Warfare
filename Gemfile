@@ -47,6 +47,7 @@ gem 'bootsnap', require: false
 gem 'numbers_in_words'
 gem 'rubocop'
 gem 'jquery-rails'
+gem 'pry'
 
 # Use Sass to process CSS
 # gem "sassc-rails"
@@ -59,7 +60,6 @@ group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'launchy'
   gem 'net-http'
-  gem 'pry'
   gem 'rspec-rails', '~> 4.0.1'
   gem 'simplecov'
   gem 'turbolinks'
