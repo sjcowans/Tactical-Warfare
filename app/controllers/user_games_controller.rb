@@ -53,9 +53,9 @@ class UserGamesController < ApplicationController
       @attacker = Country.find(params[:attacker_id])
       @defender = Country.find(params[:defender_id])
       @battle_report = CountryBattleReport.create!(attacker_country_id: @attacker.id, defender_country_id: @defender.id, game_id: @game.id)
-      @attacker.air_to_air_attack(@attacker, @defender, @battle_report)
-      @attacker.navy_to_navy_attack(@attacker, @defender, @battle_report)
-      @attacker.ground_to_ground_attack(@attacker, @defender, @battle_report)
+      @attacker.air_to_air_attack(@attacker.id, @defender.id, @battle_report.id)
+      @attacker.navy_to_navy_attack(@attacker.id, @defender.id, @battle_report.id)
+      @attacker.ground_to_ground_attack(@attacker.id, @defender.id, @battle_report.id)
       redirect_to "/user_games/#{@user_game.id}/country_battle_reports/#{@battle_report.id}"
     end
     if !params[:infrastructure].nil? || !params[:shops].nil? || !params[:barracks].nil? || !params[:armories].nil? || !params[:hangars].nil? || !params[:dockyards].nil? || !params[:labs].nil? || !params[:houses].nil?
