@@ -70,7 +70,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_221507) do
     t.integer "houses", default: 0
     t.integer "population", default: 0
     t.bigint "user_id", null: false
-    t.integer "taken_houses", default: 0
     t.index ["game_id"], name: "index_countries_on_game_id"
     t.index ["user_id"], name: "index_countries_on_user_id"
   end
