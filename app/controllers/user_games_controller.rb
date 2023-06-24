@@ -50,11 +50,11 @@ class UserGamesController < ApplicationController
       end
     end
     if params[:defender_id] && params[:attacker_id]
+      @attacker = Country.find(params[:attacker_id])
       if @attacker.turns < 100
         redirect_to user_game_path(@user_game)
         flash[:alert] = 'Not Enough Turns'
       else
-        @attacker = Country.find(params[:attacker_id])
         @defender = Country.find(params[:defender_id])
         @battle_report = CountryBattleReport.create!(attacker_country_id: @attacker.id, defender_country_id: @defender.id, game_id: @game.id)
         @attacker.air_to_air_attack(@attacker, @defender, @battle_report)
