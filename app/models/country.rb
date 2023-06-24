@@ -471,7 +471,7 @@ class Country < ApplicationRecord
     defender.armor_armored = defender.armor_armored * survivors 
     defender.save
     if survivors == 0
-      attacker.sea_to_infantry_attack(attacker, defender, battle_report)
+      attacker.navy_to_infantry_attack(attacker, defender, battle_report)
     else
       attacker_sea_health = attacker.navy_health(attacker)
       defender_sea_damage = (defender.air_armored * 5) + (defender.sea_armored * 20)
