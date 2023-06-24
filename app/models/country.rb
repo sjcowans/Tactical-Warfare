@@ -244,7 +244,7 @@ class Country < ApplicationRecord
   end
 
   def navy_health(country)
-   (country.air_ship * 20000) + (country.sea_ship * 15000) + (country.basic_ship * 5000) + (country.armor_ship * 30000)
+    (country.air_ship * 20000) + (country.sea_ship * 15000) + (country.basic_ship * 5000) + (country.armor_ship * 30000)
   end
 
   def infantry_health(country)
