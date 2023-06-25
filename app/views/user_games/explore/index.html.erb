@@ -2,14 +2,13 @@
   <ul class="nav navbar-nav">
     <li><%= link_to 'Home', root_path, method: :get, style: 'pull-right' %></li>
     <li><%= link_to 'Dashboard', user_game_path(@user_game), style: 'pull-right' %></li>
-    <li><%= link_to 'Recruit', '/user_games/1/recruit', style: 'pull-right' %></li>
-    <li><%= link_to 'Explore Land','/user_games/1/explore', style: 'pull-right' %></li>
-    <li><%= link_to 'Build', '/user_games/1/build', style: 'pull-right' %></li>
-    <li><%= link_to 'View Nations', '/user_games/1/countries', style: 'pull-right' %></li>
-    <li><%= link_to 'View Reports', '/user_games/1/reports', style: 'pull-right' %></li>
+    <li><%= link_to 'Recruit', "/user_games/#{@user_game.id}/recruit", style: 'pull-right' %></li>
+    <li><%= link_to 'Explore Land',"/user_games/#{@user_game.id}/explore", style: 'pull-right' %></li>
+    <li><%= link_to 'Build', "/user_games/#{@user_game.id}/build", style: 'pull-right' %></li>
+    <li><%= link_to 'View Nations', "/user_games/#{@user_game.id}/countries", style: 'pull-right' %></li>
+    <li><%= link_to 'View Reports', "/user_games/#{@user_game.id}/reports", style: 'pull-right' %></li>
   </ul>
 </nav>
-
 Turns: <%=@country.turns%><br>
 
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
