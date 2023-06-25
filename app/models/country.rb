@@ -670,4 +670,8 @@ class Country < ApplicationRecord
     defender.save
     battle_report.save
   end
+
+  def self.ranking
+    self.order(score: :desc)
+  end
 end

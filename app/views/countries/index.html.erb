@@ -9,7 +9,10 @@
     <li><%= link_to 'View Reports', "/user_games/#{@user_game.id}/reports", style: 'pull-right' %></li>
   </ul>
 </nav>
-
-<h3>Countries:</h3><br> <% @countries.each do |country|%>
-<%= link_to country.name, "/user_games/#{@user_game.id}/countries/#{country.id}"%>, Score: <%= country.score %><br>
+<ol>
+<h3>Country Ranking:</h3><br> <% @countries.ranking.each do |country|%>
+<li>
+<%= link_to country.name, "/user_games/#{@user_game.id}/countries/#{country.id}"%>, Score: <%= country.score %>
+</li><br>
 <% end %>
+</ol>
