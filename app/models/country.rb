@@ -20,9 +20,9 @@ class Country < ApplicationRecord
       self.score_calc
       self.population =
         if population < (houses * 1000)
-          population + (((houses * 1000) - population) * 0.0001).to_i
+          population + ((((houses * 1000) + (infrastructure * 50)) - population) * 0.0001).to_i
         else
-          population - ((population - (houses * 1000)) * 0.0001).to_i
+          population - ((population - ((houses * 1000) + (infrastructure * 50))) * 0.0001).to_i
         end
       save
     end
@@ -164,7 +164,51 @@ class Country < ApplicationRecord
   end
 
   def score_calc
-    self.score = (((houses + infrastructure + labs + shops + barracks + hangars + armory) * 5) + land)
+    self.score = (
+                  (
+                    (
+                      houses + 
+                      (infrastructure * 2) + 
+                      labs + 
+                      shops + 
+                      barracks + 
+                      hangars + 
+                      armory
+                    ) * 5
+                  ) + 
+                  land + 
+                  basic_infantry + 
+                  sea_infantry + 
+                  air_infantry + 
+                  armor_infantry + 
+                  (
+                    (
+                      basic_armored + 
+                      sea_armored + 
+                      air_armored + 
+                      armor_armored
+                      ) * 10
+                    ) + 
+                    (
+                      (
+                        basic_aircraft + 
+                        sea_aircraft + 
+                        sea_aircraft + 
+                        armor_aircraft
+                        ) * 50
+                     ) + 
+                    (
+                      (
+                        basic_ship + 
+                        sea_ship + 
+                        air_ship + 
+                        armor_ship
+                        ) * 100
+                      ) +
+                    (
+                      population / 10
+                    )
+                  )
   end
 
   def recruit_infantry(basic_infantry, air_infantry, sea_infantry, armor_infantry)
@@ -204,7 +248,7 @@ class Country < ApplicationRecord
   end
 
   def gross
-    ((shops * 10_000) + (infrastructure * 2500) + (population * 30))
+    ((shops * 10_000) + (infrastructure * 1500) + (population * 20))
   end
 
   def expenses
@@ -223,7 +267,10 @@ class Country < ApplicationRecord
     (basic_aircraft * 40_000) +
     (air_aircraft * 150_000) +
     (sea_aircraft * 600_000) +
-    (armor_aircraft * 1_000_000)
+    (armor_aircraft * 1_000_000) +
+    (shops * 1000) +
+    (infrastructure * 2000) +
+    (population * 1)
   end
 
   def net
