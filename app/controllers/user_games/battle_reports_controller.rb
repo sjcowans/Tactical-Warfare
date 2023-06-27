@@ -11,6 +11,8 @@ class UserGames::BattleReportsController < ApplicationController
     @user_game = UserGame.find_by_user_id(current_user.id)
     @report = CountryBattleReport.find(params[:id])
     @user = current_user
+    @attacker = Country.find(@report.attacker_country_id)
+    @defender = Country.find(@report.defender_country_id)
   end
 end
 

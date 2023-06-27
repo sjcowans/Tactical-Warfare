@@ -10,10 +10,20 @@
   </ul>
 </nav>
 
+
+<h4>Attacker:</h4>
+<%= link_to "#{@attacker.name}", country_path(@attacker), method: :get %><br>
 Attacker Infantry Casualties: <%= number_to_human(@report.defender_killed_basic_infantry + @report.defender_killed_sea_infantry + @report.defender_killed_air_infantry + @report.defender_killed_armor_infantry) %><br> 
 Attacker Armored Casualties: <%= number_to_human(@report.defender_killed_basic_armored + @report.defender_killed_sea_armored + @report.defender_killed_air_armored + @report.defender_killed_armor_armored) %><br>
 Attacker Ship Casualties: <%= number_to_human(@report.defender_killed_basic_ship + @report.defender_killed_sea_ship + @report.defender_killed_air_ship + @report.defender_killed_armor_ship) %><br>
 Attacker Aircraft Casualties: <%= number_to_human(@report.defender_killed_basic_aircraft + @report.defender_killed_sea_aircraft + @report.defender_killed_air_aircraft + @report.defender_killed_armor_aircraft) %><br>
+
+<h4>Defender:</h4>
+<%= link_to "#{@defender.name}", country_path(@defender), method: :get %><br>
+Defender Infantry Casualties: <%= number_to_human(@report.killed_basic_infantry + @report.killed_sea_infantry + @report.killed_air_infantry + @report.killed_armor_infantry) %> <br>
+Defender Armored Casualties: <%= number_to_human(@report.killed_basic_armored + @report.killed_sea_armored + @report.killed_air_armored + @report.killed_armor_armored) %> <br>
+Defender Ship Casualties: <%= number_to_human(@report.killed_basic_ship + @report.killed_sea_ship + @report.killed_air_ship + @report.killed_armor_ship) %> <br>
+Defender Aircraft Casualties: <%= number_to_human(@report.killed_basic_aircraft + @report.killed_sea_aircraft + @report.killed_air_aircraft + @report.killed_armor_aircraft) %> <br>
 Land Taken: <%= number_to_human(@report.taken_land) %><br>
 Houses Taken: <%= number_to_human(@report.taken_houses) %><br>
 infrastructure Destroyed: <%= number_to_human(@report.destroyed_infrastructure) %><br>
@@ -32,9 +42,6 @@ Hangars Destroyed: <%= number_to_human(@report.destroyed_hangars) %><br>
 Dockyards Destroyed: <%= number_to_human(@report.destroyed_dockyards) %><br>
 
 
-Defender Infantry Casualties: <%= number_to_human(@report.killed_basic_infantry + @report.killed_sea_infantry + @report.killed_air_infantry + @report.killed_armor_infantry) %> <br>
-Defender Armored Casualties: <%= number_to_human(@report.killed_basic_armored + @report.killed_sea_armored + @report.killed_air_armored + @report.killed_armor_armored) %> <br>
-Defender Ship Casualties: <%= number_to_human(@report.killed_basic_ship + @report.killed_sea_ship + @report.killed_air_ship + @report.killed_armor_ship) %> <br>
-Defender Aircraft Casualties: <%= number_to_human(@report.killed_basic_aircraft + @report.killed_sea_aircraft + @report.killed_air_aircraft + @report.killed_armor_aircraft) %> <br>
+
 
 
