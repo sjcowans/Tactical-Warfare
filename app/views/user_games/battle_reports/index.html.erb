@@ -13,11 +13,11 @@
 
 <h3>Attack Reports:</h3><br> 
 <% @attack_reports.each do |report|%>
-<%= link_to "Battle # #{report.id}", "/user_games/#{@user_game.id}/country_battle_reports/#{report.id}"%><br>
+<%= link_to "Battle # #{report.id}, Attacker: #{Country.find(report.attacker_country_id).name}, Defender: #{Country.find(report.defender_country_id).name}", "/user_games/#{@user_game.id}/country_battle_reports/#{report.id}"%><br>
 <% end %>
 
 
 <h3>Defense Reports:</h3><br> 
 <% @defense_reports.each do |report|%>
-<%= link_to "Battle # #{report.id}", "/user_games/#{@user_game.id}/country_battle_reports/#{report.id}"%><br>
+<%= link_to "Battle # #{report.id}, Attacker: #{Country.find(report.attacker_country_id).name}, Defender: #{Country.find(report.defender_country_id).name}", "/user_games/#{@user_game.id}/country_battle_reports/#{report.id}"%><br>
 <% end %>
