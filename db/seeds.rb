@@ -14,7 +14,7 @@ Game.destroy_all
 @game = Game.create!
 @user1 = User.create!(email: 'JoJo@hotmail.com', password: '123', password_confirmation: '123')
 @user2 = User.create!(email: 'JaJa@hotmail.com', password: '123', password_confirmation: '123')
-@user3 = User.create!(email: 'zedesia@yahoo.com', password: '123', password_confirmation: '123')
+@user3 = User.create!(email: 'war@yahoo.com', password: '123', password_confirmation: '123')
 @user1.confirm!
 @user2.confirm!
 @user3.confirm!
