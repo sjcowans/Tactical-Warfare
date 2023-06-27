@@ -81,8 +81,8 @@ class UserGamesController < ApplicationController
     end
     unless params[:infantry].nil? || params[:air_infantry].nil? || params[:sea_infantry].nil? || params[:armor_infantry].nil?
       if @country.turns >= (params[:infantry].to_i + params[:air_infantry].to_i + params[:sea_infantry].to_i + params[:armor_infantry].to_i)
-        if @country.infantry_recruit_cost_check(params[:infantry].to_i, params[:air_infantry].to_i,
-                                                params[:sea_infantry].to_i, params[:armor_infantry].to_i)
+        if @country.infantry_recruit_cost(params[:infantry].to_i, params[:air_infantry].to_i,
+                                                params[:sea_infantry].to_i, params[:armor_infantry].to_i) < @country.money
           if @country.infantry_recruit_pop_check(params[:infantry].to_i, params[:air_infantry].to_i,
                                                  params[:sea_infantry].to_i, params[:armor_infantry].to_i)
             @country.recruit_infantry(params[:infantry].to_i, params[:air_infantry].to_i, params[:sea_infantry].to_i,
@@ -103,8 +103,8 @@ class UserGamesController < ApplicationController
     end
     unless params[:armored].nil? || params[:air_armored].nil? || params[:sea_armored].nil? || params[:armor_armored].nil?
       if @country.turns >= (params[:armored].to_i + params[:air_armored].to_i + params[:sea_armored].to_i + params[:armor_armored].to_i)
-        if @country.armored_recruit_cost_check(params[:armored].to_i, params[:air_armored].to_i,
-                                               params[:sea_armored].to_i, params[:armor_armored].to_i)
+        if @country.armored_recruit_cost(params[:armored].to_i, params[:air_armored].to_i,
+                                               params[:sea_armored].to_i, params[:armor_armored].to_i) < @country.money
           if @country.armored_recruit_pop_check(params[:armored].to_i, params[:air_armored].to_i,
                                                 params[:sea_armored].to_i, params[:armor_armored].to_i)
             @country.recruit_armored(params[:armored].to_i, params[:air_armored].to_i, params[:sea_armored].to_i,
@@ -125,7 +125,7 @@ class UserGamesController < ApplicationController
     end
     unless params[:ships].nil? || params[:air_ships].nil? || params[:sea_ships].nil? || params[:armor_ships].nil?
       if @country.turns >= (params[:ships].to_i + params[:air_ships].to_i + params[:sea_ships].to_i + params[:armor_ships].to_i)
-        if @country.ships_recruit_cost_check(params[:ships].to_i, params[:air_ships].to_i, params[:sea_ships].to_i, params[:armor_ships].to_i) == true
+        if @country.ships_recruit_cost(params[:ships].to_i, params[:air_ships].to_i, params[:sea_ships].to_i, params[:armor_ships].to_i) < @country.money
           if @country.ships_recruit_pop_check(params[:ships].to_i, params[:air_ships].to_i, params[:sea_ships].to_i, params[:armor_ships].to_i) == true
             @country.recruit_ships(params[:ships].to_i, params[:air_ships].to_i, params[:sea_ships].to_i, params[:armor_ships].to_i)
             redirect_to user_game_path(@user_game)
@@ -147,8 +147,8 @@ class UserGamesController < ApplicationController
     end
 
     if @country.turns >= (params[:aircraft].to_i + params[:air_aircraft].to_i + params[:sea_aircraft].to_i + params[:armor_aircraft].to_i)
-      if @country.aircraft_recruit_cost_check(params[:aircraft].to_i, params[:air_aircraft].to_i,
-                                              params[:sea_aircraft].to_i, params[:armor_aircraft].to_i)
+      if @country.aircraft_recruit_cost(params[:aircraft].to_i, params[:air_aircraft].to_i,
+                                              params[:sea_aircraft].to_i, params[:armor_aircraft].to_i) < @country.money
         if @country.aircraft_recruit_pop_check(params[:aircraft].to_i, params[:air_aircraft].to_i,
                                                params[:sea_aircraft].to_i, params[:armor_aircraft].to_i)
           @country.recruit_planes(params[:aircraft].to_i, params[:air_aircraft].to_i, params[:sea_aircraft].to_i,

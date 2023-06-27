@@ -14,12 +14,68 @@ Turns: <%=@country.turns%><br>
 
 <h4>Recruit Infantry: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
+
+<details>
+  <summary>Infantry</summary>
+
+  <li>Soft Attack: 8</li>
+  <li>Hard Attack: 2</li>
+  <li>Air Attack: 0</li>
+  <li>Naval Attack: 0</li>
+  <li>Health: 10</li>
+  <li>Recruitment Cost: $10,000</li>
+  <li>Upkeep: $100</li>
+  <li>Population: 1 </li>
+</details>
+
     <%= form.label :turns_to_recruit_infantry %> <br>
     <%= form.number_field :infantry %> <br> 
+
+<details>
+  <summary>Anti-Air Infantry</summary>
+
+  <li>Soft Attack: 5</li>
+  <li>Hard Attack: 5</li>
+  <li>Air Attack: 5</li>
+  <li>Naval Attack: 0</li>
+  <li>Health: 10</li>
+  <li>Recruitment Cost: $10,000</li>
+  <li>Upkeep: $100</li>
+  <li>Population: 1 </li>
+</details>
+
     <%= form.label :turns_to_recruit_anti_air_infantry %> <br>
     <%= form.number_field :air_infantry %> <br> 
+
+<details>
+  <summary>Marine Infantry</summary>
+
+  <li>Soft Attack: 10</li>
+  <li>Hard Attack: 3</li>
+  <li>Air Attack: 0</li>
+  <li>Naval Attack: 0</li>
+  <li>Health: 10</li>
+  <li>Recruitment Cost: $10,000</li>
+  <li>Upkeep: $100</li>
+  <li>Population: 1 </li>
+</details>
+
     <%= form.label :turns_to_recruit_marines %> <br>
     <%= form.number_field :sea_infantry %> <br> 
+
+<details>
+  <summary>Anti-Armor Infantry</summary>
+
+  <li>Soft Attack: 5</li>
+  <li>Hard Attack: 20</li>
+  <li>Air Attack: 1</li>
+  <li>Naval Attack: 0</li>
+  <li>Health: 10</li>
+  <li>Recruitment Cost: $20,000</li>
+  <li>Upkeep: $100</li>
+  <li>Population: 1 </li>
+</details>
+
     <%= form.label :turns_to_recruit_anti_armor_infantry %> <br>
     <%= form.number_field :armor_infantry %> <br>
   <%= form.submit "Recruit" %>
@@ -27,12 +83,68 @@ Turns: <%=@country.turns%><br>
 
 <h4>Recruit Armor: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
+    
+<details>
+  <summary>Armored Vehicles</summary>
+
+  <li>Soft Attack: 100</li>
+  <li>Hard Attack: 50</li>
+  <li>Air Attack: 0</li>
+  <li>Naval Attack: 0</li>
+  <li>Health: 100</li>
+  <li>Recruitment Cost: $1,000,000</li>
+  <li>Upkeep: $1000</li>
+  <li>Population: 6 </li>
+</details>
+
     <%= form.label :turns_to_recruit_armored_vehicles %> <br>
     <%= form.number_field :armored %> <br> 
+
+<details>
+  <summary>Anti-Air Vehicles</summary>
+
+  <li>Soft Attack: 60</li>
+  <li>Hard Attack: 50</li>
+  <li>Air Attack: 100</li>
+  <li>Naval Attack: 5</li>
+  <li>Health: 50</li>
+  <li>Recruitment Cost: $1,000,000</li>
+  <li>Upkeep: $1000</li>
+  <li>Population: 6 </li>
+</details>
+
     <%= form.label :turns_to_recruit_anti_air_vehicles %> <br>
-    <%= form.number_field :air_armored %> <br> 
+    <%= form.number_field :air_armored %> <br>
+
+<details>
+  <summary>Amphibious Vehicles</summary>
+
+  <li>Soft Attack: 100</li>
+  <li>Hard Attack: 100</li>
+  <li>Air Attack: 20</li>
+  <li>Naval Attack: 20</li>
+  <li>Health: 150</li>
+  <li>Recruitment Cost: $2,000,000</li>
+  <li>Upkeep: $2500</li>
+  <li>Population: 8 </li>
+</details>
+
     <%= form.label :turns_to_recruit_amphibious_vehicles %> <br>
     <%= form.number_field :sea_armored %> <br> 
+
+<details>
+  <summary>Tanks</summary>
+
+  <li>Soft Attack: 150</li>
+  <li>Hard Attack: 250</li>
+  <li>Air Attack: 0</li>
+  <li>Naval Attack: 0</li>
+  <li>Health: 500</li>
+  <li>Recruitment Cost: $10,000,000</li>
+  <li>Upkeep: $10,000</li>
+  <li>Population: 8 </li>
+</details>
+
     <%= form.label :turns_to_recruit_tanks %> <br>
     <%= form.number_field :armor_armored %> <br>
   <%= form.submit "Recruit" %>
@@ -40,12 +152,67 @@ Turns: <%=@country.turns%><br>
 
 <h4>Recruit Aircraft: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
+<details>
+  <summary>Multi-Role Fighters</summary>
+
+  <li>Soft Attack: 1250</li>
+  <li>Hard Attack: 1250</li>
+  <li>Air Attack: 2000</li>
+  <li>Naval Attack: 1250</li>
+  <li>Health: 1250</li>
+  <li>Recruitment Cost: $60,000,000</li>
+  <li>Upkeep: $40,000</li>
+  <li>Population: 10 </li>
+</details>   
+    
     <%= form.label :turns_to_recruit_multi_role_fighters %><br>
     <%= form.number_field :aircraft %><br> 
+   
+<details>
+  <summary>Fighter Jets</summary>
+
+  <li>Soft Attack: 750</li>
+  <li>Hard Attack: 500</li>
+  <li>Air Attack: 5000</li>
+  <li>Naval Attack: 250</li>
+  <li>Health: 3000</li>
+  <li>Recruitment Cost: $150,000,000</li>
+  <li>Upkeep: $150,000</li>
+  <li>Population: 10 </li>
+</details>
+
     <%= form.label :turns_to_recruit_fighter_jets %><br>
     <%= form.number_field :air_aircraft %><br> 
+
+<details>
+  <summary>Naval Bombers</summary>
+
+  <li>Soft Attack: 2500</li>
+  <li>Hard Attack: 2500</li>
+  <li>Air Attack: 0</li>
+  <li>Naval Attack: 10000</li>
+  <li>Health: 2500</li>
+  <li>Recruitment Cost: $750,000,000</li>
+  <li>Upkeep: $600,000</li>
+  <li>Population: 10 </li>
+</details>
+
     <%= form.label :turns_to_recruit_naval_bombers %><br>
     <%= form.number_field :sea_aircraft %><br> 
+
+<details>
+  <summary>Heavy Bombers</summary>
+
+  <li>Soft Attack: 5000</li>
+  <li>Hard Attack: 10000</li>
+  <li>Air Attack: 0</li>
+  <li>Naval Attack: 5000</li>
+  <li>Health: 1500</li>
+  <li>Recruitment Cost: $1,000,000,000</li>
+  <li>Upkeep: $1,000,000</li>
+  <li>Population: 10 </li>
+</details>
+
     <%= form.label :turns_to_recruit_heavy_bombers %><br>
     <%= form.number_field :armor_aircraft %> <br>
   <%= form.submit "Recruit" %>
@@ -53,12 +220,68 @@ Turns: <%=@country.turns%><br>
 
 <h4>Recruit Ships: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
+    
+<details>
+  <summary>Corvettes</summary>
+
+  <li>Soft Attack: 1500</li>
+  <li>Hard Attack: 1000</li>
+  <li>Air Attack: 2000</li>
+  <li>Naval Attack: 5000</li>
+  <li>Health: 5000</li>
+  <li>Recruitment Cost: $450,000,000</li>
+  <li>Upkeep: $100,000</li>
+  <li>Population: 300 </li>
+</details>
+
     <%= form.label :turns_to_recruit_corvettes %> <br>
     <%= form.number_field :ships %> <br>
+
+<details>
+  <summary>Frigates</summary>
+
+  <li>Soft Attack: 2000</li>
+  <li>Hard Attack: 3000</li>
+  <li>Air Attack: 20000</li>
+  <li>Naval Attack: 5000</li>
+  <li>Health: 20000</li>
+  <li>Recruitment Cost: $1,000.000,000</li>
+  <li>Upkeep: $1,000,000</li>
+  <li>Population: 500 </li>
+</details>
+
     <%= form.label :turns_to_recruit_frigates %> <br>
     <%= form.number_field :air_ships %> <br>
+
+<details>
+  <summary>Destroyers</summary>
+
+  <li>Soft Attack: 5000</li>
+  <li>Hard Attack: 10000</li>
+  <li>Air Attack: 4000</li>
+  <li>Naval Attack: 40000</li>
+  <li>Health: 25000</li>
+  <li>Recruitment Cost: $1,000,000,000</li>
+  <li>Upkeep: $1,000,000</li>
+  <li>Population: 600 </li>
+</details>
+
     <%= form.label :turns_to_recruit_destroyers %> <br>
     <%= form.number_field :sea_ships %> <br>
+
+<details>
+  <summary>Cruisers</summary>
+
+  <li>Soft Attack: 8000</li>
+  <li>Hard Attack: 15000</li>
+  <li>Air Attack: 10000</li>
+  <li>Naval Attack: 25000</li>
+  <li>Health: 90000</li>
+  <li>Recruitment Cost: $1,000,000,000</li>
+  <li>Upkeep: $2,500,000</li>
+  <li>Population: 3000 </li>
+</details>
+
     <%= form.label :turns_to_recruit_cruisers %> <br>
     <%= form.number_field :armor_ships %> <br>
   <%= form.submit "Recruit" %>
