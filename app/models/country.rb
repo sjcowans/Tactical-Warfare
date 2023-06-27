@@ -275,7 +275,7 @@ class Country < ApplicationRecord
     (barracks * 500) +
     (armory * 500) +
     (hangars * 1000) +
-    (dockyard * 2500) +
+    (dockyards * 2500) +
     (labs * 10000)
   end
 
