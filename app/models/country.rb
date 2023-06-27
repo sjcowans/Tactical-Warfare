@@ -47,10 +47,10 @@ class Country < ApplicationRecord
   end
 
   def infantry_recruit_cost(basic_infantry, air_infantry, sea_infantry, armor_infantry)
-    (basic_infantry * 1_500_000) +
+    ((basic_infantry * 1_500_000) +
     (air_infantry * 1_500_000) +
     (sea_infantry * 1_500_000) +
-    (armor_infantry * 3_000_000)* 0.001 * self.barracks
+    (armor_infantry * 3_000_000))* 0.001 * self.barracks
   end
 
   def total_military_pop
@@ -85,10 +85,10 @@ class Country < ApplicationRecord
   end
 
   def armored_recruit_cost(basic_armored, air_armored, sea_armored, armor_armored)
-    (armor_armored * 250_000_000) +
+    ((armor_armored * 250_000_000) +
     (basic_armored * 50_000_000) +
     (air_armored * 50_000_000) +
-    (sea_armored * 100_000_000) * 0.001 * self.armory
+    (sea_armored * 100_000_000)) * 0.001 * self.armory
   end
 
   def armored_recruit_pop_check(basic_armored, air_armored, sea_armored, armor_armored)
@@ -104,10 +104,10 @@ class Country < ApplicationRecord
   end
 
   def ships_recruit_cost(basic_ship, air_ship, sea_ship, armor_ship)
-    (basic_ship * 4_500_000_000) +
+    ((basic_ship * 4_500_000_000) +
     (air_ship * 5_000_000_000) +
     (sea_ship * 3_000_000_000) +
-    (armor_ship * 2_000_000_000) * 0.001 * self.dockyards
+    (armor_ship * 2_000_000_000)) * 0.001 * self.dockyards
   end
 
   def ships_recruit_pop_check(basic_ship, air_ship, sea_ship, armor_ship)
@@ -123,10 +123,10 @@ class Country < ApplicationRecord
   end
 
   def aircraft_recruit_cost(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft)
-    (basic_aircraft * 900_000_000) +
+    ((basic_aircraft * 900_000_000) +
     (air_aircraft * 1_500_000_000) +
     (sea_aircraft * 6_000_000_000) +
-    (armor_aircraft * 5_000_000_000) * 0.001 * self.hangars
+    (armor_aircraft * 5_000_000_000)) * 0.001 * self.hangars
   end
 
   def aircraft_recruit_pop_check(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft)
