@@ -14,7 +14,7 @@
 Country: <%= @country.name %> <br>
 Population: <%= number_to_human(@country.population) %>  (<%= number_with_delimiter(@country.population)%>) <br>
 Score: <%= number_with_delimiter(@country.score) %><br>
-Land: <%= number_with_delimiter(@country.land) %>
+Land: <%= number_with_delimiter(@country.land) %><br>
 
-Note: Attacks take 100 Turns
+Note: Attacks take 100 Turns<br>
 <%= button_to "Attack", user_game_path(@user_game), method: :patch,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:attacker_id => @user_country.id, :defender_id => @country.id}%>

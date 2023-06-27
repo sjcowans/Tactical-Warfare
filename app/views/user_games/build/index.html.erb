@@ -9,34 +9,101 @@
     <li><%= link_to 'View Reports', "/user_games/#{@user_game.id}/reports", style: 'pull-right' %></li>
   </ul>
 </nav>
+<details>
+    <summary>Building Info</summary>
 
-<h4>Build: </h4> <small>(1 building per turn + 1 extra building per 1000 infrastructure)</small> <br>
-<small><br>
-Turns: <%=@country.turns%><br>
-<ul>
-  <li>
-    Max 10 buildings per land
-  </li>
-  <li>
-  Max  1 infra per land
-  </li>
-</ul>
-</small>
+    <li>Here you can specify the amount of turns you'd like to invest into building different building types.</li> 
+    <li>You initially build 1 building per turn.</li>
+    <li>You can have up to 10 buildings per square mile of land.</li>
+    <li>You can have up to 1 infrastructure per 1 square mile of land.</li>
+  
+
+   
+</details>
+
+<br>Turns: <%=@country.turns%>
+<h4>Build: </h4><br>
+
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
+
+<details>
+  <summary>Houses</summary>
+
+  <li>Houses hold up to 1,000 population each</li>
+  <li>Houses have an upkeep of $500 per turn</li>
+  <li>Each citizen produces $25 a turn and has an upkeep of $15</li>
+</details>
+
     <%= form.label :turns_to_build_houses %>
     <%= form.number_field :houses %> <br>
+
+<details>
+  <summary>infrastructure</summary>
+
+  <li>infrastructure has an income of $1,500 per turn</li>
+  <li>infrastructure has an upkeep of $2,500 per turn</li>
+  <li>You build 1 additional building per turn for every 1,000 infrastructure.</li>
+</details>
+
     <%= form.label :turns_to_build_infrastructure %>
     <%= form.number_field :infrastructure %> <br>
+
+<details>
+  <summary>Shops</summary>
+
+  <li>Shops have an income of $15,000 per turn and expense of $5,000</li>
+</details>
+
     <%= form.label :turns_to_build_shops %>
     <%= form.number_field :shops %><br>
+
+<details>
+  <summary>Barracks</summary>
+
+  <li>Each barracks increase maximum infantry by 150</li>
+  <li>Barracks have an upkeep of $500 per turn</li>
+</details>
+
     <%= form.label :turns_to_build_barracks %>
     <%= form.number_field :barracks %><br>
+
+<details>
+  <summary>Armories</summary>
+
+  <li>Each armory increase maximum vehicles by 50 (25 for tanks)</li>
+  <li>Arnmories have an upkeep of $500 per turn</li>
+</details>
+
     <%= form.label :turns_to_build_armories %>
     <%= form.number_field :armories %><br>
+
+<details>
+  <summary>Hangars</summary>
+
+  <li>Each hangar increase maximum amount of aircraft. (multi-role fighters by 15, jet fighters by 10, naval bombers by 8, and heavy bombers by 5)</li>
+  <li>Hangars have upkeep of $1,000 per turn</li>
+</details>
+
     <%= form.label :turns_to_build_hangars %>
     <%= form.number_field :hangars %><br>
+
+<details>
+  <summary>Dockyards</summary>
+
+  <li>Each dockyard increase maximum amount of ships. (corvettes by 10, frigates by 5, destroyers by 3, and cruisers by 2)</li>
+  <li>Dockyards have upkeep of $2,500 per turn</li>
+</details>
+
     <%= form.label :turns_to_build_dockyards %>
     <%= form.number_field :dockyards %><br>
+
+<details>
+  <summary>Labs</summary>
+
+  <li>Each lab produces on research point per turn.</li>
+  <li>Labs have upkeep of $10,000 per turn</li>
+</details>
+
     <%= form.label :turns_to_build_labs %>
     <%= form.number_field :labs %><br>
   <%= form.submit "Build" %>
