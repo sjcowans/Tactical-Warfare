@@ -273,7 +273,7 @@ class Country < ApplicationRecord
     (infrastructure * 2000) +
     (population * 15) +
     (barracks * 500) +
-    (armories * 500) +
+    (armory * 500) +
     (hangars * 1000) +
     (dockyard * 2500) +
     (labs * 10000)
