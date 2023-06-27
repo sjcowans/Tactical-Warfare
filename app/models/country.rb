@@ -20,9 +20,9 @@ class Country < ApplicationRecord
       self.score_calc
       self.population =
         if population < (houses * 1000)
-          population + ((((houses * 1000) + (infrastructure * 50)) - population) * 0.0001).to_i
+          population + ((((houses * 1000) + (infrastructure * 50)) - population) * 0.0002).to_i
         else
-          population - ((population - ((houses * 1000) + (infrastructure * 50))) * 0.0001).to_i
+          population - ((population - ((houses * 1000) + (infrastructure * 50))) * 0.001).to_i
         end
       save
     end
