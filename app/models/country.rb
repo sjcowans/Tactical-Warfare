@@ -331,7 +331,9 @@ class Country < ApplicationRecord
     attacker.basic_aircraft = (attacker.basic_aircraft * survivors).round
     attacker.armor_aircraft = (attacker.armor_aircraft * survivors).round
     attacker.save
-    attacker.air_to_armor_attack(attacker, defender, battle_report)
+    if damage_ratio >= 2.5
+      attacker.air_to_armor_attack(attacker, defender, battle_report)
+    end
   end
 
   def air_to_armor_attack(attacker, defender, battle_report)
@@ -365,7 +367,9 @@ class Country < ApplicationRecord
     attacker.basic_aircraft = (attacker.basic_aircraft * survivors).round
     attacker.armor_aircraft = (attacker.armor_aircraft * survivors).round
     attacker.save
-    attacker.air_to_navy_attack(attacker, defender, battle_report)
+    if damage_ratio >= 2.5
+      attacker.air_to_navy_attack(attacker, defender, battle_report)
+    end
   end
 
   def air_to_navy_attack(attacker, defender, battle_report)
@@ -384,24 +388,23 @@ class Country < ApplicationRecord
     defender.basic_ship = (defender.basic_ship * survivors).round
     defender.armor_ship = (defender.armor_ship * survivors).round
     defender.save
-    if survivors == 0
+    attacker_air_health = attacker.air_health
+    defender_air_damage = (defender.air_ship * 20_000) + (defender.sea_ship * 4000) + (defender.basic_ship * 2000) + (defender.armor_ship * 10_000)
+    defender_damage_ratio = defender_air_damage / attacker_air_health.to_f
+    survivors = 1 - (rand(0.025..0.05) * defender_damage_ratio)
+    survivors = 0 if survivors < 0
+    battle_report.defender_killed_air_aircraft += (attacker.air_aircraft - (attacker.air_aircraft * survivors)).round
+    battle_report.defender_killed_sea_aircraft += (attacker.sea_aircraft - (attacker.sea_aircraft * survivors)).round
+    battle_report.defender_killed_basic_aircraft += (attacker.basic_aircraft - (attacker.basic_aircraft * survivors)).round
+    battle_report.defender_killed_armor_aircraft += (attacker.armor_aircraft - (attacker.armor_aircraft * survivors)).round
+    battle_report.save
+    attacker.air_aircraft = (attacker.air_aircraft * survivors).round
+    attacker.sea_aircraft = (attacker.sea_aircraft * survivors).round
+    attacker.basic_aircraft = (attacker.basic_aircraft * survivors).round
+    attacker.armor_aircraft = (attacker.armor_aircraft * survivors).round
+    attacker.save
+    if damage_ratio >= 2.5
       attacker.air_to_infantry_attack(attacker, defender, battle_report)
-    else
-      attacker_air_health = attacker.air_health
-      defender_air_damage = (defender.air_ship * 20_000) + (defender.sea_ship * 4000) + (defender.basic_ship * 2000) + (defender.armor_ship * 10_000)
-      defender_damage_ratio = defender_air_damage / attacker_air_health.to_f
-      survivors = 1 - (rand(0.025..0.05) * defender_damage_ratio)
-      survivors = 0 if survivors < 0
-      battle_report.defender_killed_air_aircraft += (attacker.air_aircraft - (attacker.air_aircraft * survivors)).round
-      battle_report.defender_killed_sea_aircraft += (attacker.sea_aircraft - (attacker.sea_aircraft * survivors)).round
-      battle_report.defender_killed_basic_aircraft += (attacker.basic_aircraft - (attacker.basic_aircraft * survivors)).round
-      battle_report.defender_killed_armor_aircraft += (attacker.armor_aircraft - (attacker.armor_aircraft * survivors)).round
-      battle_report.save
-      attacker.air_aircraft = (attacker.air_aircraft * survivors).round
-      attacker.sea_aircraft = (attacker.sea_aircraft * survivors).round
-      attacker.basic_aircraft = (attacker.basic_aircraft * survivors).round
-      attacker.armor_aircraft = (attacker.armor_aircraft * survivors).round
-      attacker.save
     end
   end
 
@@ -454,24 +457,23 @@ class Country < ApplicationRecord
     defender.basic_ship = (defender.basic_ship * survivors).round
     defender.armor_ship = (defender.armor_ship * survivors).round
     defender.save
-    if survivors == 0
+    attacker_sea_health = attacker.navy_health
+    defender_sea_damage = (defender.air_ship * 5000) + (defender.sea_ship * 40_000) + (defender.basic_ship * 5000) + (defender.armor_ship * 25_000)
+    defender_damage_ratio = defender_sea_damage / attacker_sea_health.to_f
+    survivors = 1 - (rand(0.025..0.05) * defender_damage_ratio)
+    survivors = 0 if survivors < 0
+    battle_report.defender_killed_air_ship += (attacker.air_ship - (attacker.air_ship * survivors)).round
+    battle_report.defender_killed_sea_ship += (attacker.sea_ship - (attacker.sea_ship * survivors)).round
+    battle_report.defender_killed_basic_ship += (attacker.basic_ship - (attacker.basic_ship * survivors)).round
+    battle_report.defender_killed_armor_ship += (attacker.armor_ship - (attacker.armor_ship * survivors)).round
+    battle_report.save
+    attacker.air_ship = (attacker.air_ship * survivors).round
+    attacker.sea_ship = (attacker.sea_ship * survivors).round
+    attacker.basic_ship = (attacker.basic_ship * survivors).round
+    attacker.armor_ship = (attacker.armor_ship * survivors).round
+    attacker.save
+    if damage_ratio >= 2.5
       attacker.navy_to_armor_attack(attacker, defender, battle_report)
-    else
-      attacker_sea_health = attacker.navy_health
-      defender_sea_damage = (defender.air_ship * 5000) + (defender.sea_ship * 40_000) + (defender.basic_ship * 5000) + (defender.armor_ship * 25_000)
-      defender_damage_ratio = defender_sea_damage / attacker_sea_health.to_f
-      survivors = 1 - (rand(0.025..0.05) * defender_damage_ratio)
-      survivors = 0 if survivors < 0
-      battle_report.defender_killed_air_ship += (attacker.air_ship - (attacker.air_ship * survivors)).round
-      battle_report.defender_killed_sea_ship += (attacker.sea_ship - (attacker.sea_ship * survivors)).round
-      battle_report.defender_killed_basic_ship += (attacker.basic_ship - (attacker.basic_ship * survivors)).round
-      battle_report.defender_killed_armor_ship += (attacker.armor_ship - (attacker.armor_ship * survivors)).round
-      battle_report.save
-      attacker.air_ship = (attacker.air_ship * survivors).round
-      attacker.sea_ship = (attacker.sea_ship * survivors).round
-      attacker.basic_ship = (attacker.basic_ship * survivors).round
-      attacker.armor_ship = (attacker.armor_ship * survivors).round
-      attacker.save
     end
   end
 
@@ -491,24 +493,23 @@ class Country < ApplicationRecord
     defender.basic_armored = (defender.basic_armored * survivors).round
     defender.armor_armored = (defender.armor_armored * survivors).round
     defender.save
-    if survivors == 0
+    attacker_sea_health = attacker.navy_health
+    defender_sea_damage = (defender.air_armored * 5) + (defender.sea_armored * 20)
+    defender_damage_ratio = defender_sea_damage / attacker_sea_health.to_f
+    survivors = 1 - (rand(0.025..0.05) * defender_damage_ratio)
+    survivors = 0 if survivors < 0
+    battle_report.defender_killed_air_ship += attacker.air_ship - (attacker.air_ship * survivors).round
+    battle_report.defender_killed_sea_ship += attacker.sea_ship - (attacker.sea_ship * survivors).round
+    battle_report.defender_killed_basic_ship += attacker.basic_ship - (attacker.basic_ship * survivors).round
+    battle_report.defender_killed_armor_ship += attacker.armor_ship - (attacker.armor_ship * survivors).round
+    battle_report.save
+    attacker.air_ship = (attacker.air_ship * survivors).round
+    attacker.sea_ship = (attacker.sea_ship * survivors).round
+    attacker.basic_ship = (attacker.basic_ship * survivors).round
+    attacker.armor_ship = (attacker.armor_ship * survivors).round
+    attacker.save
+    if damage_ratio >= 2.5
       attacker.navy_to_infantry_attack(attacker, defender, battle_report)
-    else
-      attacker_sea_health = attacker.navy_health
-      defender_sea_damage = (defender.air_armored * 5) + (defender.sea_armored * 20)
-      defender_damage_ratio = defender_sea_damage / attacker_sea_health.to_f
-      survivors = 1 - (rand(0.025..0.05) * defender_damage_ratio)
-      survivors = 0 if survivors < 0
-      battle_report.defender_killed_air_ship += attacker.air_ship - (attacker.air_ship * survivors).round
-      battle_report.defender_killed_sea_ship += attacker.sea_ship - (attacker.sea_ship * survivors).round
-      battle_report.defender_killed_basic_ship += attacker.basic_ship - (attacker.basic_ship * survivors).round
-      battle_report.defender_killed_armor_ship += attacker.armor_ship - (attacker.armor_ship * survivors).round
-      battle_report.save
-      attacker.air_ship = (attacker.air_ship * survivors).round
-      attacker.sea_ship = (attacker.sea_ship * survivors).round
-      attacker.basic_ship = (attacker.basic_ship * survivors).round
-      attacker.armor_ship = (attacker.armor_ship * survivors).round
-      attacker.save
     end
   end
 

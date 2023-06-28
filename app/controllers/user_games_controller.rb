@@ -60,6 +60,10 @@ class UserGamesController < ApplicationController
         @attacker.air_to_air_attack(@attacker, @defender, @battle_report)
         @attacker.navy_to_navy_attack(@attacker, @defender, @battle_report)
         @attacker.ground_to_ground_attack(@attacker, @defender, @battle_report)
+        @defender.air_to_armor_attack(@defender, @attacker, @battle_report)
+        @defender.air_to_navy_attack(@defender, @attacker, @battle_report)
+        @defender.air_to_infantry_attack(@defender, @attacker, @battle_report)
+        @defender.navy_to_navy_attack(@defender, @attacker, @battle_report)
         redirect_to "/user_games/#{@user_game.id}/country_battle_reports/#{@battle_report.id}"
       end
     end
