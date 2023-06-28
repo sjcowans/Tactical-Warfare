@@ -11,10 +11,41 @@
 </nav>
 
 
-Country: <%= @country.name %> <br>
+<h4>Country: <%= @country.name %> </h4>
+<%= button_to "Attack", user_game_path(@user_game), method: :patch,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:attacker_id => @user_country.id, :defender_id => @country.id}%>
+Note: Attacks take 100 Turns<br>
+
+<h4>Information:</h4>
 Population: <%= number_to_human(@country.population) %>  (<%= number_with_delimiter(@country.population)%>) <br>
 Score: <%= number_with_delimiter(@country.score) %><br>
 Land: <%= number_with_delimiter(@country.land) %><br>
 
-Note: Attacks take 100 Turns<br>
-<%= button_to "Attack", user_game_path(@user_game), method: :patch,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:attacker_id => @user_country.id, :defender_id => @country.id}%>
+<h4>Battle Stats:</h4>
+Infantry Kills: <%= number_to_human(@country.infantry_kills) %><br>
+Infantry Casualties: <%= number_to_human(@country.infantry_casualties) %><br>
+Armored Vehicle Kills <%= number_to_human(@country.basic_vehicle_kills) %> <br>
+Armored Vehicle Casualties <%= number_to_human(@country.basic_vehicle_casualties) %> <br>
+Amphibious Vehicle Kills <%= number_to_human(@country.sea_vehicle_kills) %> <br>
+Amphibious Vehicle Casualties <%= number_to_human(@country.sea_vehicle_casualties) %> <br>
+Anti Air Vehicle Kills <%= number_to_human(@country.air_vehicle_kills) %> <br>
+Anti Air Vehicle Casualties <%= number_to_human(@country.air_vehicle_casualties) %> <br>
+Tank  Kills <%= number_to_human(@country.armor_vehicle_kills) %> <br>
+Tank Casualties <%= number_to_human(@country.armor_vehicle_casualties) %> <br>
+Multi=Role Fighter Kills <%= number_to_human(@country.basic_aircraft_kills) %> <br>
+Multi=Role Fighter Casualties <%= number_to_human(@country.basic_aircraft_casualties) %> <br>
+Fighter Jet Kills <%= number_to_human(@country.air_aircraft_kills) %> <br>
+Fighter Jet Casualties <%= number_to_human(@country.air_aircraft_casualties) %> <br>
+Naval Bomber Kills <%= number_to_human(@country.sea_aircraft_kills) %> <br>
+Naval Bomber Casualties <%= number_to_human(@country.sea_aircraft_casualties) %> <br>
+Heavy Bomber Kills <%= number_to_human(@country.armor_aircraft_kills) %> <br>
+Heavy Bomber Casualties <%= number_to_human(@country.armor_aircraft_casualties) %> <br>
+Corvette Kills <%= number_to_human(@country.basic_ship_kills) %> <br>
+Corvette Casualties <%= number_to_human(@country.basic_ship_casualties) %> <br>
+Frigate Kills <%= number_to_human(@country.air_ship_kills) %> <br>
+Frigate Casualties <%= number_to_human(@country.air_ship_casualties) %> <br>
+Destroyer Kills <%= number_to_human(@country.sea_ship_kills) %> <br>
+Destroyer Casualties <%= number_to_human(@country.sea_ship_casualties) %> <br>
+Cruiser Kills <%= number_to_human(@country.armor_ship_kills) %> <br>
+Cruiser Casualties <%= number_to_human(@country.armor_ship_casualties) %>
+
+

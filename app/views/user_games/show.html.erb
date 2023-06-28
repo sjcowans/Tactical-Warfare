@@ -21,7 +21,20 @@ Population: <%= number_to_human(@country.population) %>  (<%= number_with_delimi
 Turns: <%= @country.turns %><br>
 Score: <%= number_with_delimiter(@country.score) %><br>
 Research Points: <%= number_with_delimiter(@country.research_points) %><br>
-Land: <%= number_with_delimiter(@country.land) %>
+Land: <%= number_with_delimiter(@country.land) %><br>
+
+</ol>
+  <h4> Buildings: </h4>
+  <ol>
+  <li>Houses: <%= number_with_delimiter(@country.houses) %></li>
+  <li>infrastructure: <%= number_with_delimiter(@country.infrastructure) %></li>
+  <li>Shops: <%= number_with_delimiter(@country.shops) %></li>
+  <li>Barracks: <%= number_with_delimiter(@country.barracks) %></li>
+  <li>Armories: <%= number_with_delimiter(@country.armory) %></li>
+  <li>Hangars: <%= number_with_delimiter(@country.hangars) %></li>
+  <li>Dockyards: <%= number_with_delimiter(@country.dockyards) %></li>
+  <li>Labs: <%= number_with_delimiter(@country.labs) %></li>
+</ol>
 
 <h4> Military: </h4>
 <ol>
@@ -60,17 +73,6 @@ Land: <%= number_with_delimiter(@country.land) %>
       <li>Heavy Bombers:  <%= number_with_delimiter(@country.armor_aircraft) %></li>
     </ul>
   </li>
-</ol>
-  <h4> Buildings: </h4>
-  <ol>
-  <li>Houses: <%= number_with_delimiter(@country.houses) %></li>
-  <li>infrastructure: <%= number_with_delimiter(@country.infrastructure) %></li>
-  <li>Shops: <%= number_with_delimiter(@country.shops) %></li>
-  <li>Barracks: <%= number_with_delimiter(@country.barracks) %></li>
-  <li>Armories: <%= number_with_delimiter(@country.armory) %></li>
-  <li>Hangars: <%= number_with_delimiter(@country.hangars) %></li>
-  <li>Dockyards: <%= number_with_delimiter(@country.dockyards) %></li>
-  <li>Labs: <%= number_with_delimiter(@country.labs) %></li>
-</ol>
+
 
 <%= button_to "Change name", edit_user_game_country_path(@user_game, @country), method: :get, params: {user_game_id: @user_game.id, game_id: @game.id} %>

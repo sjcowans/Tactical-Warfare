@@ -671,4 +671,160 @@ class Country < ApplicationRecord
   def self.ranking
     order(score: :desc)
   end
+
+  def infantry_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_basic_infantry + killed_sea_infantry + killed_air_infantry + killed_armor_infantry')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_basic_infantry + defender_killed_sea_infantry + defender_killed_air_infantry + defender_killed_armor_infantry')
+    attacks + defenses
+  end
+
+  def infantry_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_basic_infantry + defender_killed_sea_infantry + defender_killed_air_infantry + defender_killed_armor_infantry')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_basic_infantry + killed_sea_infantry + killed_air_infantry + killed_armor_infantry')
+    attacks + defenses
+  end
+
+  def basic_vehicle_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_basic_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_basic_armored')
+    attacks + defenses
+  end
+
+  def basic_vehicle_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_basic_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_basic_armored')
+    attacks + defenses
+  end
+
+  def sea_vehicle_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_sea_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_sea_armored')
+    attacks + defenses
+  end
+
+  def sea_vehicle_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_sea_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_sea_armored')
+    attacks + defenses
+  end
+
+  def air_vehicle_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_air_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_air_armored')
+    attacks + defenses
+  end
+
+  def air_vehicle_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_air_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_air_armored')
+    attacks + defenses
+  end
+
+  def armor_vehicle_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_armor_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_armor_armored')
+    attacks + defenses
+  end
+
+  def armor_vehicle_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_armor_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_armor_armored')
+    attacks + defenses
+  end
+
+  def air_aircraft_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_air_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_air_aircraft')
+    attacks + defenses
+  end
+
+  def air_aircraft_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_air_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_air_aircraft')
+    attacks + defenses
+  end
+
+  def sea_aircraft_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_sea_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_sea_aircraft')
+    attacks + defenses
+  end
+
+  def sea_aircraft_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_sea_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_sea_aircraft')
+    attacks + defenses
+  end
+
+  def basic_aircraft_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_basic_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_basic_aircraft')
+    attacks + defenses
+  end
+
+  def basic_aircraft_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_basic_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_basic_aircraft')
+    attacks + defenses
+  end
+
+  def armor_aircraft_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_armor_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_armor_aircraft')
+    attacks + defenses
+  end
+
+  def armor_aircraft_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_armor_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_armor_aircraft')
+    attacks + defenses
+  end
+
+  def armor_ship_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_armor_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_armor_ship')
+    attacks + defenses
+  end
+
+  def armor_ship_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_armor_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_armor_ship')
+    attacks + defenses
+  end
+
+  def sea_ship_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_sea_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_sea_ship')
+    attacks + defenses
+  end
+
+  def sea_ship_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_sea_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_sea_ship')
+    attacks + defenses
+  end
+
+  def basic_ship_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_basic_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_basic_ship')
+    attacks + defenses
+  end
+
+  def basic_ship_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_basic_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_basic_ship')
+    attacks + defenses
+  end
+
+  def air_ship_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_air_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_air_ship')
+    attacks + defenses
+  end
+
+  def air_ship_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_air_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_air_ship')
+    attacks + defenses
+  end
 end
