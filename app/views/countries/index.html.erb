@@ -12,7 +12,7 @@
 <ol>
 <h3>Country Ranking:</h3><br> <% @countries.ranking.each do |country|%>
 <li>
-<%= link_to country.name, "/user_games/#{@user_game.id}/countries/#{country.id}"%>, Score: <%= country.score %>
+<%= link_to country.name, "/user_games/#{@user_game.id}/countries/#{country.id}"%>, Score: <%=number_to_human(country.score)%> (<%=number_with_delimiter(country.score)%>)
 </li><br>
 <% end %>
 </ol>
