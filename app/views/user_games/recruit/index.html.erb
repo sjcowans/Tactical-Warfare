@@ -10,8 +10,9 @@
   </ul>
 </nav>
 
-Turns: <%=@country.turns%><br>
-<details>
+<b>Turns:</b> <%=@country.turns%><br>
+
+<br><details>
   <summary>Recruitment</summary>
 
   <li>Recrtuitment is ordered by the number of turns you wish to invest</li>
@@ -19,13 +20,14 @@ Turns: <%=@country.turns%><br>
   <li>Upkeep is per unit per turn</li>
   <li>Soft Attack is damage vs soft unit types (like infantry)</li>
   <li>Hard Attack is damage vs armored units</li>
-</details>
+</details><br>
+
 
 <h4>Recruit Infantry: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
 
 <details>
-  <summary>Infantry</summary>
+  <summary><b>Infantry</b></summary>
 
   <li>Soft Attack: 8</li>
   <li>Hard Attack: 2</li>
@@ -42,7 +44,7 @@ Turns: <%=@country.turns%><br>
     <%= form.number_field :infantry %> <br> 
 
 <details>
-  <summary>Anti-Air Infantry</summary>
+  <summary><b>Anti-Air Infantry</b></summary>
 
   <li>Soft Attack: 5</li>
   <li>Hard Attack: 5</li>
@@ -59,7 +61,7 @@ Turns: <%=@country.turns%><br>
     <%= form.number_field :air_infantry %> <br> 
 
 <details>
-  <summary>Marine Infantry</summary>
+  <summary><b>Marine Infantry</b></summary>
 
   <li>Soft Attack: 10</li>
   <li>Hard Attack: 3</li>
@@ -76,7 +78,7 @@ Turns: <%=@country.turns%><br>
     <%= form.number_field :sea_infantry %> <br> 
 
 <details>
-  <summary>Anti-Armor Infantry</summary>
+  <summary><b>Anti-Armor Infantry</b></summary>
 
   <li>Soft Attack: 5</li>
   <li>Hard Attack: 20</li>
@@ -98,7 +100,7 @@ Turns: <%=@country.turns%><br>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
     
 <details>
-  <summary>Armored Vehicles</summary>
+  <summary><b>Armored Vehicles</b></summary>
 
   <li>Soft Attack: 100</li>
   <li>Hard Attack: 50</li>
@@ -115,7 +117,7 @@ Turns: <%=@country.turns%><br>
     <%= form.number_field :armored %> <br> 
 
 <details>
-  <summary>Anti-Air Vehicles</summary>
+  <summary><b>Anti-Air Vehicles</b></summary>
 
   <li>Soft Attack: 60</li>
   <li>Hard Attack: 50</li>
@@ -132,7 +134,7 @@ Turns: <%=@country.turns%><br>
     <%= form.number_field :air_armored %> <br>
 
 <details>
-  <summary>Amphibious Vehicles</summary>
+  <summary><b>Amphibious Vehicles</b></summary>
 
   <li>Soft Attack: 100</li>
   <li>Hard Attack: 100</li>
@@ -149,7 +151,7 @@ Turns: <%=@country.turns%><br>
     <%= form.number_field :sea_armored %> <br> 
 
 <details>
-  <summary>Tanks</summary>
+  <summary><b>Tanks</b></summary>
 
   <li>Soft Attack: 150</li>
   <li>Hard Attack: 250</li>
@@ -170,7 +172,7 @@ Turns: <%=@country.turns%><br>
 <h4>Recruit Aircraft: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
 <details>
-  <summary>Multi-Role Fighters</summary>
+  <summary><b>Multi-Role Fighters</b></summary>
 
   <li>Soft Attack: 1250</li>
   <li>Hard Attack: 1250</li>
@@ -187,7 +189,7 @@ Turns: <%=@country.turns%><br>
     <%= form.number_field :aircraft %><br> 
    
 <details>
-  <summary>Fighter Jets</summary>
+  <summary><b>Fighter Jets</b></summary>
 
   <li>Soft Attack: 750</li>
   <li>Hard Attack: 500</li>
@@ -204,7 +206,7 @@ Turns: <%=@country.turns%><br>
     <%= form.number_field :air_aircraft %><br> 
 
 <details>
-  <summary>Naval Bombers</summary>
+  <summary><b>Naval Bombers</b></summary>
 
   <li>Soft Attack: 2500</li>
   <li>Hard Attack: 2500</li>
@@ -221,7 +223,7 @@ Turns: <%=@country.turns%><br>
     <%= form.number_field :sea_aircraft %><br> 
 
 <details>
-  <summary>Heavy Bombers</summary>
+  <summary><b>Heavy Bombers</b></summary>
 
   <li>Soft Attack: 5000</li>
   <li>Hard Attack: 10000</li>
@@ -243,7 +245,7 @@ Turns: <%=@country.turns%><br>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
     
 <details>
-  <summary>Corvettes</summary>
+  <summary><b>Corvettes</b></summary>
 
   <li>Soft Attack: 1500</li>
   <li>Hard Attack: 1000</li>
@@ -260,7 +262,7 @@ Turns: <%=@country.turns%><br>
     <%= form.number_field :ships %> <br>
 
 <details>
-  <summary>Frigates</summary>
+  <summary><b>Frigates</b></summary>
 
   <li>Soft Attack: 2000</li>
   <li>Hard Attack: 3000</li>
@@ -277,7 +279,7 @@ Turns: <%=@country.turns%><br>
     <%= form.number_field :air_ships %> <br>
 
 <details>
-  <summary>Destroyers</summary>
+  <summary><b>Destroyers</b></summary>
 
   <li>Soft Attack: 5000</li>
   <li>Hard Attack: 10000</li>
@@ -294,7 +296,7 @@ Turns: <%=@country.turns%><br>
     <%= form.number_field :sea_ships %> <br>
 
 <details>
-  <summary>Cruisers</summary>
+  <summary><b>Cruisers</b></summary>
 
   <li>Soft Attack: 8000</li>
   <li>Hard Attack: 15000</li>

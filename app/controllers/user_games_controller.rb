@@ -83,6 +83,16 @@ class UserGamesController < ApplicationController
         flash[:alert] = 'Not Enough Turns'
       end
     end
+    if !params[:demolish_infrastructure].nil? || !params[:demolish_shops].nil? || !params[:demolish_barracks].nil? || !params[:demolish_armories].nil? || !params[:demolish_hangars].nil? || !params[:demolish_dockyards].nil? || !params[:demolish_labs].nil? || !params[:demolish_houses].nil?
+      if @country.turns >= (params[:demolish_infrastructure].to_i + params[:demolish_shops].to_i + params[:demolish_barracks].to_i + params[:demolish_armories].to_i + params[:demolish_hangars].to_i + params[:demolish_dockyards].to_i + params[:demolish_labs].to_i + params[:demolish_houses].to_i)/10
+          @country.demolish(params[:demolish_infrastructure].to_i, params[:demolish_shops], params[:demolish_barracks], params[:demolish_armories],
+                         params[:demolish_hangars], params[:demolish_dockyards], params[:demolish_labs], params[:demolish_houses])
+          redirect_to user_game_path(@user_game)
+      else
+        redirect_to user_game_path(@user_game)
+        flash[:alert] = 'Not Enough Turns'
+      end
+    end
     unless params[:infantry].nil? || params[:air_infantry].nil? || params[:sea_infantry].nil? || params[:armor_infantry].nil?
       if @country.turns >= (params[:infantry].to_i + params[:air_infantry].to_i + params[:sea_infantry].to_i + params[:armor_infantry].to_i)
         if @country.infantry_recruit_cost(params[:infantry].to_i, params[:air_infantry].to_i,
