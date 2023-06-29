@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_23_221507) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_29_002239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -129,6 +129,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_221507) do
     t.datetime "updated_at", null: false
     t.integer "taken_houses", default: 0
     t.integer "destroyed_houses", default: 0
+    t.integer "money_taken", default: 0
+    t.integer "victor"
     t.index ["game_id"], name: "index_country_battle_reports_on_game_id"
   end
 
