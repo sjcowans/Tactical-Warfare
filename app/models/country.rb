@@ -12,20 +12,18 @@ class Country < ApplicationRecord
   end
 
   def take_turns(total_turns)
-    total_turns.to_i.times do
-      self.turns = turns - 1
-      self.money = money + (net *
-                            1)
-      self.research_points = research_points + (labs * 10 * 1)
-      score_calc
-      self.population =
-        if population < (houses * 1000)
-          population + ((((houses * 1000) + (infrastructure * 50)) - population) * 0.0002).to_i
-        else
-          population - ((population - ((houses * 1000) + (infrastructure * 50))) * 0.001).to_i
-        end
-      save
+    self.save
+    self.turns -= total_turns
+    self.money += (net * total_turns)
+    self.research_points += (labs * total_turns)
+    self.population =
+    if population < (houses * 1000)
+      population + ((((houses * 1000) + (infrastructure * 50)) - population) * 0.0002 * total_turns).to_i
+    else
+      population - ((population - ((houses * 1000) + (infrastructure * 50))) * 0.002 * total_turns).to_i
     end
+    self.save
+    self.score_calc
   end
 
   def build(infra, shops, barracks, armories, hangars, dockyards, labs, houses)
@@ -262,7 +260,7 @@ class Country < ApplicationRecord
       (armor_aircraft * 1_000_000) +
       (houses * 500) +
       (shops * 1000) +
-      (infrastructure * 2000) +
+      (infrastructure * ( 1 + infrastructure/1000) * (1 + infrastructure/10000) * 2000) +
       (population * 15) +
       (barracks * 500) +
       (armory * 500) +
