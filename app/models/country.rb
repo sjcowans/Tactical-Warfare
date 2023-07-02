@@ -13,14 +13,14 @@ class Country < ApplicationRecord
 
   def take_turns(total_turns)
     self.save
-    self.turns -= total_turns
-    self.money += (net * total_turns)
-    self.research_points += (labs * total_turns)
+    self.turns -= total_turns.to_i
+    self.money += (net * total_turns.to_i)
+    self.research_points += (labs * total_turns.to_i)
     self.population =
     if population < (houses * 1000)
-      population + ((((houses * 1000) + (infrastructure * 50)) - population) * 0.0002 * total_turns).to_i
+      population + ((((houses * 1000) + (infrastructure * 50)) - population) * 0.0002 * total_turns.to_i).to_i
     else
-      population - ((population - ((houses * 1000) + (infrastructure * 50))) * 0.002 * total_turns).to_i
+      population - ((population - ((houses * 1000) + (infrastructure * 50))) * 0.002 * total_turns.to_i).to_i
     end
     self.save
     self.score_calc
