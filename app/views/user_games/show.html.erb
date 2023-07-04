@@ -1,19 +1,44 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <ul class="nav navbar-nav">
-    <li><%= link_to 'Home', root_path, method: :get, style: 'pull-right' %></li>
-    <li><%= link_to 'Dashboard', user_game_path(@user_game), style: 'pull-right' %></li>
-    <li><%= link_to 'Recruit', "/user_games/#{@user_game.id}/recruit", style: 'pull-right' %></li>
-    <li><%= link_to 'Explore Land',"/user_games/#{@user_game.id}/explore", style: 'pull-right' %></li>
-    <li><%= link_to 'Build', "/user_games/#{@user_game.id}/build", style: 'pull-right' %></li>
-    <li><%= link_to 'Research', "/user_games/#{@user_game.id}/research", style: 'pull-right' %></li>   
-    <li><%= link_to 'View Nations', "/user_games/#{@user_game.id}/countries", style: 'pull-right' %></li>
-    <li><%= link_to 'View Reports', "/user_games/#{@user_game.id}/reports", style: 'pull-right' %></li>
-  </ul>
-</nav>
+<h4><div id="banner">
+<table>
+<ul>
+  <tr>
+    <td>
+      <li><%= link_to 'Home', root_path, method: :get, style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Dashboard', user_game_path(@user_game), style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Recruit', "/user_games/#{@user_game.id}/recruit", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Explore Land',"/user_games/#{@user_game.id}/explore", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Build', "/user_games/#{@user_game.id}/build", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Research', "/user_games/#{@user_game.id}/research", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'View Nations', "/user_games/#{@user_game.id}/countries", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'View Reports', "/user_games/#{@user_game.id}/reports", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+  </tr>
+</ul>
+</table>
+</div>
+</h4>
 
-<h3> Game <%=@user_game.id%> </h3>
-
-Country: <%= @country.name %> <br>
+<div class="green-bg">
+<h3> Game <%=@user_game.game_id%> </h3>
+<center><h2><u><%= @country.name %></h2></u></center> <br>
+<div class="tan-bg">
+<center><%= button_to "Change name", edit_user_game_country_path(@user_game, @country), method: :get, params: {user_game_id: @user_game.id, game_id: @game.id} %></center><br>
+</div>
+<div class="tan-bg">
 Money: <%= number_to_human(@country.money) %> (<%= number_to_currency(@country.money) %>)<br>
 Gross Income: <%= number_to_human(@country.gross) %> (<%= number_to_currency(@country.gross) %>)<br>
 Expenses: <%= number_to_human(@country.expenses)%> (<%= number_to_currency(@country.expenses) %>) <br>
@@ -24,9 +49,10 @@ Score: <%= number_with_delimiter(@country.score) %><br>
 Research Points: <%= number_with_delimiter(@country.research_points) %><br>
 Research Points Per Turn: <%= number_with_delimiter((@country.labs * 1.01**@country.research_tech).round) %><br>
 Land: <%= number_with_delimiter(@country.land) %><br>
-
+</div>
 </ol>
-  <h4> Buildings: </h4>
+  <center><h4> Buildings: </h4></center>
+  <div class="tan-bg">
   <ol>
   <li>Houses: <%= number_with_delimiter(@country.houses) %></li>
   <li>infrastructure: <%= number_with_delimiter(@country.infrastructure) %></li>
@@ -36,9 +62,11 @@ Land: <%= number_with_delimiter(@country.land) %><br>
   <li>Hangars: <%= number_with_delimiter(@country.hangars) %></li>
   <li>Dockyards: <%= number_with_delimiter(@country.dockyards) %></li>
   <li>Labs: <%= number_with_delimiter(@country.labs) %></li>
+  </div>
 </ol>
 
-<h4> Military: </h4>
+<center><h4> Military: </h4></center>
+<div class="tan-bg">
 <ol>
   <li>Infantry:
     <ul>
@@ -75,6 +103,6 @@ Land: <%= number_with_delimiter(@country.land) %><br>
       <li>Heavy Bombers:  <%= number_with_delimiter(@country.armor_aircraft) %></li>
     </ul>
   </li>
+</div>
+</div>
 
-
-<%= button_to "Change name", edit_user_game_country_path(@user_game, @country), method: :get, params: {user_game_id: @user_game.id, game_id: @game.id} %>

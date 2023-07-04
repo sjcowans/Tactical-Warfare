@@ -1,3 +1,37 @@
+<h4><div id="banner">
+<table>
+<ul>
+  <tr>
+    <td>
+      <li><%= link_to 'Home', root_path, method: :get, style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Dashboard', user_game_path(@user_game), style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Recruit', "/user_games/#{@user_game.id}/recruit", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Explore Land',"/user_games/#{@user_game.id}/explore", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Build', "/user_games/#{@user_game.id}/build", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Research', "/user_games/#{@user_game.id}/research", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'View Nations', "/user_games/#{@user_game.id}/countries", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'View Reports', "/user_games/#{@user_game.id}/reports", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+  </tr>
+</ul>
+</table>
+</div>
+</h4>
+
 <h4>Change Name </h4>
 <%= form_with url: user_game_country_path(@user_game, @country), method: :patch, local: true do |form| %>
     <%= form.label :country_name %> <br>

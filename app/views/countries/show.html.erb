@@ -1,52 +1,155 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <ul class="nav navbar-nav">
-    <li><%= link_to 'Home', root_path, method: :get, style: 'pull-right' %></li>
-    <li><%= link_to 'Dashboard', user_game_path(@user_game), style: 'pull-right' %></li>
-    <li><%= link_to 'Recruit', "/user_games/#{@user_game.id}/recruit", style: 'pull-right' %></li>
-    <li><%= link_to 'Explore Land',"/user_games/#{@user_game.id}/explore", style: 'pull-right' %></li>
-    <li><%= link_to 'Build', "/user_games/#{@user_game.id}/build", style: 'pull-right' %></li>
-    <li><%= link_to 'Research', "/user_games/#{@user_game.id}/research", style: 'pull-right' %></li>
-    <li><%= link_to 'View Nations', "/user_games/#{@user_game.id}/countries", style: 'pull-right' %></li>
-    <li><%= link_to 'View Reports', "/user_games/#{@user_game.id}/reports", style: 'pull-right' %></li>
-  </ul>
-</nav>
+<h4><div id="banner">
+<table>
+<ul>
+  <tr>
+    <td>
+      <li><%= link_to 'Home', root_path, method: :get, style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Dashboard', user_game_path(@user_game), style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Recruit', "/user_games/#{@user_game.id}/recruit", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Explore Land',"/user_games/#{@user_game.id}/explore", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Build', "/user_games/#{@user_game.id}/build", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'Research', "/user_games/#{@user_game.id}/research", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'View Nations', "/user_games/#{@user_game.id}/countries", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+    <td>
+      <li><%= link_to 'View Reports', "/user_games/#{@user_game.id}/reports", style: 'color: rgb(250, 235, 215)' %></li>
+    </td>
+  </tr>
+</ul>
+</table>
+</div>
+</h4>
 
-
-<h4>Country: <%= @country.name %> </h4>
+<div class="green-bg">
+<u><center><h3>The Nation of <%= @country.name %></h3></u>
 <%= button_to "Attack", user_game_path(@user_game), method: :patch,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:attacker_id => @user_country.id, :defender_id => @country.id}%>
 Note: Attacks take 100 Turns<br>
+</center>
 
-<h4>Information:</h4>
-Population: <%= number_to_human(@country.population) %>  (<%= number_with_delimiter(@country.population)%>) <br>
-Score: <%= number_with_delimiter(@country.score) %><br>
-Land: <%= number_with_delimiter(@country.land) %><br>
+<center><h4>Information:</h4></center>
+<b>Population:</b> <%= number_to_human(@country.population) %>  (<%= number_with_delimiter(@country.population)%>) <br>
+<b>Score:</b> <%= number_with_delimiter(@country.score) %><br>
+<b>Land:</b> <%= number_with_delimiter(@country.land) %><br>
 
-<h4>Battle Stats:</h4>
-Infantry Kills: <%= number_to_human(@country.infantry_kills) %><br>
-Infantry Casualties: <%= number_to_human(@country.infantry_casualties) %><br>
-Armored Vehicle Kills <%= number_to_human(@country.basic_vehicle_kills) %> <br>
-Armored Vehicle Casualties <%= number_to_human(@country.basic_vehicle_casualties) %> <br>
-Amphibious Vehicle Kills <%= number_to_human(@country.sea_vehicle_kills) %> <br>
-Amphibious Vehicle Casualties <%= number_to_human(@country.sea_vehicle_casualties) %> <br>
-Anti Air Vehicle Kills <%= number_to_human(@country.air_vehicle_kills) %> <br>
-Anti Air Vehicle Casualties <%= number_to_human(@country.air_vehicle_casualties) %> <br>
-Tank  Kills <%= number_to_human(@country.armor_vehicle_kills) %> <br>
-Tank Casualties <%= number_to_human(@country.armor_vehicle_casualties) %> <br>
-Multi-Role Fighter Kills <%= number_to_human(@country.basic_aircraft_kills) %> <br>
-Multi-Role Fighter Casualties <%= number_to_human(@country.basic_aircraft_casualties) %> <br>
-Fighter Jet Kills <%= number_to_human(@country.air_aircraft_kills) %> <br>
-Fighter Jet Casualties <%= number_to_human(@country.air_aircraft_casualties) %> <br>
-Naval Bomber Kills <%= number_to_human(@country.sea_aircraft_kills) %> <br>
-Naval Bomber Casualties <%= number_to_human(@country.sea_aircraft_casualties) %> <br>
-Heavy Bomber Kills <%= number_to_human(@country.armor_aircraft_kills) %> <br>
-Heavy Bomber Casualties <%= number_to_human(@country.armor_aircraft_casualties) %> <br>
-Corvette Kills <%= number_to_human(@country.basic_ship_kills) %> <br>
-Corvette Casualties <%= number_to_human(@country.basic_ship_casualties) %> <br>
-Frigate Kills <%= number_to_human(@country.air_ship_kills) %> <br>
-Frigate Casualties <%= number_to_human(@country.air_ship_casualties) %> <br>
-Destroyer Kills <%= number_to_human(@country.sea_ship_kills) %> <br>
-Destroyer Casualties <%= number_to_human(@country.sea_ship_casualties) %> <br>
-Cruiser Kills <%= number_to_human(@country.armor_ship_kills) %> <br>
-Cruiser Casualties <%= number_to_human(@country.armor_ship_casualties) %>
-
-
+<center><h4>Battle Stats:</h4></center>
+<div class="tan-bg">
+<table>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Infantry Kills: <%= number_to_human(@country.infantry_kills) %></p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Infantry Casualties: <%= number_to_human(@country.infantry_casualties) %></p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Armored Vehicle Kills <%= number_to_human(@country.basic_vehicle_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Armored Vehicle Casualties <%= number_to_human(@country.basic_vehicle_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Amphibious Vehicle Kills <%= number_to_human(@country.sea_vehicle_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Amphibious Vehicle Casualties <%= number_to_human(@country.sea_vehicle_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Anti Air Vehicle Kills <%= number_to_human(@country.air_vehicle_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Anti Air Vehicle Casualties <%= number_to_human(@country.air_vehicle_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Tank  Kills <%= number_to_human(@country.armor_vehicle_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Tank Casualties <%= number_to_human(@country.armor_vehicle_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Multi-Role Fighter Kills <%= number_to_human(@country.basic_aircraft_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Multi-Role Fighter Casualties <%= number_to_human(@country.basic_aircraft_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Fighter Jet Kills <%= number_to_human(@country.air_aircraft_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Fighter Jet Casualties <%= number_to_human(@country.air_aircraft_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Naval Bomber Kills <%= number_to_human(@country.sea_aircraft_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Naval Bomber Casualties <%= number_to_human(@country.sea_aircraft_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Heavy Bomber Kills <%= number_to_human(@country.armor_aircraft_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Heavy Bomber Casualties <%= number_to_human(@country.armor_aircraft_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Corvette Kills <%= number_to_human(@country.basic_ship_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Corvette Casualties <%= number_to_human(@country.basic_ship_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Frigate Kills <%= number_to_human(@country.air_ship_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Frigate Casualties <%= number_to_human(@country.air_ship_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Destroyer Kills <%= number_to_human(@country.sea_ship_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Destroyer Casualties <%= number_to_human(@country.sea_ship_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Cruiser Kills <%= number_to_human(@country.armor_ship_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Cruiser Casualties <%= number_to_human(@country.armor_ship_casualties) %> </p>
+    </td>
+  </tr>
+</table>
+</div>
+</div>
