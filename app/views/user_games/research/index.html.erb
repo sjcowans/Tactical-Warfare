@@ -157,4 +157,4 @@
   <li>Current Research Cost: <%= 1000 + (@country.research_tech**3) %> research points</li>
 </details>
 
-<%= button_to "Level Up Research", user_game_country_path(@user_game, @country), method: :patch, params: {housing_tech: 1} %>
+<%= button_to "Level Up Housing", user_game_country_path(@user_game, @country), method: :patch, params: {housing_tech: 1} %>
