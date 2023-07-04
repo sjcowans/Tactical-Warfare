@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_02_161743) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_03_211640) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,6 +70,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_02_161743) do
     t.integer "houses", default: 0
     t.integer "population", default: 0
     t.bigint "user_id", null: false
+    t.integer "infantry_weapon_tech", default: 0
+    t.integer "infantry_armor_tech", default: 0
+    t.integer "armored_weapon_tech", default: 0
+    t.integer "armored_armor_tech", default: 0
+    t.integer "aircraft_weapon_tech", default: 0
+    t.integer "aircraft_armor_tech", default: 0
+    t.integer "ship_weapon_tech", default: 0
+    t.integer "ship_armor_tech", default: 0
+    t.integer "efficiency_tech", default: 0
+    t.integer "building_upkeep_tech", default: 0
+    t.integer "unit_upkeep_tech", default: 0
+    t.integer "exploration_tech", default: 0
+    t.integer "research_tech", default: 0
+    t.integer "housing_tech", default: 0
     t.index ["game_id"], name: "index_countries_on_game_id"
     t.index ["user_id"], name: "index_countries_on_user_id"
   end

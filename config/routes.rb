@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get '/user_games/:id/recruit', to: 'user_games/recruit#index'
   get '/user_games/:id/build', to: 'user_games/build#index'
   get '/user_games/:id/explore', to: 'user_games/explore#index'
+  get '/user_games/:id/research', to: 'user_games/research#index'
   get '/user_games/:id/countries', to: 'user_games/countries#index'
   get '/user_games/:id/countries/:id', to: 'user_games/countries#show'
   get '/user_games/:id/reports', to: 'user_games/battle_reports#index'

@@ -5,12 +5,14 @@
     <li><%= link_to 'Recruit', "/user_games/#{@user_game.id}/recruit", style: 'pull-right' %></li>
     <li><%= link_to 'Explore Land',"/user_games/#{@user_game.id}/explore", style: 'pull-right' %></li>
     <li><%= link_to 'Build', "/user_games/#{@user_game.id}/build", style: 'pull-right' %></li>
+    <li><%= link_to 'Research', "/user_games/#{@user_game.id}/research", style: 'pull-right' %></li>
     <li><%= link_to 'View Nations', "/user_games/#{@user_game.id}/countries", style: 'pull-right' %></li>
     <li><%= link_to 'View Reports', "/user_games/#{@user_game.id}/reports", style: 'pull-right' %></li>
   </ul>
 </nav>
 Turns: <%=@country.turns%><br>
 
+Gain 5-20 land per turn<br>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
     <%= form.label :turns_to_explore_land %>
     <%= form.number_field :explore_land, required: true %>

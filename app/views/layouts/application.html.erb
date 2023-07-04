@@ -9,9 +9,15 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
        <% flash.each do |type, msg| %>
-        <div id=flash_message>
-          <p style="color:red"><b><%= msg %></b></p>
-        </div>
+        <% if type == "success" %>
+         <div id=flash_message>
+            <p style="color:green"><b><%= msg %></b></p>
+          </div>
+        <% else %>
+          <div id=flash_message>
+            <p style="color:red"><b><%= msg %></b></p>
+          </div>
+        <% end %>
       <% end %>
   </head>
 

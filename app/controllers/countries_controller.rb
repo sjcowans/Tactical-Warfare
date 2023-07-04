@@ -28,9 +28,19 @@ class CountriesController < ApplicationController
     @country = Country.find(params[:id])
     if params[:name]
       @country.change_name(params[:name])
+      redirect_to user_game_path(@user_game)
+      flash[:alert] = "Error: #{error_message(@country.errors)}"
     end
-    redirect_to user_game_path(@user_game)
-    flash[:alert] = "Error: #{error_message(@country.errors)}"
+    if params[:infantry_weapon_tech] || params[:infantry_armor_tech] || params[:armored_weapon_tech] || params[:armored_armor_tech] || params[:aircraft_weapon_tech] || params[:aircraft_armor_tech] || params[:ship_weapon_tech] || params[:ship_armor_tech] || params[:efficiency_tech] || params[:building_upkeep_tech] || params[:unit_upkeep_tech] || params[:exploration_tech] || params[:research_tech] || params[:housing_tech]
+      if @country.research_points_check(params[:infantry_weapon_tech].to_i, params[:infantry_armor_tech].to_i, params[:armored_weapon_tech].to_i, params[:armored_armor_tech].to_i, params[:aircraft_weapon_tech].to_i, params[:aircraft_armor_tech].to_i, params[:ship_weapon_tech].to_i, params[:ship_armor_tech].to_i, params[:efficiency_tech].to_i, params[:building_upkeep_tech].to_i, params[:unit_upkeep_tech].to_i, params[:exploration_tech].to_i, params[:research_tech].to_i, params[:housing_tech].to_i)
+        redirect_to "/user_games/#{@user_game.id}/research"
+        flash[:success] = "Technology Researched"
+      else
+        redirect_to user_game_path(@user_game)
+        flash[:alert] = "Not Enough Research Points"
+      end
+    end
+  
   end
 
   private
