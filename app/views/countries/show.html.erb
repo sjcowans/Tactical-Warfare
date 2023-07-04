@@ -14,7 +14,7 @@
     </td>
     <td>●</td>
     <td>
-      <%= link_to 'Explore&nbsp;Land',"/user_games/#{@user_game.id}/explore", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'Explore&nbsp;Land'.html_safe,"/user_games/#{@user_game.id}/explore", style: 'color: rgb(250, 235, 215)' %>
     </td>
     <td>●</td>
     <td>
@@ -26,11 +26,11 @@
     </td>
     <td>●</td>
     <td>
-      <%= link_to 'View&nbsp;Nations', "/user_games/#{@user_game.id}/countries", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'View&nbsp;Nations'.html_safe, "/user_games/#{@user_game.id}/countries", style: 'color: rgb(250, 235, 215)' %>
     </td>
     <td>●</td>
     <td>
-      <%= link_to 'View&nbsp;Reports', "/user_games/#{@user_game.id}/reports", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'View&nbsp;Reports'.html_safe, "/user_games/#{@user_game.id}/reports", style: 'color: rgb(250, 235, 215)' %>
     </td>
   </tr>
 </table>
@@ -39,14 +39,19 @@
 
 <div class="green-bg">
 <u><center><h3>The Nation of <%= @country.name %></h3></u>
-<%= button_to "Attack", user_game_path(@user_game), method: :patch,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:attacker_id => @user_country.id, :defender_id => @country.id}%>
+<div class="tan-bg">
+<%= button_to "Attack", user_game_path(@user_game), method: :patch,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:attacker_id => @user_country.id, :defender_id => @country.id}, class: "button"%>
+
 Note: Attacks take 100 Turns<br>
+</div>
 </center>
 
 <center><h4>Information:</h4></center>
+<div class="tan-bg">
 <b>Population:</b> <%= number_to_human(@country.population) %>  (<%= number_with_delimiter(@country.population)%>) <br>
 <b>Score:</b> <%= number_with_delimiter(@country.score) %><br>
 <b>Land:</b> <%= number_with_delimiter(@country.land) %><br>
+</div>
 
 <center><h4>Battle Stats:</h4></center>
 <div class="tan-bg">

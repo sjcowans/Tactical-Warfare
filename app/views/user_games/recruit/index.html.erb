@@ -14,7 +14,7 @@
     </td>
     <td>●</td>
     <td>
-      <%= link_to 'Explore&nbsp;Land',"/user_games/#{@user_game.id}/explore", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'Explore&nbsp;Land'.html_safe,"/user_games/#{@user_game.id}/explore", style: 'color: rgb(250, 235, 215)' %>
     </td>
     <td>●</td>
     <td>
@@ -26,11 +26,11 @@
     </td>
     <td>●</td>
     <td>
-      <%= link_to 'View&nbsp;Nations', "/user_games/#{@user_game.id}/countries", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'View&nbsp;Nations'.html_safe, "/user_games/#{@user_game.id}/countries", style: 'color: rgb(250, 235, 215)' %>
     </td>
     <td>●</td>
     <td>
-      <%= link_to 'View&nbsp;Reports', "/user_games/#{@user_game.id}/reports", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'View&nbsp;Reports'.html_safe, "/user_games/#{@user_game.id}/reports", style: 'color: rgb(250, 235, 215)' %>
     </td>
   </tr>
 </table>
@@ -120,7 +120,7 @@
 
     <%= form.label :turns_to_recruit_anti_armor_infantry %> <br>
     <%= form.number_field :armor_infantry %> <br>
-  <%= form.submit "Recruit" %>
+  <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
 
 <h4>Recruit Armor: </h4>
@@ -193,7 +193,7 @@
 
     <%= form.label :turns_to_recruit_tanks %> <br>
     <%= form.number_field :armor_armored %> <br>
-  <%= form.submit "Recruit" %>
+  <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
 
 <h4>Recruit Aircraft: </h4>
@@ -265,7 +265,7 @@
 
     <%= form.label :turns_to_recruit_heavy_bombers %><br>
     <%= form.number_field :armor_aircraft %> <br>
-  <%= form.submit "Recruit" %>
+  <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
 
 <h4>Recruit Ships: </h4>
@@ -338,5 +338,5 @@
 
     <%= form.label :turns_to_recruit_cruisers %> <br>
     <%= form.number_field :armor_ships %> <br>
-  <%= form.submit "Recruit" %>
+  <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
