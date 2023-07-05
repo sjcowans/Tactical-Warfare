@@ -115,6 +115,10 @@ class UserGamesController < ApplicationController
         flash[:alert] = 'Not Enough Turns'
       end
     end
+    if params[:basic_infantry_decomission] || params[:air_infantry_decomission] || params[:sea_infantry_decomission] || params[:armor_infantry_decomission] || params[:basic_armored_decomission] || params[:air_armored_decomission] || params[:sea_armored_decomission] || params[:armor_armored_decomission] || params[:basic_aircraft_decomission] || params[:air_aircraft_decomission] || params[:sea_aircraft_decomission] || params[:armor_aircraft_decomission] || params[:basic_ship_decomission] || params[:air_ship_decomission] || params[:sea_ship_decomission] || params[:armor_ship_decomission]
+      @country.decomission(params[:basic_infantry_decomission], params[:air_infantry_decomission], params[:sea_infantry_decomission], params[:armor_infantry_decomission], params[:basic_armored_decomission], params[:air_armored_decomission], params[:sea_armored_decomission], params[:armor_armored_decomission], params[:basic_aircraft_decomission], params[:air_aircraft_decomission], params[:sea_aircraft_decomission], params[:armor_aircraft_decomission], params[:basic_ship_decomission], params[:air_ship_decomission], params[:sea_ship_decomission], params[:armor_ship_decomission])
+      redirect_to user_game_path(@user_game)
+    end
     unless params[:armored].nil? || params[:air_armored].nil? || params[:sea_armored].nil? || params[:armor_armored].nil?
       if @country.turns >= (params[:armored].to_i + params[:air_armored].to_i + params[:sea_armored].to_i + params[:armor_armored].to_i)
         if @country.armored_recruit_cost(params[:armored].to_i, params[:air_armored].to_i,

@@ -84,7 +84,7 @@
   <li>Population: 1 </li>
 </details>
 
-    <%= form.label :turns_to_recruit_anti_air_infantry %> <br>
+    <%= form.label :turns_to_recruit_air_infantry %> <br>
     <%= form.number_field :air_infantry %> <br> 
 
 <details>
@@ -118,7 +118,7 @@
   <li>Population: 1 </li>
 </details>
 
-    <%= form.label :turns_to_recruit_anti_armor_infantry %> <br>
+    <%= form.label :turns_to_recruit_armor_infantry %> <br>
     <%= form.number_field :armor_infantry %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
@@ -157,7 +157,7 @@
   <li>Population: 6 </li>
 </details>
 
-    <%= form.label :turns_to_recruit_anti_air_vehicles %> <br>
+    <%= form.label :turns_to_recruit_air_vehicles %> <br>
     <%= form.number_field :air_armored %> <br>
 
 <details>
@@ -340,3 +340,43 @@
     <%= form.number_field :armor_ships %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
+
+<center><details>
+ <summary><div class="green-bg"><b>Decomission</b></div></summary>
+  <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
+      <%= form.label :decomission_infantry %>
+      <%= form.number_field :basic_infantry_decomission %> You have: <%=@country.basic_infantry%><br>
+      <%= form.label :decomission_anti_air_infantry %>
+      <%= form.number_field :air_infantry_decomission%> You have: <%=@country.air_infantry%><br>
+      <%= form.label :decomission_marines %>
+      <%= form.number_field :sea_infantry_decomission %> You have: <%=@country.sea_infantry%><br>
+      <%= form.label :decomission_armor_infantry %>
+      <%= form.number_field :armor_infantry_decomission %> You have: <%=@country.armor_infantry%><br>
+      <%= form.label :decomission_armored_vehicles%>
+      <%= form.number_field :basic_armored_decomission %> You have: <%=@country.basic_armored%><br>
+      <%= form.label :decomission_anti_air_vehicles %>
+      <%= form.number_field :air_armored_decomission%> You have: <%=@country.air_armored%><br>
+      <%= form.label :decomission_amphibious_vehicles %>
+      <%= form.number_field :sea_armored_decomission %> You have: <%=@country.sea_armored%><br>
+      <%= form.label :decomission_tanks %>
+      <%= form.number_field :armor_armored_decomission %> You have: <%=@country.armor_armored%><br>
+      <%= form.label :decomission_multi_role_fighters %>
+      <%= form.number_field :basic_aircraft_decomission %> You have: <%=@country.basic_aircraft%><br>
+      <%= form.label :decomission_fighter_jets %>
+      <%= form.number_field :air_aircraft_decomission%> You have: <%=@country.air_aircraft%><br>
+      <%= form.label :decomission_naval_bombers %>
+      <%= form.number_field :sea_aircraft_decomission %> You have: <%=@country.sea_aircraft%><br>
+      <%= form.label :decomission_heavy_bombers %>
+      <%= form.number_field :armor_aircraft_decomission %> You have: <%=@country.armor_aircraft%><br>
+      <%= form.label :decomission_corvettes %>
+      <%= form.number_field :basic_ship_decomission %> You have: <%=@country.basic_ship%><br>
+      <%= form.label :decomission_frigates %>
+      <%= form.number_field :air_ship_decomission%> You have: <%=@country.air_ship%><br>
+      <%= form.label :decomission_destroyers %>
+      <%= form.number_field :sea_ship_decomission %> You have: <%=@country.sea_ship%><br>
+      <%= form.label :decomission_cruisers %>
+      <%= form.number_field :armor_ship_decomission %> You have: <%=@country.armor_ship%><br>
+    <%= form.submit "Decomission", data: { turbo_confirm: 'Are you sure?' }, class: "button" %>
+  <% end %><br>
+</details>
+</center>

@@ -969,4 +969,40 @@ class Country < ApplicationRecord
       false
     end
   end
+  
+  def decomission(basic_infantry_decomission, air_infantry_decomission, sea_infantry_decomission, armor_infantry_decomission, basic_armored_decomission, air_armored_decomission, sea_armored_decomission, armor_armored_decomission, basic_aircraft_decomission, air_aircraft_decomission, sea_aircraft_decomission, armor_aircraft_decomission, basic_ship_decomission, air_ship_decomission, sea_ship_decomission, armor_ship_decomission)
+    self.basic_infantry -= basic_infantry_decomission.to_i
+    self.basic_infantry = 0 if self.basic_infantry < 0
+    self.air_infantry -= air_infantry_decomission.to_i
+    self.air_infantry = 0 if self.air_infantry < 0
+    self.sea_infantry -= sea_infantry_decomission.to_i
+    self.sea_infantry = 0 if self.sea_infantry < 0
+    self.armor_infantry -= armor_infantry_decomission.to_i
+    self.armor_infantry = 0 if self.armor_infantry < 0
+    self.basic_armored -= basic_armored_decomission.to_i
+    self.basic_armored = 0 if self.basic_armored < 0
+    self.air_armored -= air_armored_decomission.to_i
+    self.air_armored = 0 if self.air_armored < 0
+    self.sea_armored -= sea_armored_decomission.to_i
+    self.sea_armored = 0 if self.sea_armored < 0
+    self.armor_armored -= armor_armored_decomission.to_i
+    self.armor_armored = 0 if self.armor_armored < 0
+    self.basic_aircraft -= basic_aircraft_decomission.to_i
+    self.basic_aircraft = 0 if self.basic_aircraft < 0
+    self.air_aircraft -= air_aircraft_decomission.to_i
+    self.air_aircraft = 0 if self.air_aircraft < 0
+    self.sea_aircraft -= sea_aircraft_decomission.to_i
+    self.sea_aircraft = 0 if self.sea_aircraft < 0
+    self.armor_aircraft -= armor_aircraft_decomission.to_i
+    self.armor_aircraft = 0 if self.armor_aircraft < 0
+    self.basic_ship -= basic_ship_decomission.to_i
+    self.basic_ship = 0 if self.basic_ship < 0
+    self.air_ship -= air_ship_decomission.to_i
+    self.air_ship = 0 if self.air_ship < 0
+    self.sea_ship -= sea_ship_decomission.to_i
+    self.sea_ship = 0 if self.sea_ship < 0
+    self.armor_ship -= armor_ship_decomission.to_i
+    self.armor_ship = 0 if self.armor_ship < 0
+    self.save
+  end
 end
