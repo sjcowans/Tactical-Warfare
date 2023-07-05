@@ -221,20 +221,20 @@ class Country < ApplicationRecord
   end
 
   def recruit_infantry(basic_infantry, air_infantry, sea_infantry, armor_infantry)
-    self.basic_infantry += barracks * 150 * 0.001 * basic_infantry
-    self.air_infantry += barracks * 150 * 0.001 * air_infantry
-    self.sea_infantry += barracks * 150 * 0.001 * sea_infantry
-    self.armor_infantry += barracks * 150 * 0.001 * armor_infantry
+    self.basic_infantry += (barracks * 150 * 0.001 * basic_infantry)
+    self.air_infantry += (barracks * 150 * 0.001 * air_infantry)
+    self.sea_infantry += (barracks * 150 * 0.001 * sea_infantry)
+    self.armor_infantry += (barracks * 150 * 0.001 * armor_infantry)
     take_turns(basic_infantry + air_infantry + sea_infantry + armor_infantry)
     self.money -= infantry_recruit_cost(basic_infantry, air_infantry, sea_infantry, armor_infantry)
     save
   end
 
   def recruit_armored(basic_armored, air_armored, sea_armored, armor_armored)
-    self.basic_armored += basic_armored + (armory * 50 * 0.001 * basic_armored)
-    self.air_armored += air_armored + (armory * 50 * 0.001 * air_armored)
-    self.sea_armored += sea_armored + (armory * 50 * 0.001 * sea_armored)
-    self.armor_armored += armor_armored + (armory * 25 * 0.001 * armor_armored)
+    self.basic_armored += (armory * 50 * 0.001 * basic_armored)
+    self.air_armored += (armory * 50 * 0.001 * air_armored)
+    self.sea_armored += (armory * 50 * 0.001 * sea_armored)
+    self.armor_armored += (armory * 25 * 0.001 * armor_armored)
     take_turns(basic_armored + air_armored + sea_armored + armor_armored)
     self.money -= armored_recruit_cost(basic_armored, air_armored, sea_armored, armor_armored)
     save
@@ -242,9 +242,9 @@ class Country < ApplicationRecord
 
   def recruit_ships(basic_ship, air_ship, sea_ship, armor_ship)
     self.basic_ship += (dockyards * 10 * 0.001 * basic_ship)
-    self.air_ship += air_ship + (dockyards * 5 * 0.001 * air_ship)
-    self.sea_ship += sea_ship + (dockyards * 3 * 0.001 * sea_ship)
-    self.armor_ship += armor_ship + (dockyards * 2 * 0.001 * armor_ship)
+    self.air_ship += (dockyards * 5 * 0.001 * air_ship)
+    self.sea_ship += (dockyards * 3 * 0.001 * sea_ship)
+    self.armor_ship += (dockyards * 2 * 0.001 * armor_ship)
     take_turns(basic_ship + air_ship + sea_ship + armor_ship)
     self.money -= ships_recruit_cost(basic_ship, air_ship, sea_ship, armor_ship)
     save
