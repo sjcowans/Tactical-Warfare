@@ -673,9 +673,9 @@ class Country < ApplicationRecord
     if survivors < 0
       survivors = 0
     end
-    if (attacker_armor_to_armor_damage + attacker_armor_to_infantry_damage + attacker_infantry_damage)/(defender_armor_health + defender_infantry_health + 1) > 2.5
+    if (attacker_armor_damage + attacker_armor_to_infantry_damage + attacker_infantry_damage)/(defender_armor_health + defender_infantry_health + 1) > 2.5
       defender_air_health = defender.air_health
-      damage_ratio = (attacker_armor_to_armor_damage + attacker_infantry_damage) / defender_air_health.to_f
+      damage_ratio = (attacker_armor_damage + attacker_infantry_damage) / defender_air_health.to_f
       air_survivors = 1 - (rand(0.025..0.05) * damage_ratio)
       if air_survivors < 0
         air_survivors = 0
@@ -718,7 +718,7 @@ class Country < ApplicationRecord
     attacker.basic_infantry = (attacker.basic_infantry * survivors).round
     attacker.armor_infantry = (attacker.armor_infantry * survivors).round
     attacker.save
-    ground_battle_ratio = (attacker_armor_to_armor_damage + attacker_armor_to_infantry_damage + attacker_infantry_damage) / (defender_armor_to_armor_damage + defender_armor_to_infantry_damage + defender_infantry_damage).to_f
+    ground_battle_ratio = (attacker_armor_damage + attacker_armor_to_infantry_damage + attacker_infantry_damage) / (defender_armor_damage + defender_armor_to_infantry_damage + defender_infantry_damage).to_f
     if ground_battle_ratio >= 1
       remaining_territory = 1 - (rand(0.025..0.05) * ground_battle_ratio)
       remaining_money = 1 - (0.1 * ground_battle_ratio)
