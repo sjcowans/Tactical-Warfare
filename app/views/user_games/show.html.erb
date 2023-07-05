@@ -1,36 +1,29 @@
 <h4><div id="banner">
-<table>
+<table class='full-table'>
   <tr>
     <td>
-      <%= link_to 'Home', root_path, method: :get, style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'Home', root_path, method: :get, class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
-      <%= link_to 'Dashboard', user_game_path(@user_game), style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'Dashboard', user_game_path(@user_game), class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
-      <%= link_to 'Recruit', "/user_games/#{@user_game.id}/recruit", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'Recruit', "/user_games/#{@user_game.id}/recruit", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
-      <%= link_to 'Explore&nbsp;Land'.html_safe,"/user_games/#{@user_game.id}/explore", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'Explore&nbsp;Land'.html_safe,"/user_games/#{@user_game.id}/explore", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
-      <%= link_to 'Build', "/user_games/#{@user_game.id}/build", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'Build', "/user_games/#{@user_game.id}/build", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
-      <%= link_to 'Research', "/user_games/#{@user_game.id}/research", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'Research', "/user_games/#{@user_game.id}/research", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
-      <%= link_to 'View&nbsp;Nations'.html_safe, "/user_games/#{@user_game.id}/countries", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'View&nbsp;Nations'.html_safe, "/user_games/#{@user_game.id}/countries", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
-      <%= link_to 'View&nbsp;Reports'.html_safe, "/user_games/#{@user_game.id}/reports", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'View&nbsp;Reports'.html_safe, "/user_games/#{@user_game.id}/reports", class: 'banner-links' %>
     </td>
   </tr>
 </table>
@@ -38,7 +31,7 @@
 </h4>
 
 <div class="green-bg">
-<h3> Game <%=@user_game.game_id%> </h3>
+<h3> Game <%=@game.id%> </h3> Game Date: <%=@game.game_date%><br>
 <center><h2><u><%= @country.name %></h2></u></center> <br>
 <div class="tan-bg">
 <center><%= button_to "Change name", edit_user_game_country_path(@user_game, @country), method: :get, params: {user_game_id: @user_game.id, game_id: @game.id}, class: "button" %></center><br>

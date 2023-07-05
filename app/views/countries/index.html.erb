@@ -1,34 +1,27 @@
 <h4><div id="banner">
-<table>
+<table class='full-table'>
   <tr>
     <td>
       <%= link_to 'Home', root_path, method: :get, class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
       <%= link_to 'Dashboard', user_game_path(@user_game), class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
       <%= link_to 'Recruit', "/user_games/#{@user_game.id}/recruit", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
       <%= link_to 'Explore&nbsp;Land'.html_safe,"/user_games/#{@user_game.id}/explore", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
       <%= link_to 'Build', "/user_games/#{@user_game.id}/build", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
       <%= link_to 'Research', "/user_games/#{@user_game.id}/research", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
       <%= link_to 'View&nbsp;Nations'.html_safe, "/user_games/#{@user_game.id}/countries", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
       <%= link_to 'View&nbsp;Reports'.html_safe, "/user_games/#{@user_game.id}/reports", class: 'banner-links' %>
     </td>

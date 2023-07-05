@@ -1005,4 +1005,15 @@ class Country < ApplicationRecord
     self.armor_ship = 0 if self.armor_ship < 0
     self.save
   end
+
+  def created_date
+    hours = (Time.now - self.created_at) * (24 * 60)
+    time = Time.now + hours
+    time.strftime("%d-%m-%Y")
+  end
+
+  def age
+    hours = (Time.now - self.created_at)
+    (hours/(365 * 60)).round(2)
+  end
 end

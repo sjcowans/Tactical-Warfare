@@ -1,36 +1,29 @@
 <h4><div id="banner">
-<table>
+<table class='full-table'>
   <tr>
     <td>
-      <%= link_to 'Home', root_path, method: :get, style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'Home', root_path, method: :get, class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
-      <%= link_to 'Dashboard', user_game_path(@user_game), style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'Dashboard', user_game_path(@user_game), class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
-      <%= link_to 'Recruit', "/user_games/#{@user_game.id}/recruit", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'Recruit', "/user_games/#{@user_game.id}/recruit", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
-      <%= link_to 'Explore&nbsp;Land'.html_safe,"/user_games/#{@user_game.id}/explore", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'Explore&nbsp;Land'.html_safe,"/user_games/#{@user_game.id}/explore", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
-      <%= link_to 'Build', "/user_games/#{@user_game.id}/build", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'Build', "/user_games/#{@user_game.id}/build", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
-      <%= link_to 'Research', "/user_games/#{@user_game.id}/research", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'Research', "/user_games/#{@user_game.id}/research", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
-      <%= link_to 'View&nbsp;Nations'.html_safe, "/user_games/#{@user_game.id}/countries", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'View&nbsp;Nations'.html_safe, "/user_games/#{@user_game.id}/countries", class: 'banner-links' %>
     </td>
-    <td>●</td>
     <td>
-      <%= link_to 'View&nbsp;Reports'.html_safe, "/user_games/#{@user_game.id}/reports", style: 'color: rgb(250, 235, 215)' %>
+      <%= link_to 'View&nbsp;Reports'.html_safe, "/user_games/#{@user_game.id}/reports", class: 'banner-links' %>
     </td>
   </tr>
 </table>
@@ -39,6 +32,7 @@
 
 <div class="green-bg">
 <u><center><h3>The Nation of <%= @country.name %></h3></u>
+<p><u>Game Date: <%= @game.game_date%></u><p>
 <div class="tan-bg">
 <%= button_to "Attack", user_game_path(@user_game), method: :patch,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:attacker_id => @user_country.id, :defender_id => @country.id}, class: "button"%>
 
@@ -48,6 +42,8 @@ Note: Attacks take 100 Turns<br>
 
 <center><h4>Information:</h4></center>
 <div class="tan-bg">
+<b>Foudned:</b> <%=@country.created_date%><br>
+<b>Country Age:</b> <%=@country.age%> years<br>
 <b>Population:</b> <%= number_to_human(@country.population) %>  (<%= number_with_delimiter(@country.population)%>) <br>
 <b>Score:</b> <%= number_with_delimiter(@country.score) %><br>
 <b>Land:</b> <%= number_with_delimiter(@country.land) %><br>
