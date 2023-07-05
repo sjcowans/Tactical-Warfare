@@ -3,7 +3,7 @@
 <h3> Active Games: </h3>
 <p>
 <% @user_games.each do |game| %>
-<%= link_to "Game: #{game.id}", user_game_path(current_user, game)%><br>
+<%= link_to "Game: #{game.game_id}", user_game_path(current_user, game)%><br>
 <%= button_to "Delete Game: #{game.id}", user_game_path(game), method: :delete,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:user_game_id => game.id}, class: "button"%>
 <% end %>
 </p>
