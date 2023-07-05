@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_03_211640) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_05_230037) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -39,7 +39,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_03_211640) do
     t.integer "score", default: 0
     t.integer "land", default: 500
     t.bigint "money", default: 1000000
-    t.integer "turns", default: 250
+    t.integer "turns", default: 1500
     t.integer "research_points", default: 0
     t.integer "armory", default: 0
     t.integer "labs", default: 0
