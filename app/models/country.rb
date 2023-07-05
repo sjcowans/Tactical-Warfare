@@ -34,13 +34,21 @@ class Country < ApplicationRecord
   def demolish(infra, shops, barracks, armories, hangars, dockyards, labs, houses)
     bonus = 10 * ((infrastructure + 1000) / 1000).round(0)
     self.infrastructure = infrastructure - (infra.to_i * bonus)
+    self.infrastructure = 0 if self.infrastructure < 0
     self.shops = self.shops - (shops.to_i * bonus)
+    self.shops = 0 if self.shops < 0
     self.barracks = self.barracks - (barracks.to_i * bonus)
+    self.barracks = 0 if self.barracks < 0
     self.armory = armory - (armories.to_i * bonus)
+    self.armory = 0 if self.armory < 0
     self.hangars = self.hangars - (hangars.to_i * bonus)
+    self.hangars = 0 if self.hangars < 0
     self.dockyards = self.dockyards - (dockyards.to_i * bonus)
+    self.dockyards = 0 if self.dockyards < 0
     self.labs = self.labs - (labs.to_i * bonus)
+    self.labs = 0 if self.labs < 0
     self.houses = self.houses - (houses.to_i * bonus)
+    self.houses = 0 if self.houses < 0
     total_turns = (infra.to_i + shops.to_i + barracks.to_i + armories.to_i + hangars.to_i + dockyards.to_i + labs.to_i + houses.to_i)/10
     total_turns = 1 if total_turns < 1
     take_turns(total_turns)

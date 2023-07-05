@@ -151,5 +151,5 @@
     <%= form.number_field :demolish_dockyards %><br>
     <%= form.label :turns_to_demolish_labs %>
     <%= form.number_field :demolish_labs %><br>
-  <%= form.submit "Demo", class: "button" %>
+  <%= form.submit "Demo", data: { turbo_confirm: 'Are you sure?' }, class: "button" %>
 <% end %><br>
