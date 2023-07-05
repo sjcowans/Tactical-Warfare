@@ -4,10 +4,10 @@
 <p>
 <% @user_games.each do |game| %>
 <%= link_to "Game: #{game.id}", user_game_path(current_user, game)%><br>
-<%= button_to "Delete Game: #{game.id}", user_game_path(game), method: :delete,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:user_game_id => game.id}%>
+<%= button_to "Delete Game: #{game.id}", user_game_path(game), method: :delete,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:user_game_id => game.id}, class: "button"%>
 <% end %>
 </p>
 
 
 <%= link_to "Join a Game", games_path %><br>
-<%= button_to 'Sign Out', "/logout", method: :delete %>
+<%= button_to 'Sign Out', "/logout", method: :delete, class: "button" %>
