@@ -289,7 +289,7 @@ class Country < ApplicationRecord
     (armory * 500) +
     (hangars * 1000) +
     (dockyards * 2500) +
-    (labs * 10_000))
+    (labs + (10_000 + (labs**2.5/2.5))))
   end
 
   def net
@@ -941,20 +941,20 @@ class Country < ApplicationRecord
 
   def research_points_check(infantry_weapon, infantry_armor, armored_weapon, armored_armor, aircraft_weapon, aircraft_armor, ship_weapon, ship_armor, efficiency, building_upkeep, unit_upkeep, exploration, research, housing)
     points = (
-      1000 + (infantry_weapon * self.infantry_weapon_tech**3) +
-      (infantry_armor * self.infantry_armor_tech**3) +
-      (armored_weapon * self.armored_weapon_tech**3) +
-      (armored_armor * self.armored_armor_tech**3) + 
-      (aircraft_weapon * self.aircraft_weapon_tech**3) + 
-      (aircraft_armor * self.aircraft_armor_tech**3) + 
-      (ship_weapon * self.ship_weapon_tech**3) + 
-      (ship_armor * self.ship_armor_tech**3) + 
-      (efficiency * self.efficiency_tech**3) + 
-      (building_upkeep * self.building_upkeep_tech**3) + 
-      (unit_upkeep * self.unit_upkeep_tech**3) + 
-      (exploration * self.exploration_tech**3) + 
-      (research * self.research_tech**3) + 
-      (housing * self.housing_tech**3))
+      1000 + (infantry_weapon * self.infantry_weapon_tech**4 / 4) +
+      (infantry_armor * self.infantry_armor_tech**4 / 4) +
+      (armored_weapon * self.armored_weapon_tech**4 / 4) +
+      (armored_armor * self.armored_armor_tech**4 / 4) + 
+      (aircraft_weapon * self.aircraft_weapon_tech**4 / 4) + 
+      (aircraft_armor * self.aircraft_armor_tech**4 / 4) + 
+      (ship_weapon * self.ship_weapon_tech**4 / 4) + 
+      (ship_armor * self.ship_armor_tech**4 / 4) + 
+      (efficiency * self.efficiency_tech**4 / 4) + 
+      (building_upkeep * self.building_upkeep_tech**4 / 4) + 
+      (unit_upkeep * self.unit_upkeep_tech**4 / 4) + 
+      (exploration * self.exploration_tech**4 / 4) + 
+      (research * self.research_tech**4 / 4) + 
+      (housing * self.housing_tech**4 / 4))
     if points <= self.research_points
       self.research_points -= points
       self.infantry_weapon_tech += infantry_weapon  

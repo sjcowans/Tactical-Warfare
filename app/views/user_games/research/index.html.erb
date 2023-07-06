@@ -36,7 +36,7 @@
 
   <li>Increases all infantry weapon damage 1% per level</li>
   <li>Research cost will become exponentially more expensive</li>
-  <li>Current Research Cost: <%= 1000 + (@country.infantry_weapon_tech**3) %> research points</li>
+  <li>Current Research Cost: <%= 1000 + (@country.infantry_weapon_tech**4 / 4) %> research points</li>
 </details>
 
 <%= button_to "Level Up Infantry Weaponry", user_game_country_path(@user_game, @country), method: :patch, params: {infantry_weapon_tech: 1}, class: "button" %>
@@ -47,7 +47,7 @@
 
   <li>Increases all infantry health 1% per level</li>
   <li>Research cost will become exponentially more expensive</li>
-  <li>Current Research Cost: <%= 1000 + (@country.infantry_armor_tech**3) %> research points</li>
+  <li>Current Research Cost: <%= 1000 + (@country.infantry_armor_tech**4 / 4) %> research points</li>
 </details>
 
 <%= button_to "Level Up Infantry Armor", user_game_country_path(@user_game, @country), method: :patch, params: {infantry_armor_tech: 1}, class: "button" %>
@@ -58,7 +58,7 @@
 
   <li>Increases all armored weapon damage 1% per level</li>
   <li>Research cost will become exponentially more expensive</li>
-  <li>Current Research Cost: <%= 1000 + (@country.armored_weapon_tech**3) %> research points</li>
+  <li>Current Research Cost: <%= 1000 + (@country.armored_weapon_tech**4 / 4) %> research points</li>
 </details>
 
 <%= button_to "Level Up Armored Weaponry", user_game_country_path(@user_game, @country), method: :patch, params: {armored_weapon_tech: 1}, class: "button" %>
@@ -69,7 +69,7 @@
 
   <li>Increases all armored health 1% per level</li>
   <li>Research cost will become exponentially more expensive</li>
-  <li>Current Research Cost: <%= 1000 + (@country.armored_armor_tech**3) %> research points</li>
+  <li>Current Research Cost: <%= 1000 + (@country.armored_armor_tech**4 / 4) %> research points</li>
 </details>
 
 <%= button_to "Level Up Armored Armor", user_game_country_path(@user_game, @country), method: :patch, params: {armored_armor_tech: 1}, class: "button" %>
@@ -79,7 +79,7 @@
 
   <li>Increases all aircraft weapon damage 1% per level</li>
   <li>Research cost will become exponentially more expensive</li>
-  <li>Current Research Cost: <%= 1000 + (@country.aircraft_weapon_tech**3) %> research points</li>
+  <li>Current Research Cost: <%= 1000 + (@country.aircraft_weapon_tech**4 / 4) %> research points</li>
 </details>
 
 <%= button_to "Level Up Aircraft Weaponry", user_game_country_path(@user_game, @country), method: :patch, params: {aircraft_weapon_tech: 1}, class: "button" %>
@@ -90,7 +90,7 @@
 
   <li>Increases all aircraft health 1% per level</li>
   <li>Research cost will become exponentially more expensive</li>
-  <li>Current Research Cost: <%= 1000 + (@country.aircraft_armor_tech**3) %> research points</li>
+  <li>Current Research Cost: <%= 1000 + (@country.aircraft_armor_tech**4 / 4) %> research points</li>
 </details>
 
 <%= button_to "Level Up Aircraft Armor", user_game_country_path(@user_game, @country), method: :patch, params: {aircraft_armor_tech: 1}, class: "button" %>
@@ -101,7 +101,7 @@
 
   <li>Increases all ship weapon damage 1% per level</li>
   <li>Research cost will become exponentially more expensive</li>
-  <li>Current Research Cost: <%= 1000 + (@country.ship_weapon_tech**3) %> research points</li>
+  <li>Current Research Cost: <%= 1000 + (@country.ship_weapon_tech**4 / 4) %> research points</li>
 </details>
 
 <%= button_to "Level Up Ship Weaponry", user_game_country_path(@user_game, @country), method: :patch, params: {ship_weapon_tech: 1}, class: "button" %>
@@ -112,7 +112,7 @@
 
   <li>Increases all ship health 1% per level</li>
   <li>Research cost will become exponentially more expensive</li>
-  <li>Current Research Cost: <%= 1000 + (@country.ship_armor_tech**3) %> research points</li>
+  <li>Current Research Cost: <%= 1000 + (@country.ship_armor_tech**4 / 4) %> research points</li>
 </details>
 
 <%= button_to "Level Up Ship Armor", user_game_country_path(@user_game, @country), method: :patch, params: {ship_armor_tech: 1}, class: "button" %>
@@ -122,7 +122,7 @@
 
   <li>Increases all building production 1% per level</li>
   <li>Research cost will become exponentially more expensive</li>
-  <li>Current Research Cost: <%= 1000 + (@country.efficiency_tech**3) %> research points</li>
+  <li>Current Research Cost: <%= 1000 + (@country.efficiency_tech**4 / 4) %> research points</li>
 </details>
 
 <%= button_to "Level Up Production Efficiency", user_game_country_path(@user_game, @country), method: :patch, params: {efficiency_tech: 1}, class: "button" %>
@@ -132,7 +132,7 @@
 
   <li>Decreases all building upkeep 1% per level</li>
   <li>Research cost will become exponentially more expensive</li>
-  <li>Current Research Cost: <%= 1000 + (@country.building_upkeep_tech**3) %> research points</li>
+  <li>Current Research Cost: <%= 1000 + (@country.building_upkeep_tech**4 / 4) %> research points</li>
 </details>
 
 <%= button_to "Level Up Building Upkeep", user_game_country_path(@user_game, @country), method: :patch, params: {building_upkeep_tech: 1}, class: "button" %>
@@ -142,7 +142,7 @@
 
   <li>Decreases all unit upkeep 1% per level</li>
   <li>Research cost will become exponentially more expensive</li>
-  <li>Current Research Cost: <%= 1000 + (@country.unit_upkeep_tech**3) %> research points</li>
+  <li>Current Research Cost: <%= 1000 + (@country.unit_upkeep_tech**4 / 4) %> research points</li>
 </details>
 
 <%= button_to "Level Up Unit Upkeep", user_game_country_path(@user_game, @country), method: :patch, params: {unit_upkeep_tech: 1}, class: "button" %>
@@ -152,7 +152,7 @@
 
   <li>Increases land exploration 1% per level</li>
   <li>Research cost will become exponentially more expensive</li>
-  <li>Current Research Cost: <%= 1000 + (@country.exploration_tech**3) %> research points</li>
+  <li>Current Research Cost: <%= 1000 + (@country.exploration_tech**4 / 4) %> research points</li>
 </details>
 
 <%= button_to "Level Up Exploration", user_game_country_path(@user_game, @country), method: :patch, params: {exploration_tech: 1}, class: "button" %>
@@ -163,7 +163,7 @@
 
   <li>Increases research point production 1% per level</li>
   <li>Research cost will become exponentially more expensive</li>
-  <li>Current Research Cost: <%= 1000 + (@country.research_tech**3) %> research points</li>
+  <li>Current Research Cost: <%= 1000 + (@country.research_tech**4 / 4) %> research points</li>
 </details>
 
 <%= button_to "Level Up Research", user_game_country_path(@user_game, @country), method: :patch, params: {research_tech: 1}, class: "button" %>
@@ -173,7 +173,7 @@
 
   <li>Increases housing capacity 1% per level</li>
   <li>Research cost will become exponentially more expensive</li>
-  <li>Current Research Cost: <%= 1000 + (@country.research_tech**3) %> research points</li>
+  <li>Current Research Cost: <%= 1000 + (@country.research_tech**4 / 4) %> research points</li>
 </details>
 
 <%= button_to "Level Up Housing", user_game_country_path(@user_game, @country), method: :patch, params: {housing_tech: 1}, class: "button" %>
