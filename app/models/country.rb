@@ -675,7 +675,7 @@ class Country < ApplicationRecord
     end
     if (attacker_armor_damage + attacker_armor_to_infantry_damage + attacker_infantry_damage)/(defender_armor_health + defender_infantry_health + 1) > 2.5
       defender_air_health = defender.air_health
-      damage_ratio = (attacker_armor_damage + attacker_infantry_damage) / defender_air_health.to_f
+      damage_ratio = (attacker_armor_damage + attacker_infantry_damage  + attacker_armor_to_infantry_damage) / defender_air_health.to_f
       air_survivors = 1 - (rand(0.025..0.05) * damage_ratio)
       if air_survivors < 0
         air_survivors = 0
