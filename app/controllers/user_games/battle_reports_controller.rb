@@ -1,4 +1,5 @@
 class UserGames::BattleReportsController < ApplicationController
+  before_action :authenticate_user!
 
   def index
     @user_game = UserGame.find_by_user_id(current_user.id)

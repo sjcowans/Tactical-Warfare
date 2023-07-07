@@ -1,4 +1,6 @@
 class UserGamesController < ApplicationController
+  before_action :authenticate_user!
+
   def create
     @game = Game.find(params[:game_id])
     @user_game = UserGame.new(user_id: current_user.id, game_id: params[:game_id])
