@@ -24,7 +24,7 @@
     <style>
       body {
         background-color: rgb(250, 235, 215);
-        text-shadow: -0.1px -0.1px 0 #000, 0.1px -0.1px 0 #000, -0.1px 0.1px 0 #000, 0.1px 0.1px 0 #000;
+        text-shadow: -0.05px -0.05px 0 #000, 0.05px -0.05px 0 #000, -0.05px 0.05px 0 #000, 0.05px 0.05px 0 #000;
         color: rgb(85, 107, 47);
       }
 
@@ -70,12 +70,30 @@
         border: 1px solid black;
       }
 
+      .button:hover {
+        color: red;
+      }
+
+      .big-button {
+        padding: 0.5%;
+        margin: 0.5%;
+        background-color:rgb(85, 107, 47);
+        color: rgb(250, 235, 215);
+        border-radius: 8px;
+        border: 1px solid black;
+        font-size: 24px;
+      }
+
+      .big-button:hover {
+        color: red;
+      }
+
       .nation-links{
         color: rgb(85, 107, 47);
       }
 
       .nation-links:hover{
-          color: red;
+        color: red;
       }
 
       .banner-links{
@@ -85,12 +103,34 @@
       .banner-links:hover{
           color: red;
       }
-
     
       td {
         padding-left: 10px;
         padding-right: 10px;
       }
+      details>summary {
+      
+        list-style: none;
+      }
+      summary::-webkit-details-marker {
+        display: none
+      }
+      
+      summary:hover {
+        color: red;
+      }
+      
+      summary::after {
+        content: ' +';
+      }
+      details[open] summary:after {
+        content: " (collapse)";
+      }
+ 
+      .details:hover{
+        color: red;
+      }
+
     </style>
   </head>
 

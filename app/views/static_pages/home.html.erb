@@ -1,44 +1,44 @@
-<div id="banner">
-<center><h1> Welcome to Tactical Warfare! </h1></center>
+<center><div id="banner">
+<h1> Tactical Warfare </h1>
 </div>
-
-<center><% if !@user.nil? %>
-<p style="color:red;">Already Signed In!</p>
-<%= button_to "Continue", user_path(@user), method: :get, class: "button" %> <br>
-<%= button_to 'Sign Out', "/logout", method: :delete, class: "button" %>
+<b>Glory awaits!</b><br>
+<% if !@user.nil? %>
+<br><%= button_to "Continue", user_path(@user), method: :get, class: "big-button" %> <br>
+<%= button_to 'Sign Out', "/logout", method: :delete, class: "big-button" %>
 <% else %>
-<%= button_to "Sign Up!", "/sign_up", method: :get, class: "button" %> <br>
-<%= button_to "Sign In!", "/login", method: :get, class: "button" %> <br>
+<%= button_to "Sign Up!", "/sign_up", method: :get, class: "big-button" %>
+-OR-
+<%= button_to "Sign In!", "/login", method: :get, class: "big-button" %> <br>
 <% end %>
-</center>
+
 
 <div class="green-bg">
-<center><h2>Future Updates:</h2><br></center>
+<h2>Future Updates:</h2>
 </div>
-<ul>
-<li> Messaging Feature </li>
-<li> Different Battle Types (including naval invasions)</li>
-<li> Alliances</li>
-<li> Game Rounds </li>
-<li> Resource System </li>
-<li> MANY more units with unique bonuses</li>
-<li> Researchable Tech (using labs) </li>
-<li> Report/Message Notifications </li>
-<li> Recruit/Build by number rather than turns used </li>
-<li> Attack Range by Score </li>
-<li> Espionage </li>
-<li> Missiles </li>
-<li> Government Types with Bonuses </li>
-<li> Public Opinion with Nationwide Effects </li>
-</ul>
+Messaging Feature 
+<br>Different Battle Types (including naval invasions)
+<br>Alliances
+<br>Game Rounds 
+<br>Resource System 
+<br>MANY more units with unique bonuses
+<br>Researchable Tech (using labs) 
+<br>Report/Message Notifications 
+<br>Recruit/Build by number rather than turns used 
+<br>Attack Range by Score 
+<br>Espionage 
+<br>Missiles 
+<br>Government Types with Bonuses 
+<br>Public Opinion with Nationwide Effects
 
-<center><details>
-  <summary><b>Update Logs</b></summary>
-  <li><b>06/08/2023</b> Tweak lab upkeep and research point cost</li>
-  <li><b>05/08/2023</b> Add unit decomission and infantry rebalance</li>
-  <li><b>04/08/2023</b> Fix battle report casualites (defender retaliation was being counted as attacker kills)</li>
-  <li><b>03/08/2023</b> Add basic research for nations</li>
-  <li><b>29/07/2023</b> Adjust infrastructure upkeep and add building demo</li>
-  <li><b>26/07/2023</b> Add battle loot and battle victor and adjust combat logic</li>
+
+<div class="green-bg"><details>
+  <summary><h3><b>Update Logs</b></h3></summary>
+  <br><b>06/08/2023</b> Tweak lab upkeep and research point cost
+  <br><b>05/08/2023</b> Add unit decomission and infantry rebalance
+  <br><b>04/08/2023</b> Fix battle report casualites (defender retaliation was being counted as attacker kills)
+  <br><b>03/08/2023</b> Add basic research for nations
+  <br><b>29/07/2023</b> Adjust infrastructure upkeep and add building demo
+  <br><b>26/07/2023</b> Add battle loot and battle victor and adjust combat logic
 </details>
+</div>
 </center>

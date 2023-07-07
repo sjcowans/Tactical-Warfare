@@ -32,8 +32,8 @@
 
 <b>Turns:</b> <%=@country.turns%><br>
 
-<br><details>
-  <summary>Recruitment</summary>
+ <br><center><details>
+ <summary class="green-bg"><b>Recruitment Info</b><br></summary>
 
   <li>Recrtuitment is ordered by the number of turns you wish to invest</li>
   <li>Recruitment will round the the lowest whole number (IE 0.9 is 0, 20.9 is 20)</li>
@@ -43,11 +43,14 @@
 </details><br>
 
 
-<h4>Recruit Infantry: </h4>
+
+
+<details>
+  <summary><b>Recruit Infantry: </b></summary>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
 
 <details>
-  <summary><b>Infantry</b></summary>
+  <summary><br><b>Infantry</b></summary>
 
   <li>Soft Attack: 8</li>
   <li>Hard Attack: 2</li>
@@ -115,12 +118,16 @@
     <%= form.number_field :armor_infantry %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
+</details>
 
-<h4>Recruit Armor: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
-    
+
+
 <details>
-  <summary><b>Armored Vehicles</b></summary>
+  <summary><br><b>Recruit Armor: </b></summary>
+
+<details>
+  <summary><br><b>Armored Vehicles</b></summary>
 
   <li>Soft Attack: 100</li>
   <li>Hard Attack: 50</li>
@@ -188,11 +195,14 @@
     <%= form.number_field :armor_armored %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
+</details>
 
-<h4>Recruit Aircraft: </h4>
+
+<details>
+  <summary><br><b>Recruit Aaircraft: </b></summary>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
 <details>
-  <summary><b>Multi-Role Fighters</b></summary>
+  <summary><br><b>Multi-Role Fighters</b></summary>
 
   <li>Soft Attack: 1250</li>
   <li>Hard Attack: 1250</li>
@@ -260,12 +270,14 @@
     <%= form.number_field :armor_aircraft %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
+</details>
 
-<h4>Recruit Ships: </h4>
+<details>
+  <summary><br><b>Recruit Ships: </b></summary>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
     
 <details>
-  <summary><b>Corvettes</b></summary>
+  <summary><br><b>Corvettes</b></summary>
 
   <li>Soft Attack: 1500</li>
   <li>Hard Attack: 1000</li>
@@ -328,14 +340,14 @@
   <li>Upkeep: $2,500,000</li>
   <li>Population: 3000 </li>
 </details>
-
     <%= form.label :turns_to_recruit_cruisers %> <br>
     <%= form.number_field :armor_ships %> <br>
   <%= form.submit "Recruit", class: "button" %>
-<% end %><br>
-
+<% end %>
+</details><br>
+</center>
 <center><details>
- <summary><div class="green-bg"><b>Decomission</b></div></summary>
+ <summary class="green-bg"><h3>Decomission<h3></summary>
   <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
       <%= form.label :decomission_infantry %>
       <%= form.number_field :basic_infantry_decomission %> You have: <%=@country.basic_infantry%><br>

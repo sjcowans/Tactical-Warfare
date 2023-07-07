@@ -29,6 +29,8 @@
 </table>
 </div>
 </h4>
+
+<center>
 Turns: <%=@country.turns%><br>
 
 Gain 5-20 land per turn<br>
@@ -37,3 +39,4 @@ Gain 5-20 land per turn<br>
     <%= form.number_field :explore_land, required: true %>
   <%= form.submit "Explore", class: "button" %>
 <% end %><br>
+</center>

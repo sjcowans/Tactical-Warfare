@@ -261,7 +261,7 @@ class Country < ApplicationRecord
   end
 
   def gross
-    ((shops * 10_000) + (infrastructure * 1500) + (population * 25)) * 1.01**efficiency_tech
+    (((shops * 10_000) + (infrastructure * 1500) + (population * 25)) * 1.01**efficiency_tech) + 1000000
   end
 
   def expenses
@@ -289,7 +289,7 @@ class Country < ApplicationRecord
     (armory * 500) +
     (hangars * 1000) +
     (dockyards * 2500) +
-    (labs + (10_000 + (labs**2.5/2.5))))
+    (labs + (labs**2.5/2.5)))
   end
 
   def net
