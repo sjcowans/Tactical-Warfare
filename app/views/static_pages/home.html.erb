@@ -2,6 +2,11 @@
 <h1> Tactical Warfare </h1>
 </div>
 <b>Glory awaits!</b><br>
+
+<div class="tutorial-button">
+<%= link_to "Watch The Tutorial!", 'https://www.loom.com/share/a280195d242a44cda057c54546745fd8?sid=49dae7ce-dbb5-4a0d-b383-0e244c4ac6e2', class: 'tutorial-link', target: '_blank' %>
+</div><br>
+
 <% if !@user.nil? %>
 <br><%= button_to "Continue", user_path(@user), method: :get, class: "big-button" %> <br>
 <%= button_to 'Sign Out', "/logout", method: :delete, class: "big-button" %>
@@ -10,7 +15,6 @@
 -OR-
 <%= button_to "Sign In!", "/login", method: :get, class: "big-button" %> <br>
 <% end %>
-
 
 <div class="green-bg">
 <h2>Future Updates:</h2>
