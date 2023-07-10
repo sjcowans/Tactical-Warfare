@@ -9,6 +9,7 @@ class UserGames::BattleReportsController < ApplicationController
     @unread_reports = @defense_reports.unread_by(@country)
     if params[:read] == "1"
       @unread_reports.mark_as_read! :all, for: @country
+      redirect_to "/user_games/#{@user_game.id}/reports"
     end
   end
 
