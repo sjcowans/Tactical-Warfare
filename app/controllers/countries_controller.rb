@@ -8,6 +8,8 @@ class CountriesController < ApplicationController
     @game = Game.find(@user_game.game_id)
     @country = Country.where(:user_id => current_user.id, :game_id => @user_game.game_id).first
     @countries = Country.all
+    @defense_reports = CountryBattleReport.where(defender_country_id: @country.id).order("created_at DESC")
+    @unread_reports = @defense_reports.unread_by(@country)
   end
 
   def show
@@ -16,6 +18,8 @@ class CountriesController < ApplicationController
     @country = Country.find(params[:id])
     @user = current_user
     @user_country = Country.find_by_user_id(@user.id)
+    @defense_reports = CountryBattleReport.where(defender_country_id: @country.id).order("created_at DESC")
+    @unread_reports = @defense_reports.unread_by(@country)
   end
 
   def edit
@@ -23,6 +27,8 @@ class CountriesController < ApplicationController
     @country = Country.find(params[:id])
     @user_game = UserGame.find(params[:user_game_id])
     @game = Game.find(params[:game_id])
+    @defense_reports = CountryBattleReport.where(defender_country_id: @country.id).order("created_at DESC")
+    @unread_reports = @defense_reports.unread_by(@country)
   end
 
   def update
