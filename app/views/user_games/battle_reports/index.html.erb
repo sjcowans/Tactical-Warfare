@@ -5,7 +5,7 @@
 <table class='full-table'>
   <tr>
     <td>
-      <%= link_to 'Home', root_path, method: :get, class: 'banner-links' %>
+      <%= link_to 'Main&nbsp;Menu'.html_safe, root_path, method: :get, class: 'banner-links' %>
     </td>
     <td>
       <%= link_to 'Dashboard', user_game_path(@user_game), class: 'banner-links' %>
@@ -23,10 +23,10 @@
       <%= link_to 'Research', "/user_games/#{@user_game.id}/research", class: 'banner-links' %>
     </td>
     <td>
-      <%= link_to 'View&nbsp;Nations'.html_safe, "/user_games/#{@user_game.id}/countries", class: 'banner-links' %>
+      <%= link_to 'Nation&nbsp;Leaderboard'.html_safe, "/user_games/#{@user_game.id}/countries", class: 'banner-links' %>
     </td>
     <td>
-      <%= link_to 'View&nbsp;Reports'.html_safe, "/user_games/#{@user_game.id}/reports", class: 'banner-links' %>
+      <%= link_to "Reports&nbsp;(#{@unread_reports.length})".html_safe, "/user_games/#{@user_game.id}/reports", class: 'banner-links' %>
     </td>
   </tr>
 </table>
@@ -35,13 +35,16 @@
 </center>
 
 <center>
-<div class="tan-bg">
-<h3>Unread Reports:</h3><br> 
-<div class='reports'>
-<% @unread_defense_reports.each do |report|%>
-<br><%= link_to "Battle # #{report.id}, Attacker: #{Country.find(report.attacker_country_id).name}, Defender: #{Country.find(report.defender_country_id).name}", "/user_games/#{@user_game.id}/country_battle_reports/#{report.id}", class: "banner-links"%><br>
+  <div class="tan-bg">
+<% if @unread_reports != [] %>
+  <h3>Unread Reports:</h3>
+  <%= button_to "Mark all as read", "/user_games/#{@user_game.id}/reports?read=1", data: { turbo_confirm: 'Are you sure?' }, class: "button"%>
+  <div class='reports'>
+  <% @unread_reports.each do |report|%>
+  <br><%= link_to "Battle # #{report.id}, Attacker: #{Country.find(report.attacker_country_id).name}, Defender: #{Country.find(report.defender_country_id).name}", "/user_games/#{@user_game.id}/country_battle_reports/#{report.id}?read=1", class: "banner-links"%><br>
+  <% end %>
+  </div>
 <% end %>
-</div>
 
 <h3>Attack Reports:</h3><br> 
 <div class='reports'>
