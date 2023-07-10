@@ -1,3 +1,6 @@
+<center><div id="banner">
+<h1> Tactical Warfare </h1>
+</div>
 <h4><div id="banner">
 <table class='full-table'>
   <tr>
@@ -29,7 +32,8 @@
 </table>
 </div>
 </h4>
-<center>
+
+<div class="tan-bg">
 <h4>
 <% if @report.attacker? %>
   Attacker has won!
@@ -71,7 +75,7 @@ Barracks Destroyed: <%= number_to_human(@report.destroyed_barracks) %><br>
 Armories Destroyed: <%= number_to_human(@report.destroyed_armory) %><br>
 Hangars Destroyed: <%= number_to_human(@report.destroyed_hangars) %><br>
 Dockyards Destroyed: <%= number_to_human(@report.destroyed_dockyards) %><br>
-
+</div>
 </center>
 
 

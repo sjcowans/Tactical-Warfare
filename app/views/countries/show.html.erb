@@ -1,3 +1,6 @@
+<center><div id="banner">
+<h1> Tactical Warfare </h1>
+</div>
 <h4><div id="banner">
 <table class='full-table'>
   <tr>
@@ -31,16 +34,15 @@
 </h4>
 
 <div class="green-bg">
-<u><center><h3>The Nation of <%= @country.name %></h3></u>
+<u><h3>The Nation of <%= @country.name %></h3></u>
 <p><u>Game Date: <%= @game.game_date%></u><p>
 <div class="tan-bg">
 <%= button_to "Attack", user_game_path(@user_game), method: :patch,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:attacker_id => @user_country.id, :defender_id => @country.id}, class: "button"%>
 
 Note: Attacks take 100 Turns<br>
 </div>
-</center>
 
-<center><h4>Information:</h4></center>
+<h4>Information:</h4>
 <div class="tan-bg">
 <b>Foudned:</b> <%=@country.created_date%><br>
 <b>Country Age:</b> <%=@country.age%> years<br>
@@ -49,7 +51,7 @@ Note: Attacks take 100 Turns<br>
 <b>Land:</b> <%= number_with_delimiter(@country.land) %><br>
 </div>
 
-<center><h4>Battle Stats:</h4></center>
+<h4>Battle Stats:</h4>
 <div class="tan-bg">
 <table>
   <tr>
@@ -159,3 +161,4 @@ Note: Attacks take 100 Turns<br>
 </table>
 </div>
 </div>
+</center>

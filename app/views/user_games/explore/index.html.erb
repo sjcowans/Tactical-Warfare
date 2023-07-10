@@ -1,3 +1,6 @@
+<center><div id="banner">
+<h1> Tactical Warfare </h1>
+</div>
 <h4><div id="banner">
 <table class='full-table'>
   <tr>
@@ -30,7 +33,8 @@
 </div>
 </h4>
 
-<center>
+<div class="tan-bg">
+
 Turns: <%=@country.turns%><br>
 
 Gain 5-20 land per turn<br>
@@ -39,4 +43,5 @@ Gain 5-20 land per turn<br>
     <%= form.number_field :explore_land, required: true %>
   <%= form.submit "Explore", class: "button" %>
 <% end %><br>
+</div>
 </center>

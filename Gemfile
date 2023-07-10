@@ -47,6 +47,7 @@ gem 'bootsnap', require: false
 gem 'numbers_in_words'
 gem 'rubocop'
 gem 'jquery-rails'
+gem 'unread'
 
 # Use Sass to process CSS
 # gem "sassc-rails"

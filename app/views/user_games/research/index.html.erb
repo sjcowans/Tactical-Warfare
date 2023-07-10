@@ -1,3 +1,6 @@
+<center><div id="banner">
+<h1> Tactical Warfare </h1>
+</div>
 <h4><div id="banner">
 <table class='full-table'>
   <tr>
@@ -30,8 +33,8 @@
 </div>
 </h4>
 
-<center>
-<details>
+<div class="tan-bg">
+<br><details>
   <summary><b>Infantry Weaponry</b> Lvl: <%= @country.infantry_weapon_tech %></summary>
 
   <li>Increases all infantry weapon damage 1% per level</li>
@@ -177,4 +180,5 @@
 </details>
 
 <%= button_to "Level Up Housing", user_game_country_path(@user_game, @country), method: :patch, params: {housing_tech: 1}, class: "button" %>
+</div>
 </center>

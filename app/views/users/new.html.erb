@@ -1,3 +1,8 @@
+<center>
+<div id="banner">
+<h1> Tactical Warfare </h1>
+</div>
+<div class="tan-bg">
 <%= form_with model: @user, url: sign_up_path do |form| %>
   <%= render partial: "shared/form_errors", locals: { object: form.object } %>
   <div>
@@ -14,3 +19,5 @@
   </div>
   <%= form.submit "Sign Up", class: 'button' %>
 <% end %>
+</div>
+</center>

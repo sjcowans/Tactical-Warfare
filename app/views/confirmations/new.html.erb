@@ -1,4 +1,10 @@
+<center><div id="banner">
+<h1> Tactical Warfare </h1>
+</div>
+<div class="tan=bg">
 <%= form_with model: @user, url: confirmations_path do |form| %>
   <%= form.email_field :email, required: true %>
   <%= form.submit "Confirm Email" %>
 <% end %>
+</div>
+</center>

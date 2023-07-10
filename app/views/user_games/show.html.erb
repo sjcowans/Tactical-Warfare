@@ -1,3 +1,6 @@
+<center><div id="banner">
+<h1> Tactical Warfare </h1>
+</div>
 <h4><div id="banner">
 <table class='full-table'>
   <tr>
@@ -35,8 +38,6 @@
 <center><h2><u><%= @country.name %></h2></u></center> <br>
 <div class="tan-bg">
 <center><%= button_to "Change name", edit_user_game_country_path(@user_game, @country), method: :get, params: {user_game_id: @user_game.id, game_id: @game.id}, class: "button" %></center><br>
-</div>
-<div class="tan-bg">
 Money: <%= number_to_human(@country.money) %> (<%= number_to_currency(@country.money) %>)<br>
 Gross Income: <%= number_to_human(@country.gross) %> (<%= number_to_currency(@country.gross) %>)<br>
 Expenses: <%= number_to_human(@country.expenses)%> (<%= number_to_currency(@country.expenses) %>) <br>
@@ -48,59 +49,56 @@ Research Points: <%= number_with_delimiter(@country.research_points) %><br>
 Research Points Per Turn: <%= number_with_delimiter((@country.labs * 1.01**@country.research_tech).round) %><br>
 Land: <%= number_with_delimiter(@country.land) %><br>
 </div>
-</ol>
+
   <center><h4> Buildings: </h4></center>
   <div class="tan-bg">
-  <ol>
-  <li>Houses: <%= number_with_delimiter(@country.houses) %></li>
-  <li>infrastructure: <%= number_with_delimiter(@country.infrastructure) %></li>
-  <li>Shops: <%= number_with_delimiter(@country.shops) %></li>
-  <li>Barracks: <%= number_with_delimiter(@country.barracks) %></li>
-  <li>Armories: <%= number_with_delimiter(@country.armory) %></li>
-  <li>Hangars: <%= number_with_delimiter(@country.hangars) %></li>
-  <li>Dockyards: <%= number_with_delimiter(@country.dockyards) %></li>
-  <li>Labs: <%= number_with_delimiter(@country.labs) %></li>
+  
+  Houses: <%= number_with_delimiter(@country.houses) %><br>
+  infrastructure: <%= number_with_delimiter(@country.infrastructure) %><br>
+  Shops: <%= number_with_delimiter(@country.shops) %><br>
+  Barracks: <%= number_with_delimiter(@country.barracks) %><br>
+  Armories: <%= number_with_delimiter(@country.armory) %><br>
+  Hangars: <%= number_with_delimiter(@country.hangars) %><br>
+  Dockyards: <%= number_with_delimiter(@country.dockyards) %><br>
+  Labs: <%= number_with_delimiter(@country.labs) %>
   </div>
-</ol>
 
 <center><h4> Military: </h4></center>
 <div class="tan-bg">
-<ol>
-  <li>Infantry:
-    <ul>
-      <li>Basic Infantry:  <%= number_with_delimiter(@country.basic_infantry) %></li>
-      <li>Anti-air Infantry:  <%= number_with_delimiter(@country.air_infantry) %></li>
-      <li>Marines:  <%= number_with_delimiter(@country.sea_infantry) %></li>
-      <li>Anti-armor Infantry:  <%= number_with_delimiter(@country.armor_infantry) %></li>
-    </ul>
-  </li>
+  <h3>Infantry:</h3>
+    
+      Basic Infantry:  <%= number_with_delimiter(@country.basic_infantry) %><br>
+      Anti-air Infantry:  <%= number_with_delimiter(@country.air_infantry) %><br>
+      Marines:  <%= number_with_delimiter(@country.sea_infantry) %><br>
+      Anti-armor Infantry:  <%= number_with_delimiter(@country.armor_infantry) %><br>
+    
+  
 
-  <li>Ships:
-    <ul>
-      <li>Corvettes:  <%= number_with_delimiter(@country.basic_ship) %></li>
-      <li>Frigates:  <%= number_with_delimiter(@country.air_ship) %></li>
-      <li>Destroyers:  <%= number_with_delimiter(@country.sea_ship) %></li>
-      <li>Cruisers:  <%= number_with_delimiter(@country.armor_ship) %></li>
-    </ul>
-  </li>
+  <h3>Ships:</h3>
+    
+      Corvettes:  <%= number_with_delimiter(@country.basic_ship) %><br>
+      Frigates:  <%= number_with_delimiter(@country.air_ship) %><br>
+      Destroyers:  <%= number_with_delimiter(@country.sea_ship) %><br>
+      Cruisers:  <%= number_with_delimiter(@country.armor_ship) %><br>
+    
+  
 
-  <li>Armored:
-    <ul>
-      <li>Armored Vehicles:  <%= number_with_delimiter(@country.basic_armored) %></li>
-      <li>AA Vehicles:  <%= number_with_delimiter(@country.air_armored) %></li>
-      <li>Amphibious Vehicles:  <%= number_with_delimiter(@country.sea_armored) %></li>
-      <li>Tanks:  <%= number_with_delimiter(@country.armor_armored) %></li>
-    </ul>
-  </li>
+  <h3>Armored:</h3>
+    
+      Armored Vehicles:  <%= number_with_delimiter(@country.basic_armored) %><br>
+      AA Vehicles:  <%= number_with_delimiter(@country.air_armored) %><br>
+      Amphibious Vehicles:  <%= number_with_delimiter(@country.sea_armored) %><br>
+      Tanks:  <%= number_with_delimiter(@country.armor_armored) %><br>
+    
+  
 
-  <li>Aircraft:
-    <ul>
-      <li>Multi-role Fighters:  <%= number_with_delimiter(@country.basic_aircraft) %></li>
-      <li>Fighter Jets:  <%= number_with_delimiter(@country.air_aircraft) %></li>
-      <li>Naval Bombers:  <%= number_with_delimiter(@country.sea_aircraft) %></li>
-      <li>Heavy Bombers:  <%= number_with_delimiter(@country.armor_aircraft) %></li>
-    </ul>
-  </li>
+  <h3>Aircraft:</h3>
+    
+      Multi-role Fighters:  <%= number_with_delimiter(@country.basic_aircraft) %><br>
+      Fighter Jets:  <%= number_with_delimiter(@country.air_aircraft) %><br>
+      Naval Bombers:  <%= number_with_delimiter(@country.sea_aircraft) %><br>
+      Heavy Bombers:  <%= number_with_delimiter(@country.armor_aircraft) %><br>
 </div>
 </div>
 
+</center>

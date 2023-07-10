@@ -1,5 +1,6 @@
 class CountryBattleReport < ApplicationRecord
   enum victor: { attacker: 1, defender: 0, draw: 3 }
+  acts_as_readable on: :created_at
 
   def self.update_nil_money
     CountryBattleReport.all.each do |report|

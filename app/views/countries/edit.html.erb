@@ -1,3 +1,6 @@
+<center><div id="banner">
+<h1> Tactical Warfare </h1>
+</div>
 <h4><div id="banner">
 <table class='full-table'>
   <tr>
@@ -29,7 +32,7 @@
 </table>
 </div>
 </h4>
-
+<div class="tan-bg">
 <h4>Change Name </h4>
 <%= form_with url: user_game_country_path(@user_game, @country), method: :patch, local: true do |form| %>
     <%= form.label :country_name %> <br>
@@ -39,3 +42,5 @@
 
   <%= form.submit "Change", class: "button" %>
 <% end %><br>
+</div>
+</center>

@@ -1,3 +1,6 @@
+<center><div id="banner">
+<h1> Tactical Warfare </h1>
+</div>
 <h4><div id="banner">
 <table class='full-table'>
   <tr>
@@ -29,16 +32,29 @@
 </table>
 </div>
 </h4>
+</center>
 
 <center>
-<h3>Attack Reports:</h3><br> 
-<% @attack_reports.each do |report|%>
-<%= link_to "Battle # #{report.id}, Attacker: #{Country.find(report.attacker_country_id).name}, Defender: #{Country.find(report.defender_country_id).name}", "/user_games/#{@user_game.id}/country_battle_reports/#{report.id}"%><br>
+<div class="tan-bg">
+<h3>Unread Reports:</h3><br> 
+<div class='reports'>
+<% @unread_defense_reports.each do |report|%>
+<br><%= link_to "Battle # #{report.id}, Attacker: #{Country.find(report.attacker_country_id).name}, Defender: #{Country.find(report.defender_country_id).name}", "/user_games/#{@user_game.id}/country_battle_reports/#{report.id}", class: "banner-links"%><br>
 <% end %>
+</div>
 
+<h3>Attack Reports:</h3><br> 
+<div class='reports'>
+<% @attack_reports.each do |report|%>
+<br><%= link_to "Battle # #{report.id}, Attacker: #{Country.find(report.attacker_country_id).name}, Defender: #{Country.find(report.defender_country_id).name}", "/user_games/#{@user_game.id}/country_battle_reports/#{report.id}", class: "banner-links"%><br>
+<% end %>
+</div>
 
 <h3>Defense Reports:</h3><br> 
+<div class='reports'>
 <% @defense_reports.each do |report|%>
-<%= link_to "Battle # #{report.id}, Attacker: #{Country.find(report.attacker_country_id).name}, Defender: #{Country.find(report.defender_country_id).name}", "/user_games/#{@user_game.id}/country_battle_reports/#{report.id}"%><br>
+<br><%= link_to "Battle # #{report.id}, Attacker: #{Country.find(report.attacker_country_id).name}, Defender: #{Country.find(report.defender_country_id).name}", "/user_games/#{@user_game.id}/country_battle_reports/#{report.id}", class: "banner-links"%><br>
 <% end %>
+</div>
+</div>
 </center>

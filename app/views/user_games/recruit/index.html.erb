@@ -1,3 +1,6 @@
+<center><div id="banner">
+<h1> Tactical Warfare </h1>
+</div>
 <h4><div id="banner">
 <table class='full-table'>
   <tr>
@@ -29,8 +32,11 @@
 </table>
 </div>
 </h4>
-<center>
-<b>Turns:</b> <%=@country.turns%><br>
+
+<div class="tan-bg">
+<div class="tan-bg">
+
+<br><b>Turns:</b> <%=@country.turns%><br>
 
  <br><details>
  <summary class="green-bg"><b>Recruitment</b><br></summary>
@@ -41,6 +47,8 @@
   <li>Soft Attack is damage vs soft unit types (like infantry)</li>
   <li>Hard Attack is damage vs armored units</li>
 </details>
+</div>
+<div class="tan-bg">
 
 <h4>Recruit Infantry: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
@@ -114,6 +122,8 @@
     <%= form.number_field :armor_infantry %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
+</div>
+<div class="tan-bg">
 
 <h4>Recruit Armor: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
@@ -187,6 +197,8 @@
     <%= form.number_field :armor_armored %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
+</div>
+<div class="tan-bg">
 
 <h4>Recruit Aircraft: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
@@ -259,6 +271,8 @@
     <%= form.number_field :armor_aircraft %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
+</div>
+<div class="tan-bg">
 
 <h4>Recruit Ships: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
@@ -332,6 +346,7 @@
     <%= form.number_field :armor_ships %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
+</div>
 
 <details>
  <summary class="green-bg"><h3>Decomission<h3></summary>
@@ -371,4 +386,5 @@
     <%= form.submit "Decomission", data: { turbo_confirm: 'Are you sure?' }, class: "button" %>
   <% end %><br>
 </details>
+</div>
 </center>
