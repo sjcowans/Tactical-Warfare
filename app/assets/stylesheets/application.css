@@ -13,3 +13,174 @@
  *= require_tree .
  *= require_self
  */
+ body {
+  background: url(bg.png);
+  height: 100%;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgb(85, 107, 47);
+  text-shadow: -0.05px -0.05px 0 #000, 0.05px -0.05px 0 #000, -0.05px 0.05px 0 #000, 0.05px 0.05px 0 #000;
+  color: rgb(85, 107, 47);
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 5%;
+  margin-bottom: 10%;
+ }
+
+ .green-bg { 
+   background-color: rgb(85, 107, 47);
+   color: rgb(250, 235, 215);
+   padding-top: 1%;
+   padding-left: 1%;
+   padding-right: 1%;
+   padding-bottom: 1%;
+   border: 5px solid rgb(189, 183, 107);
+ } 
+
+ .tan-bg {
+   background-color: rgb(250, 235, 215);
+   border-width: thick;
+   color: rgb(85, 107, 47);
+   border: 5px solid rgb(189, 183, 107);
+ }
+
+ div#banner { 
+  position: relative; 
+  top: 0; 
+  left: 0; 
+  overflow-x: auto;
+  padding-top: 1.2%;
+  color: rgb(250, 235, 215);
+  padding-bottom: 2%;
+  background-color: rgb(85, 107, 47); 
+  width: 99%; 
+  border: 5px solid rgb(189, 183, 107);
+ }
+
+ div#margin_top { 
+   position: relative; 
+   margin: 5%;
+ }
+
+ .button {
+   padding: 0.5%;
+   margin: 0.5%;
+   background-color:rgb(85, 107, 47);
+   color: rgb(250, 235, 215);
+   border-radius: 8px;
+   border: 1px solid black;
+ }
+
+ .button:hover {
+   color: red;
+ }
+
+ .big-button {
+   padding: 0.6%;
+   margin: 0.5%;
+   background-color:rgb(85, 107, 47);
+   color: rgb(250, 235, 215);
+   border-radius: 8px;
+   border: 1px solid black;
+   font-size: 20px;
+ }
+
+ .tutorial-button {
+   padding: 0.9%;
+   margin: 0.5%;
+   background-color:rgb(85, 107, 47);
+   color: rgb(250, 235, 215);
+   border-radius: 8px;
+   border: 1px solid red;
+   font-size: 20px;
+   max-width: 200px;
+ }
+
+ .tutorial-link {
+   padding: 0.9%;
+   margin: 0.5%;
+   background-color:rgb(85, 107, 47);
+   color: rgb(250, 235, 215);
+   border-radius: 8px;
+   font-size: 20px;
+ }
+
+ .tutorial-link:hover {
+   color: red;
+   cursor: pointer;
+ }
+
+ .big-button:hover {
+   color: red;
+   cursor: pointer;
+ }
+
+ .nation-links{
+   color: rgb(85, 107, 47);
+ }
+
+ .nation-links:hover{
+   color: red;
+   cursor: pointer;
+ }
+
+ .banner-links{
+   color: rgb(250, 235, 215);
+ }
+
+ .banner-links:hover{
+   color: red;
+   cursor: pointer;
+ }
+
+ td {
+   padding-left: 10px;
+   padding-right: 10px;
+ }
+ details>summary {
+ 
+   list-style: none;
+ }
+ summary::-webkit-details-marker {
+   display: none
+ }
+ 
+ summary:hover {
+   color: red;
+   cursor: pointer;
+ }
+ 
+ summary::after {
+   content: ' +';
+ }
+ details[open] summary:after {
+   content: " (collapse)";
+ }
+
+ .details:hover{
+   color: red;
+   cursor: pointer;
+ }
+
+ .reports{
+   height:200px; 
+   width:50%;
+   border: 5px solid rgb(189, 183, 107);
+   background-color:rgb(85, 107, 47);
+ }
+
+ .reports{
+   overflow-y: scroll !important;
+ }
+
+ ::-webkit-scrollbar {
+   -webkit-appearance: none;
+   width: 10px;
+ }
+
+::-webkit-scrollbar-thumb {
+ border-radius: 5px;
+ background-color: rgba(0,0,0,.5);
+ -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
