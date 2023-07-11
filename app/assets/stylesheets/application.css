@@ -14,9 +14,9 @@
  *= require_self
  */
  body {
-  min-width: 1000px;
   background: url(bg.png);
   height: 100%;
+  width: 100%;
   background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;
