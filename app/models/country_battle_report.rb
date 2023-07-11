@@ -59,4 +59,10 @@ class CountryBattleReport < ApplicationRecord
   def ship_points
     100 * (self.killed_basic_ship + (2 * self.killed_sea_ship) + (2 * self.killed_air_ship) + (3 * self.killed_armor_ship))
   end
+
+  def created_date
+    hours = (Time.now - self.created_at) * (24 * 60)
+    time = Time.now + hours
+    time.strftime("%B %d, %Y")
+  end
 end

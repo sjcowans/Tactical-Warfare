@@ -35,6 +35,8 @@
 </center>
 
 <center>
+<div class="green-bg">
+<h3>Reports</h3>
   <div class="tan-bg">
 <% if @unread_reports != [] %>
   <h3>Unread Reports:</h3>
@@ -46,14 +48,14 @@
   </div>
 <% end %>
 
-<h3>Attack Reports:</h3><br> 
+<h4>Attack Reports:</h4><br> 
 <div class='reports'>
 <% @attack_reports.each do |report|%>
 <br><%= link_to "Battle # #{report.id}, Attacker: #{Country.find(report.attacker_country_id).name}, Defender: #{Country.find(report.defender_country_id).name}", "/user_games/#{@user_game.id}/country_battle_reports/#{report.id}", class: "banner-links"%><br>
 <% end %>
 </div>
 
-<h3>Defense Reports:</h3><br> 
+<h4>Defense Reports:</h4><br> 
 <div class='reports'>
 <% @defense_reports.each do |report|%>
 <br><%= link_to "Battle # #{report.id}, Attacker: #{Country.find(report.attacker_country_id).name}, Defender: #{Country.find(report.defender_country_id).name}", "/user_games/#{@user_game.id}/country_battle_reports/#{report.id}", class: "banner-links"%><br>
@@ -61,3 +63,4 @@
 </div>
 </div>
 </center>
+</div>

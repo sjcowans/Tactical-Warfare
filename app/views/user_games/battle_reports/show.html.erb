@@ -33,7 +33,8 @@
 </div>
 </h4>
 
-
+<div class="green-bg">
+  <h3><%=@attacker.name%> vs <%=@defender.name%>, <%=@report.created_date%></h3>
 <div class="tan-bg">
 <h4>
 <% if @report.attacker? %>
@@ -78,6 +79,4 @@ Hangars Destroyed: <%= number_to_human(@report.destroyed_hangars) %><br>
 Dockyards Destroyed: <%= number_to_human(@report.destroyed_dockyards) %><br>
 </div>
 </center>
-
-
-
+</div>

@@ -33,9 +33,11 @@
 </div>
 </h4>
 
+<div class="green-bg">
+<h3> Nation Ranking by Points: </h3>
 <div class="tan-bg">
 <ol>
-<h3>Country Ranking:</h3><br> <% @countries.ranking.each do |country|%>
+<% @countries.ranking.each do |country|%>
 <li>
 <%= link_to country.name, "/user_games/#{@user_game.id}/countries/#{country.id}", class: "nation-links"%>, Score: <%=number_to_human(country.score)%> (<%=number_with_delimiter(country.score)%>)
 </li><br>
@@ -43,3 +45,4 @@
 </ol>
 </div>
 </center>
+</div>

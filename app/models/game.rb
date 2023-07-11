@@ -5,6 +5,6 @@ class Game < ApplicationRecord
   def game_date
     hours = (Time.now - self.created_at) * (24 * 60)
     time = Time.now + hours
-    time.strftime("%d-%m-%Y")
+    time.strftime("%B %d, %Y")
   end
 end
