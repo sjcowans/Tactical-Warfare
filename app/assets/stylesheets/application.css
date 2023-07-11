@@ -16,7 +16,6 @@
  body {
   background: url(bg.png);
   height: 100%;
-  min-width: 700;
   background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;
@@ -32,7 +31,6 @@
  }
 
  .green-bg { 
-    min-width: 650px;
     background: url(green-bg.png);
     background-position: center top;
     background-repeat: no-repeat;
@@ -48,7 +46,6 @@
  } 
 
  .green-bg-2 { 
-  min-width: 650px;
   background: url(green-bg.png);
   background-position: center top;
   background-repeat: no-repeat;
@@ -65,7 +62,6 @@
 } 
 
  .tan-bg {
-    min-width: 650px;
     background: url(tan-bg.png);
     background-position: center top;
     background-repeat: no-repeat;
@@ -78,8 +74,6 @@
  }
 
  div#banner { 
-  height: 160px;
-  min-width: 650px;
   background: url(banner.png);
   background-position: center top;
   background-repeat: no-repeat;
@@ -91,11 +85,11 @@
   padding-bottom: 2%;
   background-color: rgb(85, 107, 47); 
   width: 99%; 
+  height: 160px;
   border: 5px ridge rgb(205, 178, 26);
  }
 
  div#banner-2 { 
-  min-width: 650px;
   background: url(green-bg.png);
   background-position: center top;
   background-repeat: no-repeat;
