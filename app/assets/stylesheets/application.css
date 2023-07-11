@@ -65,7 +65,7 @@
 
  .tan-bg {
     background: url(tan-bg.png);
-    width: 100%; 
+    width:99%; 
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
