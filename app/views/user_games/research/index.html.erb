@@ -32,7 +32,8 @@
 </table>
 </div>
 </h4>
-
+<div class="green-bg">
+<h3>Research</h3>
 <div class="tan-bg">
 <br><details>
   <summary><b>Infantry Weaponry</b> Lvl: <%= @country.infantry_weapon_tech %></summary>
@@ -182,3 +183,4 @@
 <%= button_to "Level Up Housing", user_game_country_path(@user_game, @country), method: :patch, params: {housing_tech: 1}, class: "button" %>
 </div>
 </center>
+</div>

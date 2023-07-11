@@ -73,6 +73,10 @@
     background-color: rgb(250, 235, 215);
     border-width: thick;
     color: rgb(85, 107, 47);
+    padding-top: 1%;
+    padding-bottom: 1%;
+    margin-top: 1%;
+    margin-bottom: 1%;
     border: 5px solid rgb(75, 40, 0);
  }
 

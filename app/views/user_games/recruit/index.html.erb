@@ -34,8 +34,9 @@
 </h4>
 
 <div class="green-bg">
+<h3>Recruit & Decomission</h3>
  <details>
- <summary><b>Recruitment</b><br></summary>
+ <summary><b>Recruitment Info</b><br></summary>
 
   <li>Recrtuitment is ordered by the number of turns you wish to invest</li>
   <li>Recruitment will round the the lowest whole number (IE 0.9 is 0, 20.9 is 20)</li>
@@ -43,7 +44,6 @@
   <li>Soft Attack is damage vs soft unit types (like infantry)</li>
   <li>Hard Attack is damage vs armored units</li>
 </details>
-</div>
 <div class="tan-bg">
 <h4>Turns: <%=@country.turns%></h4>
 
@@ -338,7 +338,7 @@
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
 </div>
-<div class="green-bg">
+<div class="tan-bg">
 <details>
  <summary><h3>Decomission<h3></summary>
   <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
@@ -379,3 +379,4 @@
 </details>
 </div>
 </center>
+</div>
