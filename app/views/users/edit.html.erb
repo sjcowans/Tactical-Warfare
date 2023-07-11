@@ -1,3 +1,7 @@
+<center>
+<div id="banner">
+</div>
+<div class="tan-bg">
 <%= form_with model: @user, url: account_path, method: :put do |form| %>
   <%= render partial: "shared/form_errors", locals: { object: form.object } %>
   <div>
@@ -41,3 +45,4 @@
     </tbody>
   </table>
 <% end %>
+</div>
