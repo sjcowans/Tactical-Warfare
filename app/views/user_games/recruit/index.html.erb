@@ -1,7 +1,6 @@
 <center><div id="banner">
-<h1> Tactical Warfare </h1>
 </div>
-<h4><div id="banner">
+<h4><div id="banner-2">
 <table class='full-table'>
   <tr>
     <td>
@@ -34,13 +33,9 @@
 </h4>
 
 
-<div class="tan-bg">
-<div class="tan-bg">
-
-<br><b>Turns:</b> <%=@country.turns%><br>
-
- <br><details>
- <summary class="green-bg"><b>Recruitment</b><br></summary>
+<div class="green-bg">
+ <details>
+ <summary><b>Recruitment</b><br></summary>
 
   <li>Recrtuitment is ordered by the number of turns you wish to invest</li>
   <li>Recruitment will round the the lowest whole number (IE 0.9 is 0, 20.9 is 20)</li>
@@ -50,6 +45,7 @@
 </details>
 </div>
 <div class="tan-bg">
+<h4>Turns: <%=@country.turns%></h4>
 
 <h4>Recruit Infantry: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
@@ -123,8 +119,6 @@
     <%= form.number_field :armor_infantry %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
-</div>
-<div class="tan-bg">
 
 <h4>Recruit Armor: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
@@ -198,8 +192,6 @@
     <%= form.number_field :armor_armored %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
-</div>
-<div class="tan-bg">
 
 <h4>Recruit Aircraft: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
@@ -272,8 +264,6 @@
     <%= form.number_field :armor_aircraft %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
-</div>
-<div class="tan-bg">
 
 <h4>Recruit Ships: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
@@ -348,9 +338,9 @@
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
 </div>
-
+<div class="green-bg">
 <details>
- <summary class="green-bg"><h3>Decomission<h3></summary>
+ <summary><h3>Decomission<h3></summary>
   <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
       <%= form.label :decomission_infantry %>
       <%= form.number_field :basic_infantry_decomission %> You have: <%=@country.basic_infantry%><br>

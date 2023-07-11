@@ -1,7 +1,6 @@
 <center><div id="banner">
-<h1> Tactical Warfare </h1>
 </div>
-<h4><div id="banner">
+<h4><div id="banner-2">
 <table class='full-table'>
   <tr>
     <td>
@@ -33,10 +32,9 @@
 </div>
 </h4>
 
-
-<div class="tan-bg">
+<div class="green-bg">
 <details>
-    <summary class="green-bg">Building Info</summary>
+    <summary>Building Info</summary>
 
     <li>Here you can specify the amount of turns you'd like to invest into building different building types.</li> 
     <li>You initially build 1 building per turn.</li>
@@ -45,13 +43,15 @@
 </details>
 
 <details>
-    <summary class="green-bg">Demolish Info</summary>
+    <summary>Demolish Info</summary>
 
     <li>You can demolish at 10 times your build rate</li> 
 </details>
+</div>
+<div class="tan-bg">
 
 <br><h4>Turns: <%=@country.turns%> </h4>
-<div class="tan-bg">
+
 <h4>Build: </h4><br>
 
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
@@ -160,6 +160,5 @@
     <%= form.number_field :demolish_labs %><br>
   <%= form.submit "Demo", data: { turbo_confirm: 'Are you sure?' }, class: "button" %>
 <% end %><br>
-</div>
 </div>
 </center>

@@ -1,9 +1,10 @@
-<div class="tan-bg">
-<center><div id="banner">
-<h1> Tactical Warfare </h1>
-</div>
-<b>Glory awaits!</b><br>
 
+<center>
+<div id="banner">
+</div>
+<div class="green-bg">
+
+<div class="tan-bg">
 <div class="tutorial-button">
 <%= link_to "Watch The Tutorial!", 'https://youtu.be/Hm6zDKreTvg', class: 'tutorial-link', target: '_blank' %>
 </div>
@@ -16,10 +17,8 @@
 -OR-
 <%= button_to "Sign In!", "/login", method: :get, class: "big-button" %> <br>
 <% end %>
-
-<div class="green-bg">
-<h2>Future Updates:</h2>
-</div>
+<details>
+  <summary><h3><b>Future Updates</b></h3></summary>
 Messaging Feature 
 <br>Different Battle Types (including naval invasions)
 <br>Alliances
@@ -34,9 +33,8 @@ Messaging Feature
 <br>Missiles 
 <br>Government Types with Bonuses 
 <br>Public Opinion with Nationwide Effects
-
-
-<div class="green-bg"><details>
+</details>
+<details>
   <summary><h3><b>Update Logs</b></h3></summary>
   <br><b>10/08/2023</b> Update appearance and add report reading feature with alerts
   <br><b>06/08/2023</b> Tweak lab upkeep and research point cost
@@ -46,6 +44,6 @@ Messaging Feature
   <br><b>29/07/2023</b> Adjust infrastructure upkeep and add building demo
   <br><b>26/07/2023</b> Add battle loot and battle victor and adjust combat logic
 </details>
-</div>
+
 </div>
 </center>
