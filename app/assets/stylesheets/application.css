@@ -31,7 +31,7 @@
  }
 
  .green-bg { 
-    min-width: 700px;
+    min-width: 600px;
     background: url(green-bg.png);
     background-position: center top;
     background-repeat: no-repeat;
@@ -63,7 +63,7 @@
 } 
 
  .tan-bg {
-    min-width: 700px;
+    min-width: 600px;
     background: url(tan-bg.png);
     background-position: center top;
     background-repeat: no-repeat;
