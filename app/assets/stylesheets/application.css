@@ -35,6 +35,7 @@
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
+    width: 97%; 
     position: relative; 
     background-color: rgb(85, 107, 47);
     color: rgb(250, 235, 215);
@@ -89,7 +90,7 @@
   border: 5px ridge rgb(205, 178, 26);
   color: rgb(205, 178, 26);
 	text-shadow: -5px 4px black;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 0.5;
   padding-bottom: 2%;
  }
