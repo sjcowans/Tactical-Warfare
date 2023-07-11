@@ -75,6 +75,7 @@
 
  div#banner { 
   height: 160px;
+  min-width: 700px;
   background: url(banner.png);
   background-position: center top;
   background-repeat: no-repeat;
