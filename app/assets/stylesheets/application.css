@@ -51,6 +51,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   position: relative; 
+  width: 99%; 
   background-color: rgb(85, 107, 47);
   color: rgb(250, 235, 215);
   padding-top: 1%;
@@ -63,6 +64,7 @@
 
  .tan-bg {
     background: url(tan-bg.png);
+    width: 99%; 
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
@@ -87,7 +89,9 @@
   border: 5px ridge rgb(205, 178, 26);
   color: rgb(205, 178, 26);
 	text-shadow: -5px 4px black;
-  font-size: 24px;
+  font-size: 22px;
+  line-height: 0.5;
+  padding-bottom: 2%;
  }
 
  div#banner-2 { 
@@ -135,13 +139,13 @@
     background-repeat: no-repeat;
     background-size: cover;
     position: relative; 
-    padding: 0.6%;
+    padding: 0.7%;
     margin: 0.5%;
     background-color:rgb(85, 107, 47);
     color: rgb(250, 235, 215);
     border-radius: 8px;
     border: 1px solid black;
-    font-size: 20px;
+    font-size: 18px;
  }
 
  .tutorial-button {
