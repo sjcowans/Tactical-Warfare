@@ -4,7 +4,6 @@
 <h1>Tactical Warfare</h1>
 <b>Glory Awaits!</b>
 </div><br>
-<div class="green-bg">
 
 <div class="tan-bg">
 <div class="tutorial-button">
@@ -12,7 +11,7 @@
 </div>
 
 <% if !@user.nil? %>
-<br><%= button_to "Continue", user_path(@user), method: :get, class: "big-button" %> 
+<br><%= button_to "Continue", user_path(@user), method: :get, class: "big-button" %> <br>
 <%= button_to 'Sign Out', "/logout", method: :delete, class: "big-button" %>
 <% else %>
 <%= button_to "Sign Up!", "/sign_up", method: :get, class: "big-button" %>

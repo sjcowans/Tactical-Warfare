@@ -35,7 +35,7 @@
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
-    width: 97%; 
+    width: 98%; 
     position: relative; 
     background-color: rgb(85, 107, 47);
     color: rgb(250, 235, 215);
@@ -52,7 +52,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   position: relative; 
-  width: 99%; 
+  width: 100%; 
   background-color: rgb(85, 107, 47);
   color: rgb(250, 235, 215);
   padding-top: 1%;
@@ -65,7 +65,7 @@
 
  .tan-bg {
     background: url(tan-bg.png);
-    width: 99%; 
+    width: 100%; 
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
@@ -86,7 +86,7 @@
   left: 0; 
   font-variant-caps: small-caps;
   background-color: rgb(85, 107, 47); 
-  width: 99%; 
+  width: 100%; 
   border: 5px ridge rgb(205, 178, 26);
   color: rgb(205, 178, 26);
 	text-shadow: -5px 4px black;
@@ -107,7 +107,7 @@
   padding-top: 1.2%;
   padding-bottom: 2%;
   background-color: rgb(85, 107, 47); 
-  width: 99%; 
+  width: 100%; 
   border: 5px ridge rgb(205, 178, 26);
  }
 
