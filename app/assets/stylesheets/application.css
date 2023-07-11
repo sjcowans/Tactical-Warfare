@@ -16,6 +16,7 @@
  body {
   background: url(bg.png);
   height: 100%;
+  min-width: 700;
   background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;
@@ -31,7 +32,7 @@
  }
 
  .green-bg { 
-    min-width: 600px;
+    min-width: 650px;
     background: url(green-bg.png);
     background-position: center top;
     background-repeat: no-repeat;
@@ -63,7 +64,7 @@
 } 
 
  .tan-bg {
-    min-width: 600px;
+    min-width: 650px;
     background: url(tan-bg.png);
     background-position: center top;
     background-repeat: no-repeat;
@@ -77,7 +78,7 @@
 
  div#banner { 
   height: 160px;
-  min-width: 600px;
+  min-width: 50px;
   background: url(banner.png);
   background-position: center top;
   background-repeat: no-repeat;
@@ -93,7 +94,7 @@
  }
 
  div#banner-2 { 
-  min-width: 600px;
+  min-width: 50px;
   background: url(green-bg.png);
   background-position: center top;
   background-repeat: no-repeat;
