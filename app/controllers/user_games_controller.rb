@@ -53,19 +53,48 @@ class UserGamesController < ApplicationController
         flash[:alert] = 'Not Enough Turns'
       end
     end
-    if params[:defender_id] && params[:attacker_id]
+    if params[:ground_attack]
       @attacker = Country.find(params[:attacker_id])
-      if @attacker.turns < 100
+      if @attacker.turns < 150
         redirect_to user_game_path(@user_game)
         flash[:alert] = 'Not Enough Turns'
       else
         @defender = Country.find(params[:defender_id])
         @battle_report = CountryBattleReport.create!(attacker_country_id: @attacker.id, defender_country_id: @defender.id, game_id: @game.id)
         @attacker.air_to_air_attack(@attacker, @defender, @battle_report)
+        @defender.air_to_navy_attack(@defender, @attacker, @battle_report, 1)
         @attacker.navy_to_navy_attack(@attacker, @defender, @battle_report)
         @defender.air_to_armor_attack(@defender, @attacker, @battle_report, 1)
-        @defender.navy_to_navy_attack(@defender, @attacker, @battle_report, 1)
+        @defender.navy_to_armor_attack(@defender, @attacker, @battle_report, 1)
         @attacker.ground_to_ground_attack(@attacker, @defender, @battle_report)
+        @battle_report.select_victor
+        redirect_to "/user_games/#{@user_game.id}/country_battle_reports/#{@battle_report.id}"
+      end
+    elsif params[:air_attack]
+      @attacker = Country.find(params[:attacker_id])
+      if @attacker.turns < 50
+        redirect_to user_game_path(@user_game)
+        flash[:alert] = 'Not Enough Turns'
+      else
+        @defender = Country.find(params[:defender_id])
+        @battle_report = CountryBattleReport.create!(attacker_country_id: @attacker.id, defender_country_id: @defender.id, game_id: @game.id)
+        @attacker.air_to_air_attack(@attacker, @defender, @battle_report)
+        @defender.air_to_air_attack(@defender, @attacker, @battle_report, 1)
+        @battle_report.select_victor
+      end
+        redirect_to "/user_games/#{@user_game.id}/country_battle_reports/#{@battle_report.id}"
+    elsif params[:naval_attack]
+      @attacker = Country.find(params[:attacker_id])
+      if @attacker.turns < 50
+        redirect_to user_game_path(@user_game)
+        flash[:alert] = 'Not Enough Turns'
+      else
+        @defender = Country.find(params[:defender_id])
+        @battle_report = CountryBattleReport.create!(attacker_country_id: @attacker.id, defender_country_id: @defender.id, game_id: @game.id)
+        @defender.air_to_navy_attack(@defender, @attacker, @battle_report, 1)
+        @attacker.navy_to_navy_attack(@attacker, @defender, @battle_report)
+        @defender.navy_to_navy_attack(@defender, @attacker, @battle_report, 1)
+        @battle_report.select_victor
         redirect_to "/user_games/#{@user_game.id}/country_battle_reports/#{@battle_report.id}"
       end
     end

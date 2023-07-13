@@ -38,9 +38,11 @@
 <u><h3>The Nation of <%= @country.name %></h3></u>
 <p><u>Game Date: <%= @game.game_date%></u><p>
 <div class="tan-bg">
-<%= button_to "Attack", user_game_path(@user_game), method: :patch,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:attacker_id => @user_country.id, :defender_id => @country.id}, class: "button"%>
+<%= button_to "Ground Attack", user_game_path(@user_game), method: :patch,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:ground_attack => true, :attacker_id => @user_country.id, :defender_id => @country.id}, class: "button"%>
+<%= button_to "Air Attack", user_game_path(@user_game), method: :patch,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:air_attack => true, :attacker_id => @user_country.id, :defender_id => @country.id}, class: "button"%>
+<%= button_to "Naval Attack", user_game_path(@user_game), method: :patch,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:naval_attack => true, :attacker_id => @user_country.id, :defender_id => @country.id}, class: "button"%>
 
-Note: Attacks take 100 Turns<br>
+Note: Ground attacks take 150 Turns, Air and Naval Attacks take 50 Turns<br>
 </div>
 
 <h4>Information:</h4>
