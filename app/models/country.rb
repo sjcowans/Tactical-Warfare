@@ -308,7 +308,7 @@ class Country < ApplicationRecord
   end
 
   def armor_health
-    health = (self.air_armored * 150) + (self.sea_armored * 500) + (self.basic_armored * 500) + (self.armor_armored * 1000)
+    health = (self.air_armored * 150) + (self.sea_armored * 350) + (self.basic_armored * 350) + (self.armor_armored * 700)
     (health * 1.01**self.armored_armor_tech) + 0.001
   end
 
