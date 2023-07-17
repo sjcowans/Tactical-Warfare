@@ -23,6 +23,10 @@ class Units
     total_recruit_pop(turns) + total_population
   end
 
+  def hangar_capacity_check(buildings, turns)
+    total_recruited(buildings, turns) + @number
+  end
+
   def recruitment_per_turn(hangars)
     (@recruitment_rate * hangars).to_f
   end
