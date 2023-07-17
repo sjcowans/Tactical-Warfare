@@ -17,7 +17,7 @@ class ArmorArmored < Units
     @hard_attack = 250
     @air_attack = 0
     @naval_attack = 0
-    @health = 700
+    @health = 1000
     @cost = 10_000_000
     @upkeep = 10_000
     @population = 6

@@ -13,14 +13,14 @@ class AirAircraft < Units
 
   def initialize(count)
     @name = 'Air Superiority Fighters'
-    @soft_attack = count * 750
-    @hard_attack = count * 1000
-    @air_attack = count * 5000
-    @naval_attack = count * 250
-    @health = count * 3000
+    @soft_attack = 750
+    @hard_attack = 1000
+    @air_attack = 5000
+    @naval_attack = 250
+    @health = 3000
     @cost = 150_000_000
     @upkeep = 150_000
-    @population = count * 10
+    @population = 10
     @number = count
     @recruitment_rate = 10 / 1000.to_f
   end
