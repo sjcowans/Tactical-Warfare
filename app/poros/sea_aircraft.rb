@@ -21,6 +21,7 @@ class SeaAircraft  < Units
     @cost = 750_000_000
     @upkeep = 600_000
     @population = 10
+    @hanger_space = 2
     @number = count
     @recruitment_rate = 8 / 1000.to_f
   end

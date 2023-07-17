@@ -176,14 +176,14 @@ class Country < ApplicationRecord
   def hangar_recruit_capacity_check(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft, attack_helicopter, transport_helicopter, naval_helicopter)
     load_units
     (
-      @basic_aircraft.recruit_capacity_check(basic_aircraft) + 
-      @air_aircraft.recruit_capacity_check(air_aircraft) + 
-      @sea_aircraft.recruit_capacity_check(sea_aircraft) + 
-      @armor_aircraft.recruit_capacity_check(armor_aircraft) +
-      @attack_helicopter.recruit_capacity_check(attack_helicopter) +
-      @transport_helicopter.recruit_capacity_check(transport_helicopter) +
-      @naval_helicopter.recruit_capacity_check(naval_helicopter)
-    ) <= (hangars * 15)
+      @basic_aircraft.hangar_space_check(@self.hangars, basic_aircraft) + 
+      @air_aircraft.hangar_space_check(@self.hangars, air_aircraft) + 
+      @sea_aircraft.hangar_space_check(@self.hangars, sea_aircraft) + 
+      @armor_aircraft.hangar_space_check(@self.hangars, armor_aircraft) +
+      @attack_helicopter.hangar_space_check(@self.hangars, attack_helicopter) +
+      @transport_helicopter.hangar_space_check(@self.hangars, transport_helicopter) +
+      @naval_helicopter.hangar_space_check(@self.hangars, naval_helicopter)
+    ) <= (hangars * 150)
   end
 
   def self.add_turn

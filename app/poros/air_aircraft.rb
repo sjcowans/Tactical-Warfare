@@ -21,6 +21,7 @@ class AirAircraft < Units
     @cost = 150_000_000
     @upkeep = 150_000
     @population = count * 10
+    @hangar_space = 1
     @number = count
     @recruitment_rate = 10 / 1000.to_f
   end

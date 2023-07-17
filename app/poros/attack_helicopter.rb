@@ -21,6 +21,7 @@ class AttackHelicopter < Units
   @cost = 50_000_000
   @upkeep = 50_000
   @population = 10
+  @hangar_space = 1
   @number = count
   @recruitment_rate = 15 / 1000.to_f
   end

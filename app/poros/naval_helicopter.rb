@@ -21,6 +21,7 @@ class NavalHelicopter < Units
   @cost = 100_000_000
   @upkeep = 100_000
   @population = 24
+  @hangar_space = 1
   @number = count
   @recruitment_rate = 15 / 1000.to_f
   end

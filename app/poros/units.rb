@@ -19,6 +19,10 @@ class Units
     @population * @number
   end
 
+  def hangar_space_check(buildings, turns)
+    total_recruited(buildings, turns) + @hanger_space
+  end
+
   def recruit_capacity_check(turns)
     total_recruit_pop(turns) + total_population
   end
