@@ -295,7 +295,7 @@ class Country < ApplicationRecord
   end
 
   def tech_cost_increase
-    1.01 ** ((self.infantry_weapon_tech +
+    1.005 ** ((self.infantry_weapon_tech +
               self.infantry_armor_tech +
               self.armored_weapon_tech +
               self.armored_armor_tech +
