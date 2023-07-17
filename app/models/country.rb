@@ -302,7 +302,7 @@ class Country < ApplicationRecord
               self.aircraft_weapon_tech +
               self.aircraft_armor_tech +
               self.ship_weapon_tech +
-              self.ship_armor_tech) / 8 )
+              self.ship_armor_tech) / 3 )
   end
 
   def unit_upkeep 
