@@ -36,7 +36,7 @@ class CountryBattleReport < ApplicationRecord
   end
 
   def defender_aircraft_points
-    50 * (defender_killed_basic_aircraft + (3 * defender_killed_sea_aircraft) + (2 * defender_killed_air_aircraft) + (3 * defender_killed_armor_aircraft))
+    50 * (defender_killed_basic_aircraft + (3 * defender_killed_sea_aircraft) + (2 * defender_killed_air_aircraft) + (3 * defender_killed_armor_aircraft) + (defender_killed_attack_helicopter/2) + (defender_killed_transport_helicopter/2) + (defender_killed_naval_helicopter/2))
   end
 
   def defender_ship_points
@@ -52,7 +52,7 @@ class CountryBattleReport < ApplicationRecord
   end
 
   def aircraft_points
-    50 * (killed_basic_aircraft + (3 * killed_sea_aircraft) + (2 * killed_air_aircraft) + (3 * killed_armor_aircraft))
+    50 * (killed_basic_aircraft + (3 * killed_sea_aircraft) + (2 * killed_air_aircraft) + (3 * killed_armor_aircraft) + (killed_attack_helicopter/2) + (killed_transport_helicopter/2) + (killed_naval_helicopter/2))
   end
 
   def ship_points
