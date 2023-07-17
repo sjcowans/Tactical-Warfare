@@ -295,7 +295,7 @@ class Country < ApplicationRecord
   end
 
   def tech_cost_increase
-    1.001 ** ((self.infantry_weapon_tech +
+    1.01 ** ((self.infantry_weapon_tech +
               self.infantry_armor_tech +
               self.armored_weapon_tech +
               self.armored_armor_tech +
@@ -1269,7 +1269,7 @@ class Country < ApplicationRecord
   def recruit_units(params)
     self.recruit_infantry(params[:infantry].to_i, params[:air_infantry].to_i, params[:sea_infantry].to_i, params[:armor_infantry].to_i)
     self.recruit_armored(params[:armored].to_i, params[:air_armored].to_i, params[:sea_armored].to_i, params[:armor_armored].to_i)
-    self.recruit_ships(params[:ships].to_i, params[:air_ships].to_i, params[:sea_ships].to_i, params[:armor_ships].to_i)
+    self.recruit_ships(params[:ship].to_i, params[:air_ship].to_i, params[:sea_ship].to_i, params[:armor_ship].to_i)
     self.recruit_aircraft(params[:aircraft].to_i, params[:air_aircraft].to_i, params[:sea_aircraft].to_i, params[:armor_aircraft].to_i, params[:attack_helicopter].to_i, params[:transport_helicopter].to_i, params[:naval_helicopter].to_i)
   end
 
