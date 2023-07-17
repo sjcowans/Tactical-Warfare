@@ -1141,43 +1141,43 @@ class Country < ApplicationRecord
 
   def decomission(basic_infantry_decomission, air_infantry_decomission, sea_infantry_decomission,
                   armor_infantry_decomission, basic_armored_decomission, air_armored_decomission, sea_armored_decomission, armor_armored_decomission, basic_aircraft_decomission, air_aircraft_decomission, sea_aircraft_decomission, armor_aircraft_decomission, basic_ship_decomission, air_ship_decomission, sea_ship_decomission, armor_ship_decomission, transport_helicopter_decomission, attack_helicopter_decomission, naval_helicopter)
-    self.basic_infantry -= basic_infantry_decomission.to_i
+    self.basic_infantry -= params[:basic_infantry_decomission].to_i
     self.basic_infantry = 0 if self.basic_infantry < 0
-    self.air_infantry -= air_infantry_decomission.to_i
+    self.air_infantry -= params[:air_infantry_decomission].to_i
     self.air_infantry = 0 if self.air_infantry < 0
-    self.sea_infantry -= sea_infantry_decomission.to_i
+    self.sea_infantry -= params[:sea_infantry_decomission].to_i
     self.sea_infantry = 0 if self.sea_infantry < 0
-    self.armor_infantry -= armor_infantry_decomission.to_i
+    self.armor_infantry -= params[:armor_infantry_decomission].to_i
     self.armor_infantry = 0 if self.armor_infantry < 0
-    self.basic_armored -= basic_armored_decomission.to_i
+    self.basic_armored -= params[:basic_armored_decomission].to_i
     self.basic_armored = 0 if self.basic_armored < 0
-    self.air_armored -= air_armored_decomission.to_i
+    self.air_armored -= params[:air_armored_decomission].to_i
     self.air_armored = 0 if self.air_armored < 0
-    self.sea_armored -= sea_armored_decomission.to_i
+    self.sea_armored -= params[:sea_armored_decomission].to_i
     self.sea_armored = 0 if self.sea_armored < 0
-    self.armor_armored -= armor_armored_decomission.to_i
+    self.armor_armored -= params[:armor_armored_decomission].to_i
     self.armor_armored = 0 if self.armor_armored < 0
-    self.transport_helicopter -= transport_helicopter_decomission.to_i
+    self.transport_helicopter -= params[:transport_helicopter_decomission].to_i
     self.transport_helicopter = 0 if self.transport_helicopter < 0 
-    self.attack_helicopter -= attack_helicopter_decomission.to_i
+    self.attack_helicopter -= params[:attack_helicopter_decomission].to_i
     self.attack_helicopter = 0 if self.attack_helicopter < 0
-    self.naval_helicopter -= naval_helicopter_decomission.to_i
+    self.naval_helicopter -= params[:naval_helicopter_decomission].to_i
     self.naval_helicopter = 0 if self.naval_helicopter < 0
-    self.basic_aircraft -= basic_aircraft_decomission.to_i
+    self.basic_aircraft -= params[:basic_aircraft_decomission].to_i
     self.basic_aircraft = 0 if self.basic_aircraft < 0
-    self.air_aircraft -= air_aircraft_decomission.to_i
+    self.air_aircraft -= params[:air_aircraft_decomission].to_i
     self.air_aircraft = 0 if self.air_aircraft < 0
-    self.sea_aircraft -= sea_aircraft_decomission.to_i
+    self.sea_aircraft -= params[:sea_aircraft_decomission].to_i
     self.sea_aircraft = 0 if self.sea_aircraft < 0
-    self.armor_aircraft -= armor_aircraft_decomission.to_i
+    self.armor_aircraft -= params[:armor_aircraft_decomission].to_i
     self.armor_aircraft = 0 if self.armor_aircraft < 0
-    self.basic_ship -= basic_ship_decomission.to_i
+    self.basic_ship -= params[:basic_ship_decomission].to_i
     self.basic_ship = 0 if self.basic_ship < 0
-    self.air_ship -= air_ship_decomission.to_i
+    self.air_ship -= params[:air_ship_decomission].to_i
     self.air_ship = 0 if self.air_ship < 0
-    self.sea_ship -= sea_ship_decomission.to_i
+    self.sea_ship -= params[:sea_ship_decomission].to_i
     self.sea_ship = 0 if self.sea_ship < 0
-    self.armor_ship -= armor_ship_decomission.to_i
+    self.armor_ship -= params[:armor_ship_decomission].to_i
     self.armor_ship = 0 if self.armor_ship < 0
     save
   end
