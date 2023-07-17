@@ -104,10 +104,7 @@ class UserGamesController < ApplicationController
   end
 
   def decommission_units
-    decommission_params = %i[basic_infantry_decomission air_infantry_decomission sea_infantry_decomission
-                             armor_infantry_decomission basic_armored_decomission air_armored_decomission sea_armored_decomission armor_armored_decomission basic_aircraft_decomission air_aircraft_decomission sea_aircraft_decomission armor_aircraft_decomission basic_ship_decomission air_ship_decomission sea_ship_decomission armor_ship_decomission]
-
-    @country.decomission(decommission_params.map { |param| params[param].to_i })
+    @country.decomission(params)
     redirect_to user_game_path(@user_game)
   end
 

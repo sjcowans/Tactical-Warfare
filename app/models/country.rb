@@ -803,7 +803,7 @@ class Country < ApplicationRecord
       battle_report.killed_sea_aircraft += (defender.sea_aircraft - (defender.sea_aircraft * air_survivors)).round
       battle_report.killed_basic_aircraft += (defender.basic_aircraft - (defender.basic_aircraft * air_survivors)).round
       battle_report.killed_armor_aircraft += (defender.armor_aircraft - (defender.armor_aircraft * air_survivors)).round
-      battle_report.killed_attack_helicopter += (defender.attack_helicopter - (decomissioner.attack_helicopter * air_survivors)).round
+      battle_report.killed_attack_helicopter += (defender.attack_helicopter - (defender.attack_helicopter * air_survivors)).round
       battle_report.killed_transport_helicopter += (defender.transport_helicopter - (defender.transport_helicopter * air_survivors)).round
       battle_report.killed_naval_helicopter += (defender.naval_helicopter - (defender.naval_helicopter * air_survivors)).round
       battle_report.save
@@ -1140,7 +1140,7 @@ class Country < ApplicationRecord
   end
 
   def decomission(basic_infantry_decomission, air_infantry_decomission, sea_infantry_decomission,
-                  armor_infantry_decomission, basic_armored_decomission, air_armored_decomission, sea_armored_decomission, armor_armored_decomission, basic_aircraft_decomission, air_aircraft_decomission, sea_aircraft_decomission, armor_aircraft_decomission, basic_ship_decomission, air_ship_decomission, sea_ship_decomission, armor_ship_decomission)
+                  armor_infantry_decomission, basic_armored_decomission, air_armored_decomission, sea_armored_decomission, armor_armored_decomission, basic_aircraft_decomission, air_aircraft_decomission, sea_aircraft_decomission, armor_aircraft_decomission, basic_ship_decomission, air_ship_decomission, sea_ship_decomission, armor_ship_decomission, transport_helicopter_decomission, attack_helicopter_decomission, naval_helicopter)
     self.basic_infantry -= basic_infantry_decomission.to_i
     self.basic_infantry = 0 if self.basic_infantry < 0
     self.air_infantry -= air_infantry_decomission.to_i
@@ -1157,6 +1157,12 @@ class Country < ApplicationRecord
     self.sea_armored = 0 if self.sea_armored < 0
     self.armor_armored -= armor_armored_decomission.to_i
     self.armor_armored = 0 if self.armor_armored < 0
+    self.transport_helicopter -= transport_helicopter_decomission.to_i
+    self.transport_helicopter = 0 if self.transport_helicopter < 0 
+    self.attack_helicopter -= attack_helicopter_decomission.to_i
+    self.attack_helicopter = 0 if self.attack_helicopter < 0
+    self.naval_helicopter -= naval_helicopter_decomission.to_i
+    self.naval_helicopter = 0 if self.naval_helicopter < 0
     self.basic_aircraft -= basic_aircraft_decomission.to_i
     self.basic_aircraft = 0 if self.basic_aircraft < 0
     self.air_aircraft -= air_aircraft_decomission.to_i
