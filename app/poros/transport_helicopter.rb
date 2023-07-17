@@ -21,7 +21,6 @@ class TransportHelicopter < Units
   @cost = 5_000_000
   @upkeep = 10_000
   @population = 24
-  @hanger_space = 1
   @number = count
   @recruitment_rate = 20 / 1000.to_f
   end
