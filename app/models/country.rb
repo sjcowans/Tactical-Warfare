@@ -1139,8 +1139,7 @@ class Country < ApplicationRecord
     end
   end
 
-  def decomission(basic_infantry_decomission, air_infantry_decomission, sea_infantry_decomission,
-                  armor_infantry_decomission, basic_armored_decomission, air_armored_decomission, sea_armored_decomission, armor_armored_decomission, basic_aircraft_decomission, air_aircraft_decomission, sea_aircraft_decomission, armor_aircraft_decomission, basic_ship_decomission, air_ship_decomission, sea_ship_decomission, armor_ship_decomission, transport_helicopter_decomission, attack_helicopter_decomission, naval_helicopter)
+  def decomission(params)
     self.basic_infantry -= params[:basic_infantry_decomission].to_i
     self.basic_infantry = 0 if self.basic_infantry < 0
     self.air_infantry -= params[:air_infantry_decomission].to_i
