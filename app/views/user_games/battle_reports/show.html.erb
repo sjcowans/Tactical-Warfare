@@ -49,7 +49,7 @@
 
 <h4>Attacker:</h4>
 <%= link_to "#{@attacker.name}", user_game_country_path(@user_game, @attacker), method: :get %><br>
-Money Looted: <%= number_to_human(@report.money_taken) %><br> 
+Money Looted: <%= number_to_human(@report.taken_money) %><br> 
 Attacker Infantry Casualties: <%= number_to_human(@report.defender_killed_basic_infantry + @report.defender_killed_sea_infantry + @report.defender_killed_air_infantry + @report.defender_killed_armor_infantry) %><br> 
 Attacker Armored Casualties: <%= number_to_human(@report.defender_killed_basic_armored + @report.defender_killed_sea_armored + @report.defender_killed_air_armored + @report.defender_killed_armor_armored) %><br>
 Attacker Ship Casualties: <%= number_to_human(@report.defender_killed_basic_ship + @report.defender_killed_sea_ship + @report.defender_killed_air_ship + @report.defender_killed_armor_ship) %><br>

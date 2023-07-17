@@ -903,7 +903,6 @@ class Country < ApplicationRecord
       battle_report.destroyed_hangars = hangars_difference
       defender.money -= money_difference
       attacker.money += money_difference
-      battle_report.money_taken = money_difference
     end
     attacker.save
     defender.save

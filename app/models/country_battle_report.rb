@@ -4,7 +4,7 @@ class CountryBattleReport < ApplicationRecord
 
   def self.update_nil_money
     CountryBattleReport.all.each do |report|
-      report.money_taken = 0 if report.money_taken.nil?
+      report.taken_money = 0 if report.taken_money.nil?
       report.save
     end
   end
