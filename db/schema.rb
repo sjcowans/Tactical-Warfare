@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_17_005033) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_17_054729) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -93,7 +93,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_17_005033) do
 
   create_table "country_battle_reports", force: :cascade do |t|
     t.integer "taken_land", default: 0
-    t.integer "taken_money", default: 0
+    t.bigint "taken_money", default: 0
     t.integer "taken_armory", default: 0
     t.integer "taken_labs", default: 0
     t.integer "taken_dockyards", default: 0
@@ -146,7 +146,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_17_005033) do
     t.datetime "updated_at", null: false
     t.integer "taken_houses", default: 0
     t.integer "destroyed_houses", default: 0
-    t.bigint "money_taken", default: 0
     t.integer "victor"
     t.integer "killed_attack_helicopter", default: 0
     t.integer "killed_transport_helicopter", default: 0
