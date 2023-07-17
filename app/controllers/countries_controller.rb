@@ -6,9 +6,9 @@ class CountriesController < ApplicationController
   def index
     @user_game = UserGame.find_by_user_id(current_user.id)
     @game = Game.find(@user_game.game_id)
-    @country = Country.where(:user_id => current_user.id, :game_id => @user_game.game_id).first
+    @country = Country.where(user_id: current_user.id, game_id: @user_game.game_id).first
     @countries = Country.all
-    @defense_reports = CountryBattleReport.where(defender_country_id: @country.id).order("created_at DESC")
+    @defense_reports = CountryBattleReport.where(defender_country_id: @country.id).order('created_at DESC')
     @unread_reports = @defense_reports.unread_by(@country)
   end
 
@@ -18,7 +18,7 @@ class CountriesController < ApplicationController
     @country = Country.find(params[:id])
     @user = current_user
     @user_country = Country.find_by_user_id(@user.id)
-    @defense_reports = CountryBattleReport.where(defender_country_id: @country.id).order("created_at DESC")
+    @defense_reports = CountryBattleReport.where(defender_country_id: @country.id).order('created_at DESC')
     @unread_reports = @defense_reports.unread_by(@country)
   end
 
@@ -27,7 +27,7 @@ class CountriesController < ApplicationController
     @country = Country.find(params[:id])
     @user_game = UserGame.find(params[:user_game_id])
     @game = Game.find(params[:game_id])
-    @defense_reports = CountryBattleReport.where(defender_country_id: @country.id).order("created_at DESC")
+    @defense_reports = CountryBattleReport.where(defender_country_id: @country.id).order('created_at DESC')
     @unread_reports = @defense_reports.unread_by(@country)
   end
 
@@ -39,16 +39,18 @@ class CountriesController < ApplicationController
       redirect_to user_game_path(@user_game)
       flash[:alert] = "Error: #{error_message(@country.errors)}"
     end
-    if params[:infantry_weapon_tech] || params[:infantry_armor_tech] || params[:armored_weapon_tech] || params[:armored_armor_tech] || params[:aircraft_weapon_tech] || params[:aircraft_armor_tech] || params[:ship_weapon_tech] || params[:ship_armor_tech] || params[:efficiency_tech] || params[:building_upkeep_tech] || params[:unit_upkeep_tech] || params[:exploration_tech] || params[:research_tech] || params[:housing_tech]
-      if @country.research_points_check(params[:infantry_weapon_tech].to_i, params[:infantry_armor_tech].to_i, params[:armored_weapon_tech].to_i, params[:armored_armor_tech].to_i, params[:aircraft_weapon_tech].to_i, params[:aircraft_armor_tech].to_i, params[:ship_weapon_tech].to_i, params[:ship_armor_tech].to_i, params[:efficiency_tech].to_i, params[:building_upkeep_tech].to_i, params[:unit_upkeep_tech].to_i, params[:exploration_tech].to_i, params[:research_tech].to_i, params[:housing_tech].to_i)
-        redirect_to "/user_games/#{@user_game.id}/research"
-        flash[:success] = "Technology Researched"
-      else
-        redirect_to user_game_path(@user_game)
-        flash[:alert] = "Not Enough Research Points"
-      end
+    unless params[:infantry_weapon_tech] || params[:infantry_armor_tech] || params[:armored_weapon_tech] || params[:armored_armor_tech] || params[:aircraft_weapon_tech] || params[:aircraft_armor_tech] || params[:ship_weapon_tech] || params[:ship_armor_tech] || params[:efficiency_tech] || params[:building_upkeep_tech] || params[:unit_upkeep_tech] || params[:exploration_tech] || params[:research_tech] || params[:housing_tech]
+      return
     end
-  
+
+    if @country.research_points_check(params[:infantry_weapon_tech].to_i, params[:infantry_armor_tech].to_i,
+                                      params[:armored_weapon_tech].to_i, params[:armored_armor_tech].to_i, params[:aircraft_weapon_tech].to_i, params[:aircraft_armor_tech].to_i, params[:ship_weapon_tech].to_i, params[:ship_armor_tech].to_i, params[:efficiency_tech].to_i, params[:building_upkeep_tech].to_i, params[:unit_upkeep_tech].to_i, params[:exploration_tech].to_i, params[:research_tech].to_i, params[:housing_tech].to_i)
+      redirect_to "/user_games/#{@user_game.id}/research"
+      flash[:success] = 'Technology Researched'
+    else
+      redirect_to user_game_path(@user_game)
+      flash[:alert] = 'Not Enough Research Points'
+    end
   end
 
   private

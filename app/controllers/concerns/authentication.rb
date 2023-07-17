@@ -46,7 +46,7 @@ module Authentication
   end
 
   def forget(user)
-    if user 
+    if user
       cookies.delete :remember_token
       user.active_sessions.last.regenerate_remember_token
     else
@@ -55,9 +55,7 @@ module Authentication
   end
 
   def remember(user)
-    if user.class == ActiveSession
-      user = User.find(user.user_id)
-    end
+    user = User.find(user.user_id) if user.instance_of?(ActiveSession)
     user.active_sessions.last.regenerate_remember_token
     cookies.permanent.encrypted[:remember_token] = user.active_sessions.last.remember_token
   end

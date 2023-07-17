@@ -98,6 +98,30 @@ Note: Ground attacks take 150 Turns, Air and Naval Attacks take 50 Turns<br>
       <p style="color:rgb(178, 34, 34);">Tank Casualties <%= number_to_human(@country.armor_vehicle_casualties) %> </p>
     </td>
   </tr>
+    <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Transport Helicopter Kills <%= number_to_human(@country.transport_helicopter_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Transport Helicopter Casualties <%= number_to_human(@country.transport_helicopter_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Attack Helicopter Kills <%= number_to_human(@country.attack_helicopter_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Attack Helicopter Casualties <%= number_to_human(@country.attack_helicopter_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Naval Helicopter Kills <%= number_to_human(@country.naval_helicopter_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Naval Helicopter Casualties <%= number_to_human(@country.naval_helicopter_casualties) %> </p>
+    </td>
+  </tr>
   <tr>
     <td>
       <p style="color:rgb(85, 107, 47);">Multi-Role Fighter Kills <%= number_to_human(@country.basic_aircraft_kills) %> </p>

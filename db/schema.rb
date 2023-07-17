@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_10_001606) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_17_005033) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -84,6 +84,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_10_001606) do
     t.integer "exploration_tech", default: 0
     t.integer "research_tech", default: 0
     t.integer "housing_tech", default: 0
+    t.integer "attack_helicopter", default: 0
+    t.integer "transport_helicopter", default: 0
+    t.integer "naval_helicopter", default: 0
     t.index ["game_id"], name: "index_countries_on_game_id"
     t.index ["user_id"], name: "index_countries_on_user_id"
   end
@@ -145,6 +148,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_10_001606) do
     t.integer "destroyed_houses", default: 0
     t.bigint "money_taken", default: 0
     t.integer "victor"
+    t.integer "killed_attack_helicopter", default: 0
+    t.integer "killed_transport_helicopter", default: 0
+    t.integer "killed_naval_helicopter", default: 0
+    t.integer "defender_killed_attack_helicopter", default: 0
+    t.integer "defender_killed_transport_helicopter", default: 0
+    t.integer "defender_killed_naval_helicopter", default: 0
     t.index ["game_id"], name: "index_country_battle_reports_on_game_id"
   end
 

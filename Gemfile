@@ -44,9 +44,9 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 # Reduces boot times through caching; required in config/boot.rb
 gem 'arask'
 gem 'bootsnap', require: false
+gem 'jquery-rails'
 gem 'numbers_in_words'
 gem 'rubocop'
-gem 'jquery-rails'
 gem 'unread'
 
 # Use Sass to process CSS
@@ -85,4 +85,3 @@ group :test do
   gem 'shoulda-matchers'
   gem 'webdrivers'
 end
-

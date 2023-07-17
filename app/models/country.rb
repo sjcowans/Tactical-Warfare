@@ -6,25 +6,25 @@ class Country < ApplicationRecord
   def explore_land(total_turns)
     @new_land = 0
     total_turns.to_i.times do
-      @new_land += rand(5..20) * 1.01**self.exploration_tech
+      @new_land += rand(5..20) * 1.01**exploration_tech
     end
     self.land = land + @new_land
     take_turns(total_turns)
   end
 
   def take_turns(total_turns)
-    self.save
+    save
     self.turns -= total_turns.to_i
     self.money += (net * total_turns.to_i)
-    self.research_points += (labs * total_turns.to_i * 1.01**self.research_tech)
+    self.research_points += (labs * total_turns.to_i * 1.01**research_tech)
     self.population =
-    if population < (houses * 1000)
-      population + ((((houses * 1000 * 1.01**self.housing_tech) + (infrastructure * 50)) - population) * 0.0002 * total_turns.to_i).to_i
-    else
-      population - ((population - ((houses * 1000 * 1.01**self.housing_tech) + (infrastructure * 50))) * 0.002 * total_turns.to_i).to_i
-    end
-    self.save
-    self.score_calc
+      if population < (houses * 1000)
+        population + ((((houses * 1000 * 1.01**housing_tech) + (infrastructure * 50)) - population) * 0.0002 * total_turns.to_i).to_i
+      else
+        population - ((population - ((houses * 1000 * 1.01**housing_tech) + (infrastructure * 50))) * 0.002 * total_turns.to_i).to_i
+      end
+    save
+    score_calc
   end
 
   def build(infra, shops, barracks, armories, hangars, dockyards, labs, houses)
@@ -35,13 +35,13 @@ class Country < ApplicationRecord
   def demolish(infra, shops, barracks, armories, hangars, dockyards, labs, houses)
     bonus = 10 * ((infrastructure + 1000) / 1000).round(0)
     self.infrastructure = infrastructure - (infra.to_i * bonus)
-    self.infrastructure = 0 if self.infrastructure < 0
+    self.infrastructure = 0 if infrastructure < 0
     self.shops = self.shops - (shops.to_i * bonus)
     self.shops = 0 if self.shops < 0
     self.barracks = self.barracks - (barracks.to_i * bonus)
     self.barracks = 0 if self.barracks < 0
     self.armory = armory - (armories.to_i * bonus)
-    self.armory = 0 if self.armory < 0
+    self.armory = 0 if armory < 0
     self.hangars = self.hangars - (hangars.to_i * bonus)
     self.hangars = 0 if self.hangars < 0
     self.dockyards = self.dockyards - (dockyards.to_i * bonus)
@@ -50,7 +50,7 @@ class Country < ApplicationRecord
     self.labs = 0 if self.labs < 0
     self.houses = self.houses - (houses.to_i * bonus)
     self.houses = 0 if self.houses < 0
-    total_turns = (infra.to_i + shops.to_i + barracks.to_i + armories.to_i + hangars.to_i + dockyards.to_i + labs.to_i + houses.to_i)/10
+    total_turns = (infra.to_i + shops.to_i + barracks.to_i + armories.to_i + hangars.to_i + dockyards.to_i + labs.to_i + houses.to_i) / 10
     total_turns = 1 if total_turns < 1
     take_turns(total_turns)
   end
@@ -76,6 +76,7 @@ class Country < ApplicationRecord
   end
 
   def total_military_pop
+    load_units
     (basic_infantry * 1) +
       (air_infantry * 1) +
       (sea_infantry * 1) +
@@ -91,7 +92,10 @@ class Country < ApplicationRecord
       (basic_aircraft * 10) +
       (air_aircraft * 10) +
       (sea_aircraft * 10) +
-      (armor_armored * 10)
+      (armor_armored * 10) +
+      @naval_helicopter.total_population +
+      @attack_helicopter.total_population +
+      @transport_helicopter.total_population
   end
 
   def infantry_recruit_pop_check(basic_infantry, air_infantry, sea_infantry, armor_infantry)
@@ -144,23 +148,42 @@ class Country < ApplicationRecord
     (self.basic_ship + (self.air_ship * 5 / 2) + (self.sea_ship * 5 / 3) + (self.armor_ship * 5)) + (dockyards * 5 * 0.001 * turns) <= (dockyards * 5)
   end
 
-  def aircraft_recruit_cost(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft)
-    ((basic_aircraft * 900_000_000) +
-    (air_aircraft * 1_500_000_000) +
-    (sea_aircraft * 6_000_000_000) +
-    (armor_aircraft * 5_000_000_000)) * 0.001 * hangars
+  def aircraft_recruit_cost(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft, attack_helicopter, transport_helicopter, naval_helicopter)
+    load_units
+    @basic_aircraft.cost_per_turn(self.hangars, basic_aircraft) +
+    @air_aircraft.cost_per_turn(self.hangars, air_aircraft) +
+    @armor_aircraft.cost_per_turn(self.hangars, armor_aircraft) +
+    @sea_aircraft.cost_per_turn(self.hangars, sea_aircraft) +
+    @attack_helicopter.cost_per_turn(self.hangars, attack_helicopter) +
+    @transport_helicopter.cost_per_turn(self.hangars, transport_helicopter) +
+    @naval_helicopter.cost_per_turn(self.hangars, naval_helicopter)
   end
 
-  def aircraft_recruit_pop_check(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft)
-    pop = (((basic_aircraft * 15 * 10) + (air_aircraft * 10 * 10) + (sea_aircraft * 8 * 10) + (armor_aircraft * 5 * 10)) * hangars * 0.001)
-    return unless population / (total_military_pop + pop) > 0.1
+  def aircraft_recruit_pop_check(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft, attack_helicopter, transport_helicopter, naval_helicopter)
+    load_units
+    recruit_pop = @basic_aircraft.total_recruit_pop(basic_aircraft) + 
+                  @air_aircraft.total_recruit_pop(air_aircraft) + 
+                  @sea_aircraft.total_recruit_pop(sea_aircraft) + 
+                  @armor_aircraft.total_recruit_pop(armor_aircraft) + 
+                  @attack_helicopter.total_recruit_pop(attack_helicopter) + 
+                  @transport_helicopter.total_recruit_pop(transport_helicopter) + 
+                  @naval_helicopter.total_recruit_pop(naval_helicopter) + 1
+    return unless population / (total_military_pop + recruit_pop) > 0.1
 
-    hangar_recruit_capacity_check(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft)
+    hangar_recruit_capacity_check(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft, attack_helicopter, transport_helicopter, naval_helicopter)
   end
 
-  def hangar_recruit_capacity_check(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft)
-    turns = (basic_aircraft + air_aircraft + sea_aircraft + armor_aircraft)
-    (self.basic_aircraft + (self.air_aircraft * 15 / 10) + (self.sea_aircraft * 15 / 8) + (self.armor_aircraft * 15 / 5)) + (hangars * 5 * 0.001 * turns) <= (hangars * 15)
+  def hangar_recruit_capacity_check(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft, attack_helicopter, transport_helicopter, naval_helicopter)
+    load_units
+    (
+      @basic_aircraft.recruit_capacity_check(basic_aircraft) + 
+      @air_aircraft.recruit_capacity_check(air_aircraft) + 
+      @sea_aircraft.recruit_capacity_check(sea_aircraft) + 
+      @armor_aircraft.recruit_capacity_check(armor_aircraft) +
+      @attack_helicopter.recruit_capacity_check(attack_helicopter) +
+      @transport_helicopter.recruit_capacity_check(transport_helicopter) +
+      @naval_helicopter.recruit_capacity_check(naval_helicopter)
+    ) <= (hangars * 15)
   end
 
   def self.add_turn
@@ -251,46 +274,74 @@ class Country < ApplicationRecord
     save
   end
 
-  def recruit_planes(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft)
-    self.basic_aircraft += (hangars * 15 * 0.001 * basic_aircraft)
-    self.air_aircraft += (hangars * 10 * 0.001 * air_aircraft)
-    self.sea_aircraft += (hangars * 8 * 0.001 * sea_aircraft)
-    self.armor_aircraft += (hangars * 5 * 0.001 * armor_aircraft)
-    take_turns(basic_aircraft + air_aircraft + sea_aircraft + armor_aircraft)
-    self.money -= aircraft_recruit_cost(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft)
+  def recruit_aircraft(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft, attack_helicopter, transport_helicopter, naval_helicopter)
+    load_units
+    self.basic_aircraft += @basic_aircraft.total_recruited(self.hangars, basic_aircraft)
+    self.air_aircraft += @air_aircraft.total_recruited(self.hangars, air_aircraft)
+    self.sea_aircraft += @sea_aircraft.total_recruited(self.hangars, sea_aircraft)
+    self.armor_aircraft += @armor_aircraft.total_recruited(self.hangars, armor_aircraft)
+    self.attack_helicopter += @attack_helicopter.total_recruited(self.hangars, attack_helicopter)
+    self.transport_helicopter += @transport_helicopter.total_recruited(self.hangars, transport_helicopter)
+    self.naval_helicopter += @naval_helicopter.total_recruited(self.hangars, naval_helicopter)
+
+    take_turns(basic_aircraft + air_aircraft + sea_aircraft + armor_aircraft + attack_helicopter + transport_helicopter + naval_helicopter)
+    self.money -= aircraft_recruit_cost(basic_aircraft, air_aircraft, sea_aircraft, armor_aircraft, attack_helicopter, transport_helicopter, naval_helicopter)
     save
   end
 
   def gross
-    (((shops * 10_000) + (infrastructure * 1500) + (population * 25)) * 1.01**efficiency_tech) + 1000000
+    load_buildings
+    ((@shops.total_income + @infrastructure.total_income + (population * 40)) * 1.01**efficiency_tech) + 1_000_000
+  end
+
+  def tech_cost_increase
+    1.01 ** ((self.infantry_weapon_tech +
+              self.infantry_armor_tech +
+              self.armored_weapon_tech +
+              self.armored_armor_tech +
+              self.aircraft_weapon_tech +
+              self.aircraft_armor_tech +
+              self.ship_weapon_tech +
+              self.ship_armor_tech) / 8 )
+  end
+
+  def unit_upkeep 
+    load_units
+    0.99**unit_upkeep_tech * tech_cost_increase * (
+                                                    @basic_infantry.total_upkeep +
+                                                    @air_infantry.total_upkeep + 
+                                                    @sea_infantry.total_upkeep + 
+                                                    @armor_infantry.total_upkeep + 
+                                                    @basic_armored.total_upkeep +
+                                                    @air_armored.total_upkeep + 
+                                                    @sea_armored.total_upkeep + 
+                                                    @armor_armored.total_upkeep + 
+                                                    @basic_aircraft.total_upkeep + 
+                                                    @air_aircraft.total_upkeep + 
+                                                    @sea_aircraft.total_upkeep + 
+                                                    @armor_aircraft.total_upkeep + 
+                                                    @basic_ship.total_upkeep + 
+                                                    @air_ship.total_upkeep +
+                                                    @sea_ship.total_upkeep +
+                                                    @armor_ship.total_upkeep ).round
+  end
+
+  def building_upkeep
+    load_buildings
+    0.99**building_upkeep_tech * (  
+                                    @houses.total_upkeep +
+                                    @shops.total_upkeep +
+                                    @infrastructure.total_upkeep +
+                                    (population * 50) +
+                                    @barracks.total_upkeep +
+                                    @armories.total_upkeep +
+                                    @hangars.total_upkeep +
+                                    @dockyards.total_upkeep +
+                                    @labs.total_upkeep ).round
   end
 
   def expenses
-    0.99**unit_upkeep_tech * ((basic_infantry * 100) +
-    (air_infantry * 200) +
-    (sea_infantry * 200) +
-    (armor_infantry * 300) +
-    (basic_armored * 1000) +
-    (air_armored * 1000) +
-    (sea_armored * 2500) +
-    (armor_armored * 10_000) +
-    (basic_ship * 100_000) +
-    (air_ship * 1_000_000) +
-    (sea_ship * 1_000_000) +
-    (armor_ship * 2_500_000) +
-    (basic_aircraft * 40_000) +
-    (air_aircraft * 150_000) +
-    (sea_aircraft * 600_000) +
-    (armor_aircraft * 1_000_000)) + 
-    0.99**building_upkeep_tech * ((houses * 500) +
-    (shops * 1000) +
-    (infrastructure * ( 1 + infrastructure/1000) * (1 + infrastructure/10000) * 2000) +
-    (population * 15) +
-    (barracks * 500) +
-    (armory * 500) +
-    (hangars * 1000) +
-    (dockyards * 2500) +
-    (labs + (labs**2.5/2.5)))
+    unit_upkeep + building_upkeep
   end
 
   def net
@@ -303,27 +354,39 @@ class Country < ApplicationRecord
   end
 
   def air_health
-    health = (self.air_aircraft * 3000) + (self.basic_aircraft * 2000) + (self.sea_aircraft * 2500) + (self.armor_aircraft * 5000)
-    (health * 1.01**self.aircraft_armor_tech) + 0.001
+    load_units
+    health =  @air_aircraft.total_health + 
+              @basic_aircraft.total_health + 
+              @sea_aircraft.total_health + 
+              @armor_aircraft.total_health + 
+              @attack_helicopter.total_health + 
+              @transport_helicopter.total_health + 
+              @naval_helicopter.total_health
+    (health * 1.01**aircraft_armor_tech) + 0.001
   end
 
   def armor_health
     health = (self.air_armored * 150) + (self.sea_armored * 350) + (self.basic_armored * 350) + (self.armor_armored * 700)
-    (health * 1.01**self.armored_armor_tech) + 0.001
+    (health * 1.01**armored_armor_tech) + 0.001
   end
 
   def navy_health
     health = (self.air_ship * 20_000) + (self.sea_ship * 25_000) + (self.basic_ship * 5000) + (self.armor_ship * 90_000)
-    (health * 1.01**self.ship_armor_tech) + 0.001
+    (health * 1.01**ship_armor_tech) + 0.001
   end
 
   def infantry_health
     health = (self.air_infantry * 24) + (self.sea_infantry * 20) + (self.basic_infantry * 30) + (self.armor_infantry * 16)
-    (health * 1.01**self.infantry_armor_tech) + 0.001
+    (health * 1.01**infantry_armor_tech) + 0.001
   end
 
   def air_to_air_attack(attacker, defender, battle_report, retaliation = 0)
-    attacker_air_damage = ((attacker.air_aircraft * 5000) + (attacker.basic_aircraft * 2000)) * 1.01**attacker.aircraft_weapon_tech
+    load_battle_units(attacker, defender)
+    attacker_air_damage = ( @attacker_air_aircraft.total_air_damage + 
+                            @attacker_basic_aircraft.total_air_damage + 
+                            @attacker_transport_helicopter.total_air_damage +
+                            @attacker_attack_helicopter.total_air_damage +
+                            @attacker_naval_helicopter.total_air_damage) * 1.01**attacker.aircraft_weapon_tech
     defender_air_health = defender.air_health
     damage_ratio = attacker_air_damage / defender_air_health.to_f
     survivors = 1 - (rand(0.025..0.05) * damage_ratio)
@@ -332,14 +395,24 @@ class Country < ApplicationRecord
     battle_report.killed_sea_aircraft += (defender.sea_aircraft - (defender.sea_aircraft * survivors)).round
     battle_report.killed_basic_aircraft += (defender.basic_aircraft - (defender.basic_aircraft * survivors)).round
     battle_report.killed_armor_aircraft += (defender.armor_aircraft - (defender.armor_aircraft * survivors)).round
+    battle_report.killed_attack_helicopter += (defender.attack_helicopter - (defender.attack_helicopter * survivors)).round
+    battle_report.killed_transport_helicopter += (defender.transport_helicopter - (defender.transport_helicopter * survivors)).round
+    battle_report.killed_naval_helicopter += (defender.naval_helicopter - (defender.naval_helicopter * survivors)).round
     battle_report.save
     defender.air_aircraft = (defender.air_aircraft * survivors).round
     defender.sea_aircraft = (defender.sea_aircraft * survivors).round
     defender.basic_aircraft = (defender.basic_aircraft * survivors).round
     defender.armor_aircraft = (defender.armor_aircraft * survivors).round
+    defender.attack_helicopter = (defender.attack_helicopter * survivors).round
+    defender.transport_helicopter = (defender.transport_helicopter * survivors).round
+    defender.naval_helicopter = (defender.naval_helicopter * survivors).round
     defender.save
     attacker_air_health = attacker.air_health
-    defender_air_damage = ((defender.air_aircraft * 5000) + (defender.basic_aircraft * 2000)) * 1.01**defender.aircraft_weapon_tech
+    defender_air_damage = ( @defender_air_aircraft.total_air_damage + 
+                            @defender_basic_aircraft.total_air_damage + 
+                            @defender_transport_helicopter.total_air_damage +
+                            @defender_attack_helicopter.total_air_damage +
+                            @defender_naval_helicopter.total_air_damage) * 1.01**defender.aircraft_weapon_tech    
     defender_damage_ratio = defender_air_damage / attacker_air_health.to_f
     survivors = 1 - (rand(0.025..0.05) * defender_damage_ratio)
     survivors = 0 if survivors < 0
@@ -347,19 +420,32 @@ class Country < ApplicationRecord
     battle_report.defender_killed_sea_aircraft += (attacker.sea_aircraft - (attacker.sea_aircraft * survivors)).round
     battle_report.defender_killed_basic_aircraft += (attacker.basic_aircraft - (attacker.basic_aircraft * survivors)).round
     battle_report.defender_killed_armor_aircraft += (attacker.armor_aircraft - (attacker.armor_aircraft * survivors)).round
+    battle_report.defender_killed_attack_helicopter += (attacker.attack_helicopter - (attacker.attack_helicopter * survivors)).round
+    battle_report.defender_killed_transport_helicopter += (attacker.transport_helicopter - (attacker.transport_helicopter * survivors)).round
+    battle_report.defender_killed_naval_helicopter += (attacker.naval_helicopter - (attacker.naval_helicopter * survivors)).round
     battle_report.save
     attacker.air_aircraft = (attacker.air_aircraft * survivors).round
     attacker.sea_aircraft = (attacker.sea_aircraft * survivors).round
     attacker.basic_aircraft = (attacker.basic_aircraft * survivors).round
     attacker.armor_aircraft = (attacker.armor_aircraft * survivors).round
+    attacker.attack_helicopter = (attacker.attack_helicopter * survivors).round
+    attacker.transport_helicopter = (attacker.transport_helicopter * survivors).round
+    attacker.naval_helicopter = (attacker.naval_helicopter * survivors).round
     attacker.save
-    if damage_ratio >= 2.5 && retaliation == 0
-      attacker.air_to_armor_attack(attacker, defender, battle_report)
-    end
+    return unless damage_ratio >= 2.5 && retaliation == 0
+
+    attacker.air_to_armor_attack(attacker, defender, battle_report)
   end
 
   def air_to_armor_attack(attacker, defender, battle_report, retaliation = 0)
-    attacker_air_damage = ((attacker.air_aircraft * 1000) + (attacker.basic_aircraft * 2000) + (attacker.sea_aircraft * 2500) + (attacker.armor_aircraft * 10_000)) * 1.01**attacker.aircraft_weapon_tech
+    attacker_air_damage = ( @attacker_air_aircraft.total_hard_attack + 
+                            @attacker_basic_aircraft.total_hard_attack + 
+                            @attacker_sea_aircraft.total_hard_attack +
+                            @attacker_armor_aircraft.total_hard_attack +
+                            @attacker_transport_helicopter.total_hard_attack +
+                            @attacker_attack_helicopter.total_hard_attack +
+                            @attacker_naval_helicopter.total_hard_attack) * 1.01**attacker.aircraft_weapon_tech
+
     defender_armor_health = defender.armor_health
     damage_ratio = attacker_air_damage / defender_armor_health.to_f
     survivors = 1 - (rand(0.025..0.05) * damage_ratio)
@@ -391,7 +477,7 @@ class Country < ApplicationRecord
       battle_report.defender_killed_sea_aircraft += (attacker.sea_aircraft - (attacker.sea_aircraft * survivors)).round
       battle_report.defender_killed_basic_aircraft += (attacker.basic_aircraft - (attacker.basic_aircraft * survivors)).round
       battle_report.defender_killed_armor_aircraft += (attacker.armor_aircraft - (attacker.armor_aircraft * survivors)).round
-    else 
+    else
       battle_report.killed_air_aircraft += (attacker.air_aircraft - (attacker.air_aircraft * survivors)).round
       battle_report.killed_sea_aircraft += (attacker.sea_aircraft - (attacker.sea_aircraft * survivors)).round
       battle_report.killed_basic_aircraft += (attacker.basic_aircraft - (attacker.basic_aircraft * survivors)).round
@@ -402,17 +488,26 @@ class Country < ApplicationRecord
     attacker.sea_aircraft = (attacker.sea_aircraft * survivors).round
     attacker.basic_aircraft = (attacker.basic_aircraft * survivors).round
     attacker.armor_aircraft = (attacker.armor_aircraft * survivors).round
+    attacker.attack_helicopter = (attacker.attack_helicopter * survivors).round
+    attacker.transport_helicopter = (attacker.transport_helicopter * survivors).round
+    attacker.naval_helicopter = (attacker.naval_helicopter * survivors).round
     attacker.save
     if damage_ratio >= 2.5 && retaliation == 1
       attacker.air_to_infantry_attack(attacker, defender, battle_report, retaliation)
     end
-    if damage_ratio >= 2.5
-      attacker.air_to_navy_attack(attacker, defender, battle_report, retaliation)
-    end
+    return unless damage_ratio >= 2.5
+
+    attacker.air_to_navy_attack(attacker, defender, battle_report, retaliation)
   end
 
   def air_to_navy_attack(attacker, defender, battle_report, retaliation = 0)
-    attacker_air_damage = ((attacker.air_aircraft * 250) + (attacker.basic_aircraft * 1250) + (attacker.sea_aircraft * 10_000) + (attacker.armor_aircraft * 5000)) * 1.01**attacker.aircraft_weapon_tech
+    attacker_air_damage = ( @attacker_air_aircraft.total_sea_damage + 
+                            @attacker_basic_aircraft.total_sea_damage + 
+                            @attacker_sea_aircraft.total_sea_damage +
+                            @attacker_armor_aircraft.total_sea_damage +
+                            @attacker_transport_helicopter.total_sea_damage +
+                            @attacker_attack_helicopter.total_sea_damage +
+                            @attacker_naval_helicopter.total_sea_damage) * 1.01**attacker.aircraft_weapon_tech
     defender_navy_health = defender.navy_health
     damage_ratio = attacker_air_damage / defender_navy_health.to_f
     survivors = 1 - (rand(0.025..0.05) * damage_ratio)
@@ -444,25 +539,40 @@ class Country < ApplicationRecord
       battle_report.defender_killed_sea_aircraft += (attacker.sea_aircraft - (attacker.sea_aircraft * survivors)).round
       battle_report.defender_killed_basic_aircraft += (attacker.basic_aircraft - (attacker.basic_aircraft * survivors)).round
       battle_report.defender_killed_armor_aircraft += (attacker.armor_aircraft - (attacker.armor_aircraft * survivors)).round
+      battle_report.defender_killed_attack_helicopter += (attacker.attack_helicopter - (attacker.attack_helicopter * survivors)).round
+      battle_report.defender_killed_transport_helicopter += (attacker.transport_helicopter - (attacker.transport_helicopter * survivors)).round
+      battle_report.defender_killed_naval_helicopter += (attacker.naval_helicopter - (attacker.naval_helicopter * survivors)).round
     else
       battle_report.killed_air_aircraft += (attacker.air_aircraft - (attacker.air_aircraft * survivors)).round
       battle_report.killed_sea_aircraft += (attacker.sea_aircraft - (attacker.sea_aircraft * survivors)).round
       battle_report.killed_basic_aircraft += (attacker.basic_aircraft - (attacker.basic_aircraft * survivors)).round
       battle_report.killed_armor_aircraft += (attacker.armor_aircraft - (attacker.armor_aircraft * survivors)).round
+      battle_report.killed_attack_helicopter += (attacker.attack_helicopter - (attacker.attack_helicopter * survivors)).round
+      battle_report.killed_transport_helicopter += (attacker.transport_helicopter - (attacker.transport_helicopter * survivors)).round
+      battle_report.killed_naval_helicopter += (attacker.naval_helicopter - (attacker.naval_helicopter * survivors)).round
     end
     battle_report.save
     attacker.air_aircraft = (attacker.air_aircraft * survivors).round
     attacker.sea_aircraft = (attacker.sea_aircraft * survivors).round
     attacker.basic_aircraft = (attacker.basic_aircraft * survivors).round
     attacker.armor_aircraft = (attacker.armor_aircraft * survivors).round
+    attacker.attack_helicopter = (attacker.attack_helicopter * survivors).round
+    attacker.transport_helicopter = (attacker.transport_helicopter * survivors).round
+    attacker.naval_helicopter = (attacker.naval_helicopter * survivors).round
     attacker.save
-    if damage_ratio >= 2.5 && retaliation == 0
-      attacker.air_to_infantry_attack(attacker, defender, battle_report, retaliation)
-    end
+    return unless damage_ratio >= 2.5 && retaliation == 0
+
+    attacker.air_to_infantry_attack(attacker, defender, battle_report, retaliation)
   end
 
   def air_to_infantry_attack(attacker, defender, battle_report, retaliation = 0)
-    attacker_air_damage = ((attacker.air_aircraft * 750) + (attacker.basic_aircraft * 1250) + (attacker.sea_aircraft * 2500) + (attacker.armor_aircraft * 5000)) * 1.01**attacker.aircraft_weapon_tech
+    attacker_air_damage = ( @attacker_air_aircraft.total_soft_attack + 
+                            @attacker_basic_aircraft.total_soft_attack + 
+                            @attacker_sea_aircraft.total_soft_attack +
+                            @attacker_armor_aircraft.total_soft_attack +
+                            @attacker_transport_helicopter.total_soft_attack +
+                            @attacker_attack_helicopter.total_soft_attack +
+                            @attacker_naval_helicopter.total_soft_attack) * 1.01**attacker.aircraft_weapon_tech
     defender_infantry_health = defender.infantry_health
     damage_ratio = attacker_air_damage / defender_infantry_health.to_f
     survivors = 1 - (rand(0.01..0.02) * damage_ratio)
@@ -494,17 +604,26 @@ class Country < ApplicationRecord
       battle_report.defender_killed_sea_aircraft += (attacker.sea_aircraft - (attacker.sea_aircraft * survivors)).round
       battle_report.defender_killed_basic_aircraft += (attacker.basic_aircraft - (attacker.basic_aircraft * survivors)).round
       battle_report.defender_killed_armor_aircraft += (attacker.armor_aircraft - (attacker.armor_aircraft * survivors)).round
+      battle_report.defender_killed_attack_helicopter += (attacker.attack_helicopter - (attacker.attack_helicopter * survivors)).round
+      battle_report.defender_killed_transport_helicopter += (attacker.transport_helicopter - (attacker.transport_helicopter * survivors)).round
+      battle_report.defender_killed_naval_helicopter += (attacker.naval_helicopter - (attacker.naval_helicopter * survivors)).round
     else
       battle_report.killed_air_aircraft += (attacker.air_aircraft - (attacker.air_aircraft * survivors)).round
       battle_report.killed_sea_aircraft += (attacker.sea_aircraft - (attacker.sea_aircraft * survivors)).round
       battle_report.killed_basic_aircraft += (attacker.basic_aircraft - (attacker.basic_aircraft * survivors)).round
       battle_report.killed_armor_aircraft += (attacker.armor_aircraft - (attacker.armor_aircraft * survivors)).round
+      battle_report.killed_attack_helicopter += (attacker.attack_helicopter - (attacker.attack_helicopter * survivors)).round
+      battle_report.killed_transport_helicopter += (attacker.transport_helicopter - (attacker.transport_helicopter * survivors)).round
+      battle_report.killed_naval_helicopter += (attacker.naval_helicopter - (attacker.naval_helicopter * survivors)).round
     end
     battle_report.save
     attacker.air_aircraft = (attacker.air_aircraft * survivors).round
     attacker.sea_aircraft = (attacker.sea_aircraft * survivors).round
     attacker.basic_aircraft = (attacker.basic_aircraft * survivors).round
     attacker.armor_aircraft = (attacker.armor_aircraft * survivors).round
+    attacker.attack_helicopter = (attacker.attack_helicopter * survivors).round
+    attacker.transport_helicopter = (attacker.transport_helicopter * survivors).round
+    attacker.naval_helicopter = (attacker.naval_helicopter * survivors).round
     attacker.save
   end
 
@@ -553,9 +672,9 @@ class Country < ApplicationRecord
     attacker.basic_ship = (attacker.basic_ship * survivors).round
     attacker.armor_ship = (attacker.armor_ship * survivors).round
     attacker.save
-    if damage_ratio >= 2.5 && retaliation == 0
-      attacker.navy_to_armor_attack(attacker, defender, battle_report, retaliation)
-    end
+    return unless damage_ratio >= 2.5 && retaliation == 0
+
+    attacker.navy_to_armor_attack(attacker, defender, battle_report, retaliation)
   end
 
   def navy_to_armor_attack(attacker, defender, battle_report, retaliation = 0)
@@ -603,9 +722,9 @@ class Country < ApplicationRecord
     attacker.basic_ship = (attacker.basic_ship * survivors).round
     attacker.armor_ship = (attacker.armor_ship * survivors).round
     attacker.save
-    if damage_ratio >= 2.5
-      attacker.navy_to_infantry_attack(attacker, defender, battle_report, retaliation)
-    end
+    return unless damage_ratio >= 2.5
+
+    attacker.navy_to_infantry_attack(attacker, defender, battle_report, retaliation)
   end
 
   def navy_to_infantry_attack(attacker, defender, battle_report, retaliation = 0)
@@ -643,7 +762,7 @@ class Country < ApplicationRecord
     battle_report.killed_sea_armored += defender.sea_armored - (defender.sea_armored * survivors).round
     battle_report.killed_basic_armored += defender.basic_armored - (defender.basic_armored * survivors).round
     battle_report.killed_armor_armored += defender.armor_armored - (defender.armor_armored * survivors).round
-    battle_report.killed_armor_infantry += defender.armor_infantry - ((defender.armor_infantry * survivors).round)
+    battle_report.killed_armor_infantry += defender.armor_infantry - (defender.armor_infantry * survivors).round
     battle_report.save
     defender.air_armored = (defender.air_armored * survivors).round
     defender.sea_armored = (defender.sea_armored * survivors).round
@@ -674,25 +793,27 @@ class Country < ApplicationRecord
     defender_infantry_health = defender.infantry_health
     damage_ratio = (attacker_armor_to_infantry_damage + attacker_infantry_damage) / defender_infantry_health.to_f
     survivors = 1 - (rand(0.025..0.05) * damage_ratio)
-    if survivors < 0
-      survivors = 0
-    end
-    if (attacker_armor_damage + attacker_armor_to_infantry_damage + attacker_infantry_damage)/(defender_armor_health + defender_infantry_health + 1) > 2.5
+    survivors = 0 if survivors < 0
+    if (attacker_armor_damage + attacker_armor_to_infantry_damage + attacker_infantry_damage) / (defender_armor_health + defender_infantry_health + 1) > 2.5
       defender_air_health = defender.air_health
-      damage_ratio = (attacker_armor_damage + attacker_infantry_damage  + attacker_armor_to_infantry_damage) / defender_air_health.to_f
+      damage_ratio = (attacker_armor_damage + attacker_infantry_damage + attacker_armor_to_infantry_damage) / defender_air_health.to_f
       air_survivors = 1 - (rand(0.025..0.05) * damage_ratio)
-      if air_survivors < 0
-        air_survivors = 0
-      end
+      air_survivors = 0 if air_survivors < 0
       battle_report.killed_air_aircraft += (defender.air_aircraft - (defender.air_aircraft * air_survivors)).round
       battle_report.killed_sea_aircraft += (defender.sea_aircraft - (defender.sea_aircraft * air_survivors)).round
       battle_report.killed_basic_aircraft += (defender.basic_aircraft - (defender.basic_aircraft * air_survivors)).round
       battle_report.killed_armor_aircraft += (defender.armor_aircraft - (defender.armor_aircraft * air_survivors)).round
+      battle_report.killed_attack_helicopter += (defender.attack_helicopter - (decomissioner.attack_helicopter * air_survivors)).round
+      battle_report.killed_transport_helicopter += (defender.transport_helicopter - (defender.transport_helicopter * air_survivors)).round
+      battle_report.killed_naval_helicopter += (defender.naval_helicopter - (defender.naval_helicopter * air_survivors)).round
       battle_report.save
       defender.air_aircraft = (defender.air_aircraft * air_survivors).round
       defender.sea_aircraft = (defender.sea_aircraft * air_survivors).round
       defender.basic_aircraft = (defender.basic_aircraft * air_survivors).round
       defender.armor_aircraft = (defender.armor_aircraft * air_survivors).round
+      defender.attack_helicopter = (defender.attack_helicopter * air_survivors).round
+      defender.transport_helicopter = (defender.transport_helicopter * air_survivors).round
+      defender.naval_helicopter = (defender.naval_helicopter * air_survivors).round
       defender.save
     end
     battle_report.killed_air_infantry += (defender.air_infantry - (defender.air_infantry * survivors)).round
@@ -741,6 +862,7 @@ class Country < ApplicationRecord
       hangars_difference = defender.hangars - (defender.hangars * remaining_territory)
       defender.shops -= (2 * shop_difference)
       attacker.shops += shop_difference
+      battle_report.taken_money = money_difference
       battle_report.taken_shops = shop_difference
       battle_report.destroyed_shops = shop_difference
       defender.infrastructure -= (2 * infrastructure_difference)
@@ -776,191 +898,227 @@ class Country < ApplicationRecord
       attacker.money += money_difference
       battle_report.money_taken = money_difference
     end
-    attacker.take_turns(100)
     attacker.save
     defender.save
     battle_report.save
+  end
+
+  def infantry_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_basic_infantry + killed_sea_infantry + killed_air_infantry + killed_armor_infantry')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_basic_infantry + defender_killed_sea_infantry + defender_killed_air_infantry + defender_killed_armor_infantry')
+    attacks + defenses
+  end
+
+  def infantry_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_basic_infantry + defender_killed_sea_infantry + defender_killed_air_infantry + defender_killed_armor_infantry')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_basic_infantry + killed_sea_infantry + killed_air_infantry + killed_armor_infantry')
+    attacks + defenses
+  end
+
+  def basic_vehicle_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_basic_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_basic_armored')
+    attacks + defenses
+  end
+
+  def basic_vehicle_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_basic_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_basic_armored')
+    attacks + defenses
+  end
+
+  def sea_vehicle_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_sea_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_sea_armored')
+    attacks + defenses
+  end
+
+  def sea_vehicle_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_sea_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_sea_armored')
+    attacks + defenses
+  end
+
+  def air_vehicle_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_air_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_air_armored')
+    attacks + defenses
+  end
+
+  def air_vehicle_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_air_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_air_armored')
+    attacks + defenses
+  end
+
+  def armor_vehicle_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_armor_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_armor_armored')
+    attacks + defenses
+  end
+
+  def armor_vehicle_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_armor_armored')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_armor_armored')
+    attacks + defenses
+  end
+
+  def attack_helicopter_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_attack_helicopter')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_attack_helicopter')
+    attacks + defenses
+  end
+
+  def attack_helicopter_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_attack_helicopter')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_attack_helicopter')
+    attacks + defenses
+  end
+
+  def transport_helicopter_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_transport_helicopter')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_transport_helicopter')
+    attacks + defenses
+  end
+
+  def transport_helicopter_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_transport_helicopter')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_transport_helicopter')
+    attacks + defenses
+  end
+
+  def naval_helicopter_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_naval_helicopter')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_naval_helicopter')
+    attacks + defenses
+  end
+
+  def naval_helicopter_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_naval_helicopter')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_naval_helicopter')
+    attacks + defenses
+  end
+
+  def air_aircraft_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_air_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_air_aircraft')
+    attacks + defenses
+  end
+
+  def air_aircraft_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_air_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_air_aircraft')
+    attacks + defenses
+  end
+
+  def sea_aircraft_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_sea_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_sea_aircraft')
+    attacks + defenses
+  end
+
+  def sea_aircraft_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_sea_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_sea_aircraft')
+    attacks + defenses
+  end
+
+  def basic_aircraft_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_basic_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_basic_aircraft')
+    attacks + defenses
+  end
+
+  def basic_aircraft_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_basic_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_basic_aircraft')
+    attacks + defenses
+  end
+
+  def armor_aircraft_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_armor_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_armor_aircraft')
+    attacks + defenses
+  end
+
+  def armor_aircraft_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_armor_aircraft')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_armor_aircraft')
+    attacks + defenses
+  end
+
+  def armor_ship_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_armor_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_armor_ship')
+    attacks + defenses
+  end
+
+  def armor_ship_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_armor_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_armor_ship')
+    attacks + defenses
+  end
+
+  def sea_ship_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_sea_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_sea_ship')
+    attacks + defenses
+  end
+
+  def sea_ship_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_sea_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_sea_ship')
+    attacks + defenses
+  end
+
+  def basic_ship_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_basic_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_basic_ship')
+    attacks + defenses
+  end
+
+  def basic_ship_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_basic_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_basic_ship')
+    attacks + defenses
+  end
+
+  def air_ship_kills
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('killed_air_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('defender_killed_air_ship')
+    attacks + defenses
+  end
+
+  def air_ship_casualties
+    attacks = CountryBattleReport.where("attacker_country_id = #{id}").sum('defender_killed_air_ship')
+    defenses = CountryBattleReport.where("defender_country_id = #{id}").sum('killed_air_ship')
+    attacks + defenses
   end
 
   def self.ranking
     order(score: :desc)
   end
 
-  def infantry_kills
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_basic_infantry + killed_sea_infantry + killed_air_infantry + killed_armor_infantry')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_basic_infantry + defender_killed_sea_infantry + defender_killed_air_infantry + defender_killed_armor_infantry')
-    attacks + defenses
-  end
-
-  def infantry_casualties
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_basic_infantry + defender_killed_sea_infantry + defender_killed_air_infantry + defender_killed_armor_infantry')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_basic_infantry + killed_sea_infantry + killed_air_infantry + killed_armor_infantry')
-    attacks + defenses
-  end
-
-  def basic_vehicle_kills
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_basic_armored')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_basic_armored')
-    attacks + defenses
-  end
-
-  def basic_vehicle_casualties
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_basic_armored')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_basic_armored')
-    attacks + defenses
-  end
-
-  def sea_vehicle_kills
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_sea_armored')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_sea_armored')
-    attacks + defenses
-  end
-
-  def sea_vehicle_casualties
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_sea_armored')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_sea_armored')
-    attacks + defenses
-  end
-
-  def air_vehicle_kills
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_air_armored')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_air_armored')
-    attacks + defenses
-  end
-
-  def air_vehicle_casualties
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_air_armored')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_air_armored')
-    attacks + defenses
-  end
-
-  def armor_vehicle_kills
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_armor_armored')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_armor_armored')
-    attacks + defenses
-  end
-
-  def armor_vehicle_casualties
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_armor_armored')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_armor_armored')
-    attacks + defenses
-  end
-
-  def air_aircraft_kills
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_air_aircraft')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_air_aircraft')
-    attacks + defenses
-  end
-
-  def air_aircraft_casualties
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_air_aircraft')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_air_aircraft')
-    attacks + defenses
-  end
-
-  def sea_aircraft_kills
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_sea_aircraft')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_sea_aircraft')
-    attacks + defenses
-  end
-
-  def sea_aircraft_casualties
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_sea_aircraft')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_sea_aircraft')
-    attacks + defenses
-  end
-
-  def basic_aircraft_kills
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_basic_aircraft')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_basic_aircraft')
-    attacks + defenses
-  end
-
-  def basic_aircraft_casualties
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_basic_aircraft')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_basic_aircraft')
-    attacks + defenses
-  end
-
-  def armor_aircraft_kills
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_armor_aircraft')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_armor_aircraft')
-    attacks + defenses
-  end
-
-  def armor_aircraft_casualties
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_armor_aircraft')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_armor_aircraft')
-    attacks + defenses
-  end
-
-  def armor_ship_kills
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_armor_ship')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_armor_ship')
-    attacks + defenses
-  end
-
-  def armor_ship_casualties
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_armor_ship')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_armor_ship')
-    attacks + defenses
-  end
-
-  def sea_ship_kills
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_sea_ship')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_sea_ship')
-    attacks + defenses
-  end
-
-  def sea_ship_casualties
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_sea_ship')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_sea_ship')
-    attacks + defenses
-  end
-
-  def basic_ship_kills
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_basic_ship')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_basic_ship')
-    attacks + defenses
-  end
-
-  def basic_ship_casualties
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_basic_ship')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_basic_ship')
-    attacks + defenses
-  end
-
-  def air_ship_kills
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('killed_air_ship')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('defender_killed_air_ship')
-    attacks + defenses
-  end
-
-  def air_ship_casualties
-    attacks = CountryBattleReport.where("attacker_country_id = #{self.id}").sum('defender_killed_air_ship')
-    defenses = CountryBattleReport.where("defender_country_id = #{self.id}").sum('killed_air_ship')
-    attacks + defenses
-  end
-
-  def research_points_check(infantry_weapon, infantry_armor, armored_weapon, armored_armor, aircraft_weapon, aircraft_armor, ship_weapon, ship_armor, efficiency, building_upkeep, unit_upkeep, exploration, research, housing)
+  def research_points_check(infantry_weapon, infantry_armor, armored_weapon, armored_armor, aircraft_weapon,
+                            aircraft_armor, ship_weapon, ship_armor, efficiency, building_upkeep, unit_upkeep, exploration, research, housing)
     points = (
-      1000 + (infantry_weapon * self.infantry_weapon_tech**4 / 4) +
-      (infantry_armor * self.infantry_armor_tech**4 / 4) +
-      (armored_weapon * self.armored_weapon_tech**4 / 4) +
-      (armored_armor * self.armored_armor_tech**4 / 4) + 
-      (aircraft_weapon * self.aircraft_weapon_tech**4 / 4) + 
-      (aircraft_armor * self.aircraft_armor_tech**4 / 4) + 
-      (ship_weapon * self.ship_weapon_tech**4 / 4) + 
-      (ship_armor * self.ship_armor_tech**4 / 4) + 
-      (efficiency * self.efficiency_tech**4 / 4) + 
-      (building_upkeep * self.building_upkeep_tech**4 / 4) + 
-      (unit_upkeep * self.unit_upkeep_tech**4 / 4) + 
-      (exploration * self.exploration_tech**4 / 4) + 
-      (research * self.research_tech**4 / 4) + 
-      (housing * self.housing_tech**4 / 4))
+      1000 + (infantry_weapon * infantry_weapon_tech**4 / 4) +
+      (infantry_armor * infantry_armor_tech**4 / 4) +
+      (armored_weapon * armored_weapon_tech**4 / 4) +
+      (armored_armor * armored_armor_tech**4 / 4) +
+      (aircraft_weapon * aircraft_weapon_tech**4 / 4) +
+      (aircraft_armor * aircraft_armor_tech**4 / 4) +
+      (ship_weapon * ship_weapon_tech**4 / 4) +
+      (ship_armor * ship_armor_tech**4 / 4) +
+      (efficiency * efficiency_tech**4 / 4) +
+      (building_upkeep * building_upkeep_tech**4 / 4) +
+      (unit_upkeep * unit_upkeep_tech**4 / 4) +
+      (exploration * exploration_tech**4 / 4) +
+      (research * research_tech**4 / 4) +
+      (housing * housing_tech**4 / 4))
     if points <= self.research_points
       self.research_points -= points
-      self.infantry_weapon_tech += infantry_weapon  
+      self.infantry_weapon_tech += infantry_weapon
       self.infantry_armor_tech += infantry_armor
       self.armored_weapon_tech += armored_weapon
       self.armored_armor_tech += armored_armor
@@ -974,14 +1132,15 @@ class Country < ApplicationRecord
       self.exploration_tech += exploration
       self.research_tech += research
       self.housing_tech += housing
-      self.save
+      save
       true
     else
       false
     end
   end
-  
-  def decomission(basic_infantry_decomission, air_infantry_decomission, sea_infantry_decomission, armor_infantry_decomission, basic_armored_decomission, air_armored_decomission, sea_armored_decomission, armor_armored_decomission, basic_aircraft_decomission, air_aircraft_decomission, sea_aircraft_decomission, armor_aircraft_decomission, basic_ship_decomission, air_ship_decomission, sea_ship_decomission, armor_ship_decomission)
+
+  def decomission(basic_infantry_decomission, air_infantry_decomission, sea_infantry_decomission,
+                  armor_infantry_decomission, basic_armored_decomission, air_armored_decomission, sea_armored_decomission, armor_armored_decomission, basic_aircraft_decomission, air_aircraft_decomission, sea_aircraft_decomission, armor_aircraft_decomission, basic_ship_decomission, air_ship_decomission, sea_ship_decomission, armor_ship_decomission)
     self.basic_infantry -= basic_infantry_decomission.to_i
     self.basic_infantry = 0 if self.basic_infantry < 0
     self.air_infantry -= air_infantry_decomission.to_i
@@ -1014,17 +1173,161 @@ class Country < ApplicationRecord
     self.sea_ship = 0 if self.sea_ship < 0
     self.armor_ship -= armor_ship_decomission.to_i
     self.armor_ship = 0 if self.armor_ship < 0
-    self.save
+    save
   end
 
   def created_date
-    hours = (self.created_at - Game.find(self.game_id).created_at) * (24 * 60)
+    hours = (created_at - Game.find(game_id).created_at) * (24 * 60)
     time = Time.now + hours
-    time.strftime("%B %d, %Y")
+    time.strftime('%B %d, %Y')
   end
 
   def age
-    hours = (Time.now - self.created_at)
-    (hours/(365 * 60)).round(2)
+    hours = (Time.now - created_at)
+    (hours / (365 * 60)).round(2)
+  end
+
+  def load_units
+    @basic_infantry = BasicInfantry.new(self.basic_infantry)
+    @air_infantry = AirInfantry.new(self.air_infantry)
+    @sea_infantry = SeaInfantry.new(self.sea_infantry)
+    @armor_infantry = ArmorInfantry.new(self.armor_infantry)
+    @basic_armored = BasicArmored.new(self.basic_armored)
+    @air_armored = AirArmored.new(self.air_armored)
+    @sea_armored = SeaArmored.new(self.sea_armored)
+    @armor_armored = ArmorArmored.new(self.armor_armored)
+    @basic_aircraft = BasicAircraft.new(self.basic_aircraft)
+    @air_aircraft = AirAircraft.new(self.air_aircraft)
+    @sea_aircraft = SeaAircraft.new(self.sea_aircraft)
+    @armor_aircraft = ArmorAircraft.new(self.armor_aircraft)
+    @basic_ship = BasicShip.new(self.basic_ship)
+    @air_ship = AirShip.new(self.air_ship)
+    @sea_ship = SeaShip.new(self.sea_ship)
+    @armor_ship = ArmorShip.new(self.armor_ship)
+    @attack_helicopter = AttackHelicopter.new(self.attack_helicopter)
+    @transport_helicopter = TransportHelicopter.new(self.transport_helicopter)
+    @naval_helicopter = NavalHelicopter.new(self.naval_helicopter)
+  end
+
+  def load_battle_units(attacker, defender)
+    @attacker_basic_infantry = BasicInfantry.new(attacker.basic_infantry)
+    @attacker_air_infantry = AirInfantry.new(attacker.air_infantry)
+    @attacker_sea_infantry = SeaInfantry.new(attacker.sea_infantry)
+    @attacker_armor_infantry = ArmorInfantry.new(attacker.armor_infantry)
+    @attacker_basic_armored = BasicArmored.new(attacker.basic_armored)
+    @attacker_air_armored = AirArmored.new(attacker.air_armored)
+    @attacker_sea_armored = SeaArmored.new(attacker.sea_armored)
+    @attacker_armor_armored = ArmorArmored.new(attacker.armor_armored)
+    @attacker_basic_aircraft = BasicAircraft.new(attacker.basic_aircraft)
+    @attacker_air_aircraft = AirAircraft.new(attacker.air_aircraft)
+    @attacker_sea_aircraft = SeaAircraft.new(attacker.sea_aircraft)
+    @attacker_armor_aircraft = ArmorAircraft.new(attacker.armor_aircraft)
+    @attacker_basic_ship = BasicShip.new(attacker.basic_ship)
+    @attacker_air_ship = AirShip.new(attacker.air_ship)
+    @attacker_sea_ship = SeaShip.new(attacker.sea_ship)
+    @attacker_armor_ship = ArmorShip.new(attacker.armor_ship)
+    @attacker_attack_helicopter = AttackHelicopter.new(attacker.attack_helicopter)
+    @attacker_transport_helicopter = TransportHelicopter.new(attacker.transport_helicopter)
+    @attacker_naval_helicopter = NavalHelicopter.new(attacker.naval_helicopter)
+    @defender_basic_infantry = BasicInfantry.new(defender.basic_infantry)
+    @defender_air_infantry = AirInfantry.new(defender.air_infantry)
+    @defender_sea_infantry = SeaInfantry.new(defender.sea_infantry)
+    @defender_armor_infantry = ArmorInfantry.new(defender.armor_infantry)
+    @defender_basic_armored = BasicArmored.new(defender.basic_armored)
+    @defender_air_armored = AirArmored.new(defender.air_armored)
+    @defender_sea_armored = SeaArmored.new(defender.sea_armored)
+    @defender_armor_armored = ArmorArmored.new(defender.armor_armored)
+    @defender_basic_aircraft = BasicAircraft.new(defender.basic_aircraft)
+    @defender_air_aircraft = AirAircraft.new(defender.air_aircraft)
+    @defender_sea_aircraft = SeaAircraft.new(defender.sea_aircraft)
+    @defender_armor_aircraft = ArmorAircraft.new(defender.armor_aircraft)
+    @defender_basic_ship = BasicShip.new(defender.basic_ship)
+    @defender_air_ship = AirShip.new(defender.air_ship)
+    @defender_sea_ship = SeaShip.new(defender.sea_ship)
+    @defender_armor_ship = ArmorShip.new(defender.armor_ship)
+    @defender_attack_helicopter = AttackHelicopter.new(defender.attack_helicopter)
+    @defender_transport_helicopter = TransportHelicopter.new(defender.transport_helicopter)
+    @defender_naval_helicopter = NavalHelicopter.new(defender.naval_helicopter)
+  end
+
+  def load_buildings
+    @houses = Houses.new(self.houses)
+    @shops = Shops.new(self.shops)
+    @infrastructure = Infrastructure.new(self.infrastructure)
+    @barracks = Barracks.new(self.barracks)
+    @armories = Armories.new(self.armory)
+    @hangars = Hangars.new(self.hangars)
+    @dockyards = Dockyards.new(self.dockyards)
+    @labs = Labs.new(self.labs)
+  end
+
+  def recruit_units(params)
+    self.recruit_infantry(params[:infantry].to_i, params[:air_infantry].to_i, params[:sea_infantry].to_i, params[:armor_infantry].to_i)
+    self.recruit_armored(params[:armored].to_i, params[:air_armored].to_i, params[:sea_armored].to_i, params[:armor_armored].to_i)
+    self.recruit_ships(params[:ships].to_i, params[:air_ships].to_i, params[:sea_ships].to_i, params[:armor_ships].to_i)
+    self.recruit_aircraft(params[:aircraft].to_i, params[:air_aircraft].to_i, params[:sea_aircraft].to_i, params[:armor_aircraft].to_i, params[:attack_helicopter].to_i, params[:transport_helicopter].to_i, params[:naval_helicopter].to_i)
+  end
+
+  def has_enough_money?(params)
+    self.infantry_recruit_cost( params[:infantry].to_i, 
+                                    params[:air_infantry].to_i, 
+                                    params[:sea_infantry].to_i,
+                                    params[:armor_infantry].to_i) < self.money && 
+    self.armored_recruit_cost(  params[:armored].to_i,
+                                    params[:air_armored].to_i, 
+                                    params[:sea_armored].to_i, 
+                                    params[:armor_armored].to_i) < self.money && 
+    self.aircraft_recruit_cost( params[:aircraft].to_i, 
+                                    params[:air_aircraft].to_i, 
+                                    params[:sea_aircraft].to_i, 
+                                    params[:armor_aircraft].to_i,
+                                    params[:attack_helicopter].to_i,
+                                    params[:transport_helicopter].to_i,
+                                    params[:naval_helicopter].to_i) < self.money && 
+    self.ships_recruit_cost( params[:ship].to_i, 
+                                params[:air_ship].to_i, 
+                                params[:sea_ship].to_i, 
+                                params[:armor_ship].to_i) < self.money
+  end
+
+  def has_enough_pop_and_capacity?(params)
+    self.dockyard_recruit_capacity_check(  params[:ship].to_i, 
+                                            params[:air_ship].to_i, 
+                                            params[:sea_ship].to_i,
+                                            params[:armor_ship].to_i) == true && 
+    self.armored_recruit_capacity_check(  params[:armored].to_i,
+                                              params[:air_armored].to_i, 
+                                              params[:sea_armored].to_i, 
+                                              params[:armor_armored].to_i) == true && 
+    self.hangar_recruit_capacity_check( params[:aircraft].to_i, 
+                                              params[:air_aircraft].to_i, 
+                                              params[:sea_aircraft].to_i, 
+                                              params[:armor_aircraft].to_i,
+                                              params[:attack_helicopter].to_i,
+                                              params[:transport_helicopter].to_i,
+                                              params[:naval_helicopter].to_i) == true && 
+    self.infantry_recruit_capacity_check( params[:infantry].to_i + 
+                                              params[:air_infantry].to_i +
+                                              params[:sea_infantry].to_i + 
+                                              params[:armor_infantry].to_i) == true &&
+    self.ships_recruit_pop_check( params[:ship].to_i, 
+                                      params[:air_ship].to_i, 
+                                      params[:sea_ship].to_i,
+                                      params[:armor_ship].to_i) == true && 
+    self.armored_recruit_pop_check( params[:armored].to_i,
+                                        params[:air_armored].to_i, 
+                                        params[:sea_armored].to_i, 
+                                        params[:armor_armored].to_i) == true && 
+    self.aircraft_recruit_pop_check(  params[:aircraft].to_i, 
+                                          params[:air_aircraft].to_i, 
+                                          params[:sea_aircraft].to_i, 
+                                          params[:armor_aircraft].to_i,
+                                          params[:attack_helicopter].to_i,
+                                          params[:transport_helicopter].to_i,
+                                          params[:naval_helicopter].to_i) == true && 
+    self.infantry_recruit_pop_check(  params[:infantry].to_i, 
+                                          params[:air_infantry].to_i, 
+                                          params[:sea_infantry].to_i, 
+                                          params[:armor_infantry].to_i) == true
   end
 end

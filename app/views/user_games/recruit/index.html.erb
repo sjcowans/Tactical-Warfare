@@ -131,7 +131,7 @@
   <li>Air Attack: 0</li>
   <li>Naval Attack: 0</li>
   <li>Health: 350</li>
-  <li>Recruitment Cost: <%=number_to_currency(59000 * @country.armory)%> per turn</li>
+  <li>Recruitment Cost: <%=number_to_currency(50000 * @country.armory)%> per turn</li>
   <li>Recruitment Rate: <%=50/1000.to_f * @country.armory%> per turn</li>
   <li>Upkeep: $1000</li>
   <li>Population: 6 </li>
@@ -195,6 +195,58 @@
 
 <h4>Recruit Aircraft: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
+
+<details>
+  <% @transport_helicopter = TransportHelicopter.new(@country.transport_helicopter)%>
+  <summary><b><%=@transport_helicopter.name%></b></summary>
+  <li>Soft Attack: <%=@transport_helicopter.soft_attack%></li>
+  <li>Hard Attack: <%=@transport_helicopter.hard_attack%></li>
+  <li>Air Attack: <%=@transport_helicopter.air_attack%></li>
+  <li>Naval Attack: <%=@transport_helicopter.naval_attack%></li>
+  <li>Health: <%=@transport_helicopter.health%></li>
+  <li>Recruitment Cost: <%=number_to_currency(@transport_helicopter.cost_per_turn(@country.hangars))%> per turn</li>
+  <li>Recruitment Rate: <%=@transport_helicopter.recruitment_per_turn(@country.hangars)%> per turn</li>
+  <li>Upkeep:<%=@transport_helicopter.upkeep%></li>
+  <li>Population: <%=@transport_helicopter.population%> </li>
+</details>   
+    
+    <%= form.label :turns_to_recruit_transport_helicopters %><br>
+    <%= form.number_field :transport_helicopter %><br> 
+
+<details>
+  <% @attack_helicopter = AttackHelicopter.new(@country.attack_helicopter)%>
+  <summary><b><%=@attack_helicopter.name%></b></summary>
+  <li>Soft Attack: <%=@attack_helicopter.soft_attack%></li>
+  <li>Hard Attack: <%=@attack_helicopter.hard_attack%></li>
+  <li>Air Attack: <%=@attack_helicopter.air_attack%></li>
+  <li>Naval Attack: <%=@attack_helicopter.naval_attack%></li>
+  <li>Health: <%=@attack_helicopter.health%></li>
+  <li>Recruitment Cost: <%=number_to_currency(@attack_helicopter.cost_per_turn(@country.hangars))%> per turn</li>
+  <li>Recruitment Rate: <%=@attack_helicopter.recruitment_per_turn(@country.hangars)%> per turn</li>
+  <li>Upkeep:<%=@attack_helicopter.upkeep%></li>
+  <li>Population: <%=@attack_helicopter.population%> </li>
+</details>   
+    
+    <%= form.label :turns_to_recruit_attack_helicopters %><br>
+    <%= form.number_field :attack_helicopter %><br> 
+
+<details>
+  <% @naval_helicopter = NavalHelicopter.new(@country.naval_helicopter)%>
+  <summary><b><%=@naval_helicopter.name%></b></summary>
+  <li>Soft Attack: <%=@naval_helicopter.soft_attack%></li>
+  <li>Hard Attack: <%=@naval_helicopter.hard_attack%></li>
+  <li>Air Attack: <%=@naval_helicopter.air_attack%></li>
+  <li>Naval Attack: <%=@naval_helicopter.naval_attack%></li>
+  <li>Health: <%=@naval_helicopter.health%></li>
+  <li>Recruitment Cost: <%=number_to_currency(@naval_helicopter.cost_per_turn(@country.hangars))%> per turn</li>
+  <li>Recruitment Rate: <%=@naval_helicopter.recruitment_per_turn(@country.hangars)%> per turn</li>
+  <li>Upkeep:<%=@naval_helicopter.upkeep%></li>
+  <li>Population: <%=@naval_helicopter.population%> </li>
+</details>   
+    
+    <%= form.label :turns_to_recruit_naval_helicopters %><br>
+    <%= form.number_field :naval_helicopter %><br> 
+
 <details>
   <summary><b>Multi-Role Fighters</b></summary>
 
@@ -283,7 +335,7 @@
 </details>
 
     <%= form.label :turns_to_recruit_corvettes %> <br>
-    <%= form.number_field :ships %> <br>
+    <%= form.number_field :ship %> <br>
 
 <details>
   <summary><b>Frigates</b></summary>
@@ -300,7 +352,7 @@
 </details>
 
     <%= form.label :turns_to_recruit_frigates %> <br>
-    <%= form.number_field :air_ships %> <br>
+    <%= form.number_field :air_ship %> <br>
 
 <details>
   <summary><b>Destroyers</b></summary>
@@ -317,7 +369,7 @@
 </details>
 
     <%= form.label :turns_to_recruit_destroyers %> <br>
-    <%= form.number_field :sea_ships %> <br>
+    <%= form.number_field :sea_ship %> <br>
 
 <details>
   <summary><b>Cruisers</b></summary>
@@ -334,7 +386,7 @@
 </details>
 
     <%= form.label :turns_to_recruit_cruisers %> <br>
-    <%= form.number_field :armor_ships %> <br>
+    <%= form.number_field :armor_ship %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
 </div>

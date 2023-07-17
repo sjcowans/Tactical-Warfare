@@ -12,18 +12,18 @@ describe 'recruitment' do
     fill_in :user_password, with: "#{@user1.password}"
     click_on 'Sign In'
     click_on 'Join a Game'
-    fill_in :country_name, with: "Roar"
+    fill_in :country_name, with: 'Roar'
     click_on 'Join'
     click_on 'Build'
     fill_in :houses, with: 70
     fill_in :barracks, with: 1
     click_button 'Build'
   end
-  
+
   it 'can recruit basic infantry' do
     click_on 'Recruit'
     fill_in :infantry, with: 100
-    click_button('Recruit', :match => :first)
+    click_button('Recruit', match: :first)
     expect(Country.first.basic_infantry).to eq(15)
   end
 end

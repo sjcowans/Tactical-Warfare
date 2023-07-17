@@ -52,11 +52,11 @@ Research Points: <%= number_with_delimiter(@country.research_points) %><br>
 Research Points Per Turn: <%= number_with_delimiter((@country.labs * 1.01**@country.research_tech).round) %><br>
 Land: <%= number_with_delimiter(@country.land) %><br>
 </div>
-
-  <center><h4> Buildings: </h4></center>
+&nbsp<br>
+<details>
+  <summary><b>Building Info</b></summary>
   <div class="tan-bg">
-  
-  Houses: <%= number_with_delimiter(@country.houses) %><br>
+  <h3> Building Upkeep: <%= number_to_human(@country.building_upkeep) %> </h3>
   infrastructure: <%= number_with_delimiter(@country.infrastructure) %><br>
   Shops: <%= number_with_delimiter(@country.shops) %><br>
   Barracks: <%= number_with_delimiter(@country.barracks) %><br>
@@ -65,9 +65,12 @@ Land: <%= number_with_delimiter(@country.land) %><br>
   Dockyards: <%= number_with_delimiter(@country.dockyards) %><br>
   Labs: <%= number_with_delimiter(@country.labs) %>
   </div>
-
-<center><h4> Military: </h4></center>
+</details>
+&nbsp<br>
+<details>
+  <summary><b>Military Info</b></summary>
 <div class="tan-bg">
+  <h3>Unit Upkeep: <%= number_to_human(@country.unit_upkeep) %> </h3>
   <h3>Infantry:</h3>
     
       Basic Infantry:  <%= number_with_delimiter(@country.basic_infantry) %><br>
@@ -96,14 +99,22 @@ Land: <%= number_with_delimiter(@country.land) %><br>
   
 
   <h3>Aircraft:</h3>
-    
+
+      <%@transport_helicopter = TransportHelicopter.new(@country.attack_helicopter)%>
+      <%=@transport_helicopter.name%>: <%=number_with_delimiter(@country.transport_helicopter)%><br>
+      <%@attack_helicopter = AttackHelicopter.new(@country.attack_helicopter)%>
+      <%=@attack_helicopter.name%>: <%=number_with_delimiter(@country.attack_helicopter)%><br>
+      <%@naval_helicopter = NavalHelicopter.new(@country.attack_helicopter)%>
+      <%=@naval_helicopter.name%>: <%=number_with_delimiter(@country.naval_helicopter)%><br>
       Multi-role Fighters:  <%= number_with_delimiter(@country.basic_aircraft) %><br>
       Fighter Jets:  <%= number_with_delimiter(@country.air_aircraft) %><br>
       Naval Bombers:  <%= number_with_delimiter(@country.sea_aircraft) %><br>
       Heavy Bombers:  <%= number_with_delimiter(@country.armor_aircraft) %><br>
 </div>
-
-<h4>Battle Stats:</h4>
+</details>
+&nbsp<br>
+<details>
+  <summary><b>Battle Stats</b></summary>
 <div class="tan-bg">
 <table>
   <tr>
@@ -144,6 +155,30 @@ Land: <%= number_with_delimiter(@country.land) %><br>
     </td>
     <td>
       <p style="color:rgb(178, 34, 34);">Tank Casualties <%= number_to_human(@country.armor_vehicle_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Transport Helicopter Kills <%= number_to_human(@country.transport_helicopter_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Transport Helicopter Casualties <%= number_to_human(@country.transport_helicopter_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Attack Helicopter Kills <%= number_to_human(@country.attack_helicopter_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Attack Helicopter Casualties <%= number_to_human(@country.attack_helicopter_casualties) %> </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p style="color:rgb(85, 107, 47);">Naval Helicopter Kills <%= number_to_human(@country.naval_helicopter_kills) %> </p>
+    </td>
+    <td>
+      <p style="color:rgb(178, 34, 34);">Naval Helicopter Casualties <%= number_to_human(@country.naval_helicopter_casualties) %> </p>
     </td>
   </tr>
   <tr>
@@ -211,6 +246,8 @@ Land: <%= number_with_delimiter(@country.land) %><br>
     </td>
   </tr>
 </table>
+</details>
+&nbsp<br>
 </div>
 </div>
 
