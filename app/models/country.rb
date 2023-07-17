@@ -438,6 +438,7 @@ class Country < ApplicationRecord
   end
 
   def air_to_armor_attack(attacker, defender, battle_report, retaliation = 0)
+    load_battle_units(attacker, defender)
     attacker_air_damage = ( @attacker_air_aircraft.total_hard_attack + 
                             @attacker_basic_aircraft.total_hard_attack + 
                             @attacker_sea_aircraft.total_hard_attack +
@@ -501,6 +502,7 @@ class Country < ApplicationRecord
   end
 
   def air_to_navy_attack(attacker, defender, battle_report, retaliation = 0)
+    load_battle_units(attacker, defender)
     attacker_air_damage = ( @attacker_air_aircraft.total_sea_damage + 
                             @attacker_basic_aircraft.total_sea_damage + 
                             @attacker_sea_aircraft.total_sea_damage +
@@ -566,6 +568,7 @@ class Country < ApplicationRecord
   end
 
   def air_to_infantry_attack(attacker, defender, battle_report, retaliation = 0)
+    load_battle_units(attacker, defender)
     attacker_air_damage = ( @attacker_air_aircraft.total_soft_attack + 
                             @attacker_basic_aircraft.total_soft_attack + 
                             @attacker_sea_aircraft.total_soft_attack +
@@ -628,6 +631,7 @@ class Country < ApplicationRecord
   end
 
   def navy_to_navy_attack(attacker, defender, battle_report, retaliation = 0)
+    load_battle_units(attacker, defender)
     attacker_sea_damage = ((attacker.air_ship * 5000) + (attacker.sea_ship * 40_000) + (attacker.basic_ship * 5000) + (attacker.armor_ship * 25_000)) * 1.01**attacker.ship_weapon_tech
     defender_sea_health = defender.navy_health
     damage_ratio = attacker_sea_damage / defender_sea_health.to_f
@@ -678,6 +682,7 @@ class Country < ApplicationRecord
   end
 
   def navy_to_armor_attack(attacker, defender, battle_report, retaliation = 0)
+    load_battle_units(attacker, defender)
     attacker_sea_damage = ((attacker.air_ship * 3000) + (attacker.sea_ship * 10_000) + (attacker.basic_ship * 1000) + (attacker.armor_ship * 15_000)) * 1.01**attacker.ship_weapon_tech
     defender_armor_health = defender.armor_health
     damage_ratio = attacker_sea_damage / defender_armor_health.to_f
@@ -728,6 +733,7 @@ class Country < ApplicationRecord
   end
 
   def navy_to_infantry_attack(attacker, defender, battle_report, retaliation = 0)
+    load_battle_units(attacker, defender)
     attacker_sea_damage = ((attacker.air_ship * 2000) + (attacker.sea_ship * 5000) + (attacker.basic_ship * 1500) + (attacker.armor_ship * 8000)) * 1.01**attacker.ship_weapon_tech
     defender_infantry_health = defender.infantry_health
     damage_ratio = attacker_sea_damage / defender_infantry_health.to_f
@@ -753,6 +759,7 @@ class Country < ApplicationRecord
   end
 
   def ground_to_ground_attack(attacker, defender, battle_report)
+    load_battle_units(attacker, defender)
     attacker_armor_damage = (((attacker.air_armored * 10) + (attacker.sea_armored * 100) + (attacker.basic_armored * 50) + (attacker.armor_armored * 250)) * 1.01**attacker.armored_weapon_tech) + (((attacker.armor_infantry * 20) + (attacker.basic_infantry * 2) + (attacker.air_infantry * 5) + (attacker.sea_infantry * 5)) * 1.01**attacker.infantry_weapon_tech)
     defender_armor_health = defender.armor_health
     damage_ratio = attacker_armor_damage / defender_armor_health.to_f
