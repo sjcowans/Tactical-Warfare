@@ -70,7 +70,7 @@ class UserGamesController < ApplicationController
     @battle_report = CountryBattleReport.create!(attacker_country_id: @attacker.id, defender_country_id: @defender.id,
                                                  game_id: @game.id)
     conduct_battle(@attacker, @defender, @battle_report, params[:ground_attack], params[:air_attack],
-                   params[:sea_attack])
+                   params[:naval_attack])
     @battle_report.select_victor
     redirect_to "/user_games/#{@user_game.id}/country_battle_reports/#{@battle_report.id}"
   end
