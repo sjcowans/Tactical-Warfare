@@ -60,7 +60,7 @@
   <li>Each citizen produces $25 a turn and has an upkeep of $15</li>
 </details>
 
-    <%= form.label :turns_to_build_houses %>
+    <%= form.label :turns_to_build_houses %>:<br>
     <%= form.number_field :houses %> <br>
 
  <br><details>
@@ -71,7 +71,7 @@
   <li>You build 1 additional building per turn for every 1,000 infrastructure. (IE 3 buildings per turn at 2000 infra)</li>
 </details>
 
-   <%= form.label :turns_to_build_infrastructure %>
+   <%= form.label :turns_to_build_infrastructure %>:<br>
     <%= form.number_field :infrastructure %> <br>
 
 <br><details>
@@ -80,7 +80,7 @@
   <li>Shops have an income of $15,000 per turn and expense of $5,000</li>
 </details>
 
-    <%= form.label :turns_to_build_shops %>
+    <%= form.label :turns_to_build_shops %>:<br>
     <%= form.number_field :shops %><br>
 
 <br><details>
@@ -90,7 +90,7 @@
   <li>Barracks have an upkeep of $500 per turn</li>
 </details>
 
-    <%= form.label :turns_to_build_barracks %>
+    <%= form.label :turns_to_build_barracks %>:<br>
     <%= form.number_field :barracks %><br>
 
 <br><details>
@@ -100,7 +100,7 @@
   <li>Arnmories have an upkeep of $500 per turn</li>
 </details>
 
-    <%= form.label :turns_to_build_armories %>
+    <%= form.label :turns_to_build_armories %>:<br>
     <%= form.number_field :armories %><br>
 
 <br><details>
@@ -110,7 +110,7 @@
   <li>Hangars have upkeep of $1,000 per turn</li>
 </details>
 
-    <%= form.label :turns_to_build_hangars %>
+    <%= form.label :turns_to_build_hangars %>:<br>
     <%= form.number_field :hangars %><br>
 
 <br><details>
@@ -120,7 +120,7 @@
   <li>Dockyards have upkeep of $2,500 per turn</li>
 </details>
 
-    <%= form.label :turns_to_build_dockyards %>
+    <%= form.label :turns_to_build_dockyards %>:<br>
     <%= form.number_field :dockyards %><br>
 
 <br><details>
@@ -130,7 +130,7 @@
   <li>Labs have a base upkeep of $10,000 per turn and will become exponentially more expensive</li>
 </details>
 
-    <%= form.label :turns_to_build_labs %>
+    <%= form.label :turns_to_build_labs %>:<br>
     <%= form.number_field :labs %><br>
   <%= form.submit "Build", class: "button" %>
 <% end %><br>
@@ -139,21 +139,21 @@
 <h4>Demolish: </h4><br>
 
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
-    <%= form.label :turns_to_demolish_houses %>
+    <%= form.label :turns_to_demolish_houses %>:<br>
     <%= form.number_field :demolish_houses %> <br>
-    <%= form.label :turns_to_demolish_infrastructure %>
+    <%= form.label :turns_to_demolish_infrastructure %>:<br>
     <%= form.number_field :demolish_infrastructure %> <br>
-    <%= form.label :turns_to_demolish_shops %>
+    <%= form.label :turns_to_demolish_shops %>:<br>
     <%= form.number_field :demolish_shops %><br>
-    <%= form.label :turns_to_demolish_barracks %>
+    <%= form.label :turns_to_demolish_barracks %>:<br>
     <%= form.number_field :demolish_barracks %><br>
-    <%= form.label :turns_to_demolish_armories %>
+    <%= form.label :turns_to_demolish_armories %>:<br>
     <%= form.number_field :demolish_armories %><br>
-    <%= form.label :turns_to_demolish_hangars %>
+    <%= form.label :turns_to_demolish_hangars %>:<br>
     <%= form.number_field :demolish_hangars %><br>
-    <%= form.label :turns_to_demolish_dockyards %>
+    <%= form.label :turns_to_demolish_dockyards %>:<br>
     <%= form.number_field :demolish_dockyards %><br>
-    <%= form.label :turns_to_demolish_labs %>
+    <%= form.label :turns_to_demolish_labs %>:<br>
     <%= form.number_field :demolish_labs %><br>
   <%= form.submit "Demo", data: { turbo_confirm: 'Are you sure?' }, class: "button" %>
 <% end %><br>

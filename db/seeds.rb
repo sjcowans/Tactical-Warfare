@@ -12,9 +12,11 @@ User.destroy_all
 Game.destroy_all
 
 @game = Game.create!
-@user1 = User.create!(email: 'JoJo@hotmail.com', password: '123', password_confirmation: '123')
-@user2 = User.create!(email: 'JaJa@hotmail.com', password: '123', password_confirmation: '123')
-@user3 = User.create!(email: 'war@yahoo.com', password: '123', password_confirmation: '123')
+@user1 = User.create!(email: ENV['TEST_EMAIL_1'], password: ENV['TEST_PASSWORD'], password_confirmation: ENV['TEST_PASSWORD'])
+@user2 = User.create!(email: ENV['TEST_EMAIL_2'], password: ENV['TEST_PASSWORD'], password_confirmation: ENV['TEST_PASSWORD'])
+@user3 = User.create!(email: ENV['TEST_EMAIL_3'], password: ENV['TEST_PASSWORD'], password_confirmation: ENV['TEST_PASSWORD'])
+@user4 = User.create!(email: ENV['TEST_EMAIL_4'], password: ENV['TEST_PASSWORD'], password_confirmation: ENV['TEST_PASSWORD'])
 @user1.confirm!
 @user2.confirm!
 @user3.confirm!
+@user4.confirm!
