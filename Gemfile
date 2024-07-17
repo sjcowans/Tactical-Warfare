@@ -46,7 +46,7 @@ gem 'arask'
 gem 'bootsnap', require: false
 gem 'jquery-rails'
 gem 'numbers_in_words'
-gem 'rubocop'
+gem 'rubocop', '>= 1.54.2'
 gem 'unread'
 
 # Use Sass to process CSS
@@ -75,13 +75,13 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem 'rubocop-rails'
+  gem 'rubocop-rails', '>= 2.21.0'
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'orderly'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '>= 4.11.0'
   gem 'shoulda-matchers'
-  gem 'webdrivers'
+  gem 'webdrivers', '>= 5.3.0'
 end
