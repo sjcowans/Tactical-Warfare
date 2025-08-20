@@ -7,7 +7,7 @@ ruby '3.1.3'
 gem 'bcrypt', '3.1.18'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.0.4', '>= 7.0.4.3'
+gem 'rails', '~> 7.1.5', '>= 7.1.5.2'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
@@ -47,7 +47,7 @@ gem 'bootsnap', require: false
 gem 'jquery-rails'
 gem 'numbers_in_words'
 gem 'rubocop'
-gem 'unread'
+gem 'unread', '>= 0.13.0'
 
 # Use Sass to process CSS
 # gem "sassc-rails"
