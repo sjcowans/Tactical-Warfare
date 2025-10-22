@@ -44,7 +44,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 # Reduces boot times through caching; required in config/boot.rb
 gem 'arask'
 gem 'bootsnap', require: false
-gem 'jquery-rails'
+gem 'jquery-rails', '>= 4.6.1'
 gem 'numbers_in_words'
 gem 'rubocop'
 gem 'unread'
