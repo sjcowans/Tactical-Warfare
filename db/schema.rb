@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_17_054729) do
+ActiveRecord::Schema[7.0].define(version: 2026_02_20_011712) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -186,7 +186,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_17_054729) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", null: false
+    t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "confirmed_at", precision: nil
@@ -194,8 +194,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_17_054729) do
     t.string "unconfirmed_email"
     t.integer "role", default: 0
     t.bigint "user_game_id"
+    t.string "username", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["user_game_id"], name: "index_users_on_user_game_id"
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "active_sessions", "users", on_delete: :cascade

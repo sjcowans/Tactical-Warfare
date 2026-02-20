@@ -14,10 +14,11 @@ class User < ApplicationRecord
   before_save :downcase_unconfirmed_email
 
   validates :unconfirmed_email, format: { with: URI::MailTo::EMAIL_REGEXP, allow_blank: true }
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, presence: true, uniqueness: { case_sensitive: false }
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true, uniqueness: { case_sensitive: false }
   validates :password, presence: true
   validates :password_digest, presence: true
   validates :password, confirmation: { case_sensitive: true }
+  validates :username, presence: true, uniqueness: { case_sensitive: true }
 
   MAILER_FROM_EMAIL = 'no-reply@example.com'
   PASSWORD_RESET_TOKEN_EXPIRATION = 10.minutes
