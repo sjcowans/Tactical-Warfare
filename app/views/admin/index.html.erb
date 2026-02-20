@@ -1,1 +1,122 @@
-<h3>Welcome, Admin</h3>
+<center>
+
+<div id="banner">
+  <h1>Admin Panel</h1>
+</div>
+<br>
+
+<div class="green-bg">
+<div class="tan-bg">
+
+<% if flash[:notice].present? %>
+  <p style="color: green;"><%= flash[:notice] %></p>
+<% end %>
+
+<% if flash[:alert].present? %>
+  <p style="color: firebrick;"><%= flash[:alert] %></p>
+<% end %>
+
+<hr>
+
+<h2>Users</h2>
+
+<div class="scroll-x">
+<table class="full-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Role</th>
+      <th>Created</th>
+      <th>Save</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |u| %>
+      <tr>
+        <td><%= u.id %></td>
+
+        <%= form_with model: u, url: admin_update_user_path(u), method: :patch do |f| %>
+          <td><%= f.text_field :username %></td>
+          <td><%= f.select :role, User.roles.keys, selected: u.role %></td>
+          <td><%= u.created_at.strftime("%Y-%m-%d") %></td>
+          <td><%= f.submit "Save", class: "button" %></td>
+        <% end %>
+
+        <td>
+          <%= button_to "Delete",
+                admin_destroy_user_path(u),
+                method: :delete,
+                class: "button",
+                data: { turbo_confirm: "Delete user #{u.username}?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<hr>
+
+<h2>Countries</h2>
+
+<div class="scroll-x">
+<table class="full-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>User</th>
+      <th>Game</th>
+      <th>Turns</th>
+      <th>Money</th>
+      <th>Land</th>
+      <th>RP</th>
+      <th>Population</th>
+      <th>Houses</th>
+      <th>Save</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @countries.each do |c| %>
+      <tr>
+        <td><%= c.id %></td>
+
+        <%= form_with model: c, url: admin_update_country_path(c), method: :patch do |f| %>
+          <td><%= f.text_field :name %></td>
+          <td><%= c.user&.username || "None" %> (ID <%= c.user_id %>)</td>
+          <td><%= c.game_id %></td>
+
+          <td><%= f.number_field :turns %></td>
+          <td><%= f.number_field :money %></td>
+          <td><%= f.number_field :land %></td>
+          <td><%= f.number_field :research_points %></td>
+          <td><%= f.number_field :population %></td>
+          <td><%= f.number_field :houses %></td>
+
+          <td><%= f.submit "Save", class: "button" %></td>
+        <% end %>
+
+        <td>
+          <%= button_to "Delete",
+                admin_destroy_country_path(c),
+                method: :delete,
+                class: "button",
+                data: { turbo_confirm: "Delete country #{c.name}?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<br><br>
+<%= button_to "Back to Game", root_path, method: :get, class: "big-button" %>
+
+</div>
+</div>
+</center>

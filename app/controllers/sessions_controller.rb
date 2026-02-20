@@ -8,16 +8,14 @@ class SessionsController < ApplicationController
     if @user
       if @user.unconfirmed?
         #@user.send_confirmation_email!
-        login @user
-        remember(@user) if params[:user][:remember_me] == '1'
-        redirect_to user_path(@user), notice: 'Signed in, please confirm your email'
         active_session = login @user
+        #remember(@user) if params[:user][:remember_me] == '1'
+        redirect_to user_path(@user), notice: 'Signed in, please confirm your email'
         remember(active_session) if params[:user][:remember_me] == '1'
       else
-        login @user
-        remember(@user) if params[:user][:remember_me] == '1'
-        redirect_to user_path(@user), notice: 'Signed in.'
         active_session = login @user
+        #remember(@user) if params[:user][:remember_me] == '1'
+        redirect_to user_path(@user), notice: 'Signed in.'
         remember(active_session) if params[:user][:remember_me] == '1'
       end
     else

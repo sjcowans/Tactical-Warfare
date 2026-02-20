@@ -1,54 +1,72 @@
-
 <center>
-<div id="banner">
-<h1>Tactical Warfare</h1>
-</div><br>
-<div class="green-bg">
-<div class="tan-bg">
-<h2>Glory Awaits!</h2>
+  <div id="banner">
+    <h1>Tactical Warfare</h1>
+  </div>
+  <br>
 
-<div class="tutorial-button">
+  <div class="green-bg">
+    <div class="tan-bg">
+      <h2>Glory Awaits!</h2>
 
-<%= link_to "Watch The Tutorial!", 'https://youtu.be/Hm6zDKreTvg', class: 'tutorial-link', target: '_blank' %>
-</div>
+      <div class="tutorial-button">
+        <%= link_to "Watch The Tutorial!", "https://youtu.be/Hm6zDKreTvg", class: "tutorial-link", target: "_blank" %>
+      </div>
 
-<% if !@user.nil? %>
-<br><%= button_to "Continue", user_path(@user), method: :get, class: "big-button" %> <br>
-<%= button_to 'Sign Out', "/logout", method: :delete, class: "big-button" %>
-<% else %>
-<%= button_to "Sign Up!", "/sign_up", method: :get, class: "big-button" %>
--OR-
-<%= button_to "Sign In!", "/login", method: :get, class: "big-button" %> <br>
-<% end %>
-<details>
-  <summary><h3><b>Future Updates</b></h3></summary>
-Messaging Feature 
-<br>Alliances
-<br>Game Rounds 
-<br>Resource System 
-<br>MANY more units with unique bonuses
-<br>Messages with Notifications 
-<br>Recruit/Build by number rather than turns used 
-<br>Attack Range by Score 
-<br>Espionage 
-<br>Missiles 
-<br>Government Types with Bonuses 
-<br>Public Opinion with Nationwide Effects
-<br>Naval Invasions
-</details>
-<details>
-  <summary><h3><b>Update Logs</b></h3></summary>
-  <br><b>16/08/2023</b> Add helicopter units. Increase unit upkeep based on unit tech total. Update building income and upkeep. Lower income per population.
-  <br><b>13/08/2023</b> Add individual naval and air attacks. Buff Infantry and Armor health. Buff Jets armor damage.
-  <br><b>10/08/2023</b> Update appearance and add report reading feature with alerts
-  <br><b>06/08/2023</b> Tweak lab upkeep and research point cost
-  <br><b>05/08/2023</b> Add unit decomission and infantry rebalance
-  <br><b>04/08/2023</b> Fix battle report casualites (defender retaliation was being counted as attacker kills)
-  <br><b>03/08/2023</b> Add basic research for nations
-  <br><b>29/07/2023</b> Adjust infrastructure upkeep and add building demo
-  <br><b>26/07/2023</b> Add battle loot and battle victor and adjust combat logic
-</details>
+      <% if @user.present? %>
+        <br>
 
-</div>
+        <% if @user_game.present? %>
+          <%= button_to "Continue", user_game_path(@user_game), method: :get, class: "big-button" %>
+        <% else %>
+          <%= button_to "Start Game", games_path, method: :get, class: "big-button" %>
+        <% end %>
+
+        <br>
+
+        <% if @user.admin? %>
+          <%= button_to "Admin Panel", admin_path, method: :get, class: "big-button" %>
+          <br>
+        <% end %>
+
+        <%= button_to "Sign Out", "/logout", method: :delete, class: "big-button" %>
+
+      <% else %>
+        <%= button_to "Sign Up!", "/sign_up", method: :get, class: "big-button" %>
+        -OR-
+        <%= button_to "Sign In!", "/login", method: :get, class: "big-button" %>
+        <br>
+      <% end %>
+
+      <details>
+        <summary><h3><b>Future Updates</b></h3></summary>
+        Messaging Feature
+        <br>Alliances
+        <br>Game Rounds
+        <br>Resource System
+        <br>MANY more units with unique bonuses
+        <br>Messages with Notifications
+        <br>Recruit/Build by number rather than turns used
+        <br>Attack Range by Score
+        <br>Espionage
+        <br>Missiles
+        <br>Government Types with Bonuses
+        <br>Public Opinion with Nationwide Effects
+        <br>Naval Invasions
+      </details>
+
+      <details>
+        <summary><h3><b>Update Logs</b></h3></summary>
+        <br><b>16/08/2023</b> Add helicopter units...
+        <br><b>13/08/2023</b> Add individual naval and air attacks...
+        <br><b>10/08/2023</b> Update appearance...
+        <br><b>06/08/2023</b> Tweak lab upkeep...
+        <br><b>05/08/2023</b> Add unit decomission...
+        <br><b>04/08/2023</b> Fix battle report casualties...
+        <br><b>03/08/2023</b> Add basic research...
+        <br><b>29/07/2023</b> Adjust infrastructure upkeep...
+        <br><b>26/07/2023</b> Add battle loot...
+      </details>
+
+    </div>
+  </div>
 </center>
-</div>

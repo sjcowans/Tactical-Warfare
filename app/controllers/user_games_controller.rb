@@ -3,22 +3,25 @@ class UserGamesController < ApplicationController
 
   def create
     @game = Game.find(params[:game_id])
-    @user_game = UserGame.new(user_id: current_user.id, game_id: params[:game_id])
-    if @user_game.save
-      @country = @game.countries.create!(name: params[:country_name], user_id: current_user.id)
-      if @country.save
-        redirect_to user_game_path(current_user.id, params[:game_id]), notice: "Welcome to Game: #{params[:game_id]}"
-      else
-        @user_game = UserGame.where(user_id: params[:id], game_id: params[:format])
-        @user_game.destroy(params[:id])
-        render :new, status: :unprocessable_entity
-        flash[:alert] = "Error: #{error_message(@country.errors)}"
-      end
-    elsif UserGame.exists?(user_id: current_user.id, game_id: params[:game_id])
-      redirect_to user_game_path(current_user.id, params[:game_id]), notice: 'Account Already Exists!'
-    else
-      render :new, status: :unprocessable_entity
+
+    @user_game = UserGame.find_or_initialize_by(user_id: current_user.id, game_id: @game.id)
+
+    if @user_game.persisted?
+      redirect_to user_game_path(@user_game), notice: "Account Already Exists!"
+      return
     end
+
+    ActiveRecord::Base.transaction do
+      @user_game.save!
+
+      @country = @game.countries.new(name: params[:country_name], user_id: current_user.id)
+      @country.save!
+    end
+
+    redirect_to user_game_path(@user_game), notice: "Welcome to Game: #{@game.id}"
+  rescue ActiveRecord::RecordInvalid => e
+    flash.now[:alert] = "Error: #{e.record.errors.full_messages.to_sentence}"
+    render :new, status: :unprocessable_entity
   end
 
   def destroy
@@ -30,14 +33,26 @@ class UserGamesController < ApplicationController
   end
 
   def show
-    @user_game = UserGame.find_by_user_id(current_user.id)
-    @game = Game.find(@user_game.game_id)
-    @country = Country.where(user_id: current_user.id, game_id: @user_game.game_id).first
-    @defense_reports = CountryBattleReport.where(defender_country_id: @country.id).order('created_at DESC')
-    @unread_reports = @defense_reports.unread_by(@country)
-    return unless @country == []
+    @user_game = UserGame.find(params[:id])
 
-    @user_game.destroy
+    # Prevent other users from viewing someone else's user_game
+    unless @user_game.user_id == current_user.id
+      redirect_to root_path, alert: "Not authorized"
+      return
+    end
+
+    @game = Game.find(@user_game.game_id)
+    @country = Country.find_by(user_id: current_user.id, game_id: @user_game.game_id)
+
+    if @country.nil?
+      # If you want to auto-clean bad data:
+      @user_game.destroy
+      redirect_to games_path, alert: "Your country name is taken try another!"
+      return
+    end
+
+    @defense_reports = CountryBattleReport.where(defender_country_id: @country.id).order(created_at: :desc)
+    @unread_reports = @defense_reports.unread_by(@country)
   end
 
   def update

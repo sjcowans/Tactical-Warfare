@@ -1,22 +1,31 @@
 <center>
-<div id="banner">
-<h1>Tactical Warfare</h1>
-</div><br>
-<div class="green-bg">
-<h3> User Profile </h3>
-<div class="tan-bg">
+  <div id="banner">
+    <h1>Tactical Warfare</h1>
+  </div>
+  <br>
 
-<h3> Active Games: </h3>
-<p>
-<% @user_games.each do |game| %>
-<%= link_to "Game: #{game.game_id}", user_game_path(current_user, game)%><br>
-<%= button_to "Delete Game: #{game.id}", user_game_path(game), method: :delete,form: { data: { turbo_confirm: "Are you sure?" } }, params: {:user_game_id => game.id}, class: "button"%>
-<% end %>
-</p>
+  <div class="green-bg">
+    <h3>User Profile</h3>
 
+    <div class="tan-bg">
+      <h3>Active Games:</h3>
 
-<%= link_to "Join a Game", games_path %><br>
-<%= button_to 'Sign Out', "/logout", method: :delete, class: "button" %>
-</div>
-<center>
-</div>
+      <p>
+        <% @user_games.each do |ug| %>
+          <%= link_to "Game: #{ug.game_id}", user_game_path(ug) %><br>
+
+          <%= button_to "Delete Game: #{ug.id}",
+                user_game_path(ug),
+                method: :delete,
+                form: { data: { turbo_confirm: "Are you sure?" } },
+                class: "button" %>
+
+          <br><br>
+        <% end %>
+      </p>
+
+      <%= link_to "Join a Game", games_path %><br><br>
+      <%= button_to "Sign Out", "/logout", method: :delete, class: "button" %>
+    </div>
+  </div>
+</center>

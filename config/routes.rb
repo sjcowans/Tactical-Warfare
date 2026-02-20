@@ -22,7 +22,12 @@ Rails.application.routes.draw do
   resources :user_games, only: %i[show create update destroy] do
     resources :countries
   end
-  resources :admin, only: [:index]
+  get  "/admin", to: "admin#index"
+
+  patch  "/admin/users/:id",     to: "admin#update_user",   as: :admin_update_user
+  delete "/admin/users/:id",     to: "admin#destroy_user",  as: :admin_destroy_user
+  patch  "/admin/countries/:id", to: "admin#update_country",  as: :admin_update_country
+  delete "/admin/countries/:id", to: "admin#destroy_country", as: :admin_destroy_country
   resources :country, only: %i[update edit]
   get '/user_games/:id/recruit', to: 'user_games/recruit#index'
   get '/user_games/:id/build', to: 'user_games/build#index'
