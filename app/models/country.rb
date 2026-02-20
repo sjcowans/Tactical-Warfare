@@ -1,5 +1,6 @@
 class Country < ApplicationRecord
   belongs_to :game
+  belongs_to :user
   validates :name, uniqueness: true
   acts_as_reader
 

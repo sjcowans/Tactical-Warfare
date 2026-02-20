@@ -9,12 +9,13 @@ class UsersController < ApplicationController
     if @user && @user.unconfirmed?
       #@user.send_confirmation_email!
       redirect_to user_path(@user), alert: 'Please confirm your email.'
-    elsif @user && @user.confirmed
+    elsif @user && @user.confirmed?
       redirect_to user_path(@user)
     else
       @user = User.new(create_user_params)
       if @user.save
         #@user.send_confirmation_email!
+        login @user
         redirect_to user_path(@user), notice: 'Please check your email for confirmation instructions.'
       else
         render :new, status: :unprocessable_entity
@@ -63,13 +64,12 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user_games = UserGame.where(user_id: current_user.id)
-    @user = User.find(params[:id])
-    return unless @user.admin?
+    @user = current_user
+    @user_games = @user.user_games
 
-    redirect_to admin_index_path
+    redirect_to admin_path if @user.admin?
   end
-
+  
   private
 
   def create_user_params
