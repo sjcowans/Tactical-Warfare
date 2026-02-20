@@ -4,11 +4,15 @@ class SessionsController < ApplicationController
   before_action :authenticate_user!, only: [:destroy]
 
   def create
-    @user = User.authenticate_by(email: params[:user][:email].downcase, password: params[:user][:password])
+    @user = User.authenticate_by(username: params[:user][:username].downcase, password: params[:user][:password])
     if @user
       if @user.unconfirmed?
-        @user.send_confirmation_email!
-        redirect_to new_confirmation_path, alert: 'Please confirm your email.'
+        #@user.send_confirmation_email!
+        login @user
+        remember(@user) if params[:user][:remember_me] == '1'
+        redirect_to user_path(@user), notice: 'Signed in, please confirm your email'
+        active_session = login @user
+        remember(active_session) if params[:user][:remember_me] == '1'
       else
         login @user
         remember(@user) if params[:user][:remember_me] == '1'

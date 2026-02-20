@@ -5,15 +5,17 @@ class UsersController < ApplicationController
   before_action :redirect_if_authenticated, only: [:create]
 
   def create
-    @user = User.find_by_email(params[:user][:email].downcase)
+    @user = User.find_by_username(params[:user][:username])
     if @user && @user.unconfirmed?
-      @user.send_confirmation_email!
-      redirect_to new_confirmation_path, alert: 'Please confirm your email.'
+      #@user.send_confirmation_email!
+      redirect_to user_path(@user), alert: 'Please confirm your email.'
+    elsif @user && @user.confirmed
+      redirect_to user_path(@user)
     else
       @user = User.new(create_user_params)
       if @user.save
-        @user.send_confirmation_email!
-        redirect_to root_path, notice: 'Please check your email for confirmation instructions.'
+        #@user.send_confirmation_email!
+        redirect_to user_path(@user), notice: 'Please check your email for confirmation instructions.'
       else
         render :new, status: :unprocessable_entity
       end
@@ -71,10 +73,10 @@ class UsersController < ApplicationController
   private
 
   def create_user_params
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.require(:user).permit(:email, :username, :password, :password_confirmation)
   end
 
   def update_user_params
-    params.require(:user).permit(:current_password, :password, :password_confirmation, :unconfirmed_email)
+    params.require(:user).permit(:current_password, :password, :username, :password_confirmation, :unconfirmed_email)
   end
 end
