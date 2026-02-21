@@ -314,6 +314,7 @@ body {
   height: 100vh;
   overflow: hidden;  
   padding: 0;         
+}
 
 .app-shell {
   height: 100vh;
@@ -332,7 +333,7 @@ body {
 .tan-bg {
   max-height: calc(100vh - 260px); 
   overflow-y: auto;                
-  overscroll-behavior: contain;
+  overscroll-behavior: auto;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -361,7 +362,7 @@ body {
 .tan-bg {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
+  overscroll-behavior: auto;
 
   max-height: calc(100dvh - 280px); 
 }
@@ -370,4 +371,39 @@ body {
   .tan-bg{
     max-height: calc(100dvh - 200px); 
   }
+}
+
+.flash {
+  max-width: 900px;
+  margin: 18px auto;
+  padding: 18px 22px;
+
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+  text-align: center;
+
+  border: 3px solid #ff3b3b;
+  background: linear-gradient(
+      rgba(80,0,0,0.92),
+      rgba(120,0,0,0.92)
+    );
+
+  color: #ffd6d6;
+
+  box-shadow:
+    0 0 10px rgba(255,0,0,0.4),
+    0 0 30px rgba(255,0,0,0.2),
+    var(--shadow);
+}
+
+.flash.alert,
+.flash.error {
+  background: linear-gradient(
+      rgba(120,0,0,0.95),
+      rgba(180,0,0,0.95)
+    );
+  border-color: #ff4d4d;
+  color: #ffeaea;
 }

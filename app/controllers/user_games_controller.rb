@@ -79,7 +79,7 @@ class UserGamesController < ApplicationController
   def perform_attack
     @attacker = Country.find(params[:attacker_id])
     redirect_with_alert('Not Enough Turns') and return unless sufficient_turns_for_attack(params[:air_attack],
-                                                                                          params[:naval_attack], params[:ground_attack]) == true
+                                                                                          params[:naval_attack], params[:ground_attack], @attacker.turns) == true
 
     @defender = Country.find(params[:defender_id])
     @battle_report = CountryBattleReport.create!(attacker_country_id: @attacker.id, defender_country_id: @defender.id,
@@ -143,11 +143,22 @@ class UserGamesController < ApplicationController
     params[:basic_infantry_decomission].present? || params[:air_infantry_decomission].present? || params[:sea_infantry_decomission].present? || params[:armor_infantry_decomission].present? || params[:basic_armored_decomission].present? || params[:air_armored_decomission].present? || params[:sea_armored_decomission].present? || params[:armor_armored_decomission].present? || params[:basic_aircraft_decomission].present? || params[:air_aircraft_decomission].present? || params[:sea_aircraft_decomission].present? || params[:armor_aircraft_decomission].present? || params[:basic_ship_decomission].present? || params[:air_ship_decomission].present? || params[:sea_ship_decomission].present? || params[:armor_ship_decomission].present? || params[:attack_helicopter_decomission].present? || params[:transport_helicopter_decomission].present? || params[:naval_helicopter_decomission].present?
   end
 
-  def sufficient_turns_for_attack(air, sea, ground)
-    turns_taken = 150 if ground.present?
-    turns_taken = 50 if air.present? || sea.present?
-    @attacker.take_turns(turns_taken)
-    @attacker.turns >= 0
+  def sufficient_turns_for_attack(air, sea, ground, turns)
+    if air.present? || sea.present? 
+      if turns >= 50
+        @attacker.take_turns(50)
+        true
+      else
+        false
+      end
+    elsif ground.present?
+      if turns >= 150
+        @attacker.take_turns(150)
+        true
+      else
+        false
+      end
+    end
   end
 
   def conduct_battle(attacker, defender, battle_report, ground, air, sea)

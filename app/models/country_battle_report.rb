@@ -16,7 +16,7 @@ class CountryBattleReport < ApplicationRecord
   end
 
   def select_victor
-    point_ratio = ((1 + (infantry_points + armored_points + ship_points + aircraft_points)) / (1 + (defender_infantry_points + defender_armored_points + defender_ship_points + defender_aircraft_points)).to_f)
+    point_ratio = ((2 + (infantry_points + armored_points + ship_points + aircraft_points)) / (1 + (defender_infantry_points + defender_armored_points + defender_ship_points + defender_aircraft_points)).to_f)
     self.victor = if point_ratio >= 1.5
                     1
                   elsif point_ratio > 0.66 && point_ratio < 1.5
