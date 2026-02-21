@@ -52,7 +52,7 @@ Note: Ground attacks take 150 Turns, Air and Naval Attacks take 50 Turns<br>
 <b>Population:</b> <%= number_to_human(@country.population) %>  (<%= number_with_delimiter(@country.population)%>) <br>
 <b>Score:</b> <%= number_with_delimiter(@country.score) %><br>
 <b>GDP:</b> <%= number_to_human(@country.gross * 365) %><br>
-<b>Land:</b> <%= number_with_delimiter(@country.land) %><br>
+<b>Land:</b> <%= number_with_delimiter(@country.land) %> square miles<br>
 </div>
 
 <h4>Battle Stats:</h4>

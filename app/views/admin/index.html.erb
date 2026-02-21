@@ -1,122 +1,155 @@
 <center>
+  <div id="banner">
+    <h1>Admin Panel</h1>
+  </div>
+  <br>
 
-<div id="banner">
-  <h1>Admin Panel</h1>
-</div>
-<br>
+  <div class="green-bg">
+    <div class="tan-bg">
 
-<div class="green-bg">
-<div class="tan-bg">
+      <% if flash[:notice].present? %>
+        <p style="color: green;"><%= flash[:notice] %></p>
+      <% end %>
 
-<% if flash[:notice].present? %>
-  <p style="color: green;"><%= flash[:notice] %></p>
-<% end %>
+      <% if flash[:alert].present? %>
+        <p style="color: firebrick;"><%= flash[:alert] %></p>
+      <% end %>
 
-<% if flash[:alert].present? %>
-  <p style="color: firebrick;"><%= flash[:alert] %></p>
-<% end %>
+      <hr>
 
-<hr>
+      <h2>Users</h2>
 
-<h2>Users</h2>
+      <div class="scroll-x">
+        <table class="full-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Role</th>
+              <th>Created</th>
+              <th>Save</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
 
-<div class="scroll-x">
-<table class="full-table">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Username</th>
-      <th>Role</th>
-      <th>Created</th>
-      <th>Save</th>
-      <th>Delete</th>
-    </tr>
-  </thead>
+          <tbody>
+            <% @users.each do |u| %>
+              <% form_id = "edit_user_#{u.id}" %>
 
-  <tbody>
-    <% @users.each do |u| %>
-      <tr>
-        <td><%= u.id %></td>
+              <tr>
+                <td><%= u.id %></td>
 
-        <%= form_with model: u, url: admin_update_user_path(u), method: :patch do |f| %>
-          <td><%= f.text_field :username %></td>
-          <td><%= f.select :role, User.roles.keys, selected: u.role %></td>
-          <td><%= u.created_at.strftime("%Y-%m-%d") %></td>
-          <td><%= f.submit "Save", class: "button" %></td>
-        <% end %>
+                <td>
+                  <%= text_field_tag "user[username]", u.username, form: form_id %>
+                </td>
 
-        <td>
-          <%= button_to "Delete",
-                admin_destroy_user_path(u),
-                method: :delete,
-                class: "button",
-                data: { turbo_confirm: "Delete user #{u.username}?" } %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-</div>
+                <td>
+                  <%= select_tag "user[role]",
+                        options_for_select(User.roles.keys, u.role),
+                        form: form_id %>
+                </td>
 
-<hr>
+                <td><%= u.created_at.strftime("%Y-%m-%d") %></td>
 
-<h2>Countries</h2>
+                <td>
+                  <%= form_with model: u,
+                                url: admin_update_user_path(u),
+                                method: :patch,
+                                local: true,
+                                data: { turbo: false },
+                                html: { id: form_id } do |f| %>
+                    <%= f.submit "Save", class: "button" %>
+                  <% end %>
+                </td>
 
-<div class="scroll-x">
-<table class="full-table">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>User</th>
-      <th>Game</th>
-      <th>Turns</th>
-      <th>Money</th>
-      <th>Land</th>
-      <th>RP</th>
-      <th>Population</th>
-      <th>Houses</th>
-      <th>Save</th>
-      <th>Delete</th>
-    </tr>
-  </thead>
+                <td>
+                  <%= link_to "Delete",
+                        admin_destroy_user_path(u),
+                        data: {
+                          turbo_method: :delete,
+                          turbo_confirm: "Delete user #{u.username}?"
+                        },
+                        class: "button" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
 
-  <tbody>
-    <% @countries.each do |c| %>
-      <tr>
-        <td><%= c.id %></td>
+      <hr>
 
-        <%= form_with model: c, url: admin_update_country_path(c), method: :patch do |f| %>
-          <td><%= f.text_field :name %></td>
-          <td><%= c.user&.username || "None" %> (ID <%= c.user_id %>)</td>
-          <td><%= c.game_id %></td>
+      <h2>Countries</h2>
 
-          <td><%= f.number_field :turns %></td>
-          <td><%= f.number_field :money %></td>
-          <td><%= f.number_field :land %></td>
-          <td><%= f.number_field :research_points %></td>
-          <td><%= f.number_field :population %></td>
-          <td><%= f.number_field :houses %></td>
+      <div class="scroll-x">
+        <table class="full-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>User</th>
+              <th>Game</th>
+              <th>Turns</th>
+              <th>Money</th>
+              <th>Land</th>
+              <th>RP</th>
+              <th>Population</th>
+              <th>Houses</th>
+              <th>Save</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
 
-          <td><%= f.submit "Save", class: "button" %></td>
-        <% end %>
+          <tbody>
+            <% @countries.each do |c| %>
+              <% form_id = "edit_country_#{c.id}" %>
 
-        <td>
-          <%= button_to "Delete",
-                admin_destroy_country_path(c),
-                method: :delete,
-                class: "button",
-                data: { turbo_confirm: "Delete country #{c.name}?" } %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-</div>
+              <tr>
+                <td><%= c.id %></td>
 
-<br><br>
-<%= button_to "Back to Game", root_path, method: :get, class: "big-button" %>
+                <td>
+                  <%= text_field_tag "country[name]", c.name, form: form_id %>
+                </td>
 
-</div>
-</div>
+                <td><%= c.user&.username || "None" %> (ID <%= c.user_id %>)</td>
+                <td><%= c.game_id %></td>
+
+                <td><%= number_field_tag "country[turns]", c.turns, form: form_id %></td>
+                <td><%= number_field_tag "country[money]", c.money, form: form_id %></td>
+                <td><%= number_field_tag "country[land]", c.land, form: form_id %></td>
+                <td><%= number_field_tag "country[research_points]", c.research_points, form: form_id %></td>
+                <td><%= number_field_tag "country[population]", c.population, form: form_id %></td>
+                <td><%= number_field_tag "country[houses]", c.houses, form: form_id %></td>
+
+                <td>
+                  <%= form_with model: c,
+                                url: admin_update_country_path(c),
+                                method: :patch,
+                                local: true,
+                                data: { turbo: false },
+                                html: { id: form_id } do |f| %>
+                    <%= f.submit "Save", class: "button" %>
+                  <% end %>
+                </td>
+
+                <td>
+                  <%= link_to "Delete",
+                        admin_destroy_country_path(c),
+                        data: {
+                          turbo_method: :delete,
+                          turbo_confirm: "Delete country #{c.name}?"
+                        },
+                        class: "button" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <br><br>
+      <%= link_to "Back to Game", root_path, class: "big-button" %>
+
+    </div>
+  </div>
 </center>

@@ -50,7 +50,7 @@ GDP: <%= number_to_human(@country.gross * 365) %><br>
 Score: <%= number_with_delimiter(@country.score) %><br>
 Research Points: <%= number_with_delimiter(@country.research_points) %><br>
 Research Points Per Turn: <%= number_with_delimiter((@country.labs * 1.01**@country.research_tech).round) %><br>
-Land: <%= number_with_delimiter(@country.land) %><br>
+Land: <%= number_with_delimiter(@country.land) %> square miles<br>
 </div>
 &nbsp<br>
 <details>

@@ -14,18 +14,37 @@ class Country < ApplicationRecord
   end
 
   def take_turns(total_turns)
-    save
-    self.turns -= total_turns.to_i
-    self.money += (net * total_turns.to_i)
-    self.research_points += (labs * total_turns.to_i * 1.01**research_tech)
-    self.population =
-      if population < (houses * 1000)
-        population + ((((houses * 1000 * 1.01**housing_tech) + (infrastructure * 50)) - population) * 0.0002 * total_turns.to_i).to_i
-      else
-        population - ((population - ((houses * 1000 * 1.01**housing_tech) + (infrastructure * 50))) * 0.002 * total_turns.to_i).to_i
-      end
+    total_turns = total_turns.to_i
+
+    self.turns -= total_turns
+    self.money += net * total_turns
+    self.research_points += (labs * total_turns * (1.01**research_tech)).to_i
+
+    cap = houses * 1000
+
+    up_rate   = 0.0002
+    down_rate = 0.002
+    rate = (population < cap) ? up_rate : down_rate
+
+    new_pop = approach(population.to_f, cap.to_f, rate, total_turns)
+
+    new_pop = new_pop.round
+    new_pop = cap if population < cap && new_pop > cap
+    new_pop = cap if population > cap && new_pop < cap
+    new_pop = 0   if new_pop < 0
+
+    self.population = new_pop
+
     save
     score_calc
+  end
+
+  def approach(current, target, rate_per_turn, turns)
+    turns = turns.to_i
+    return current if turns <= 0 || current == target
+
+    factor = 1.0 - (1.0 - rate_per_turn) ** turns
+    current + ((target - current) * factor)
   end
 
   def build(infra, shops, barracks, armories, hangars, dockyards, labs, houses)
@@ -34,25 +53,25 @@ class Country < ApplicationRecord
   end
 
   def demolish(infra, shops, barracks, armories, hangars, dockyards, labs, houses)
-    bonus = 10 * ((infrastructure + 1000) / 1000).round(0)
-    self.infrastructure = infrastructure - (infra.to_i * bonus)
-    self.infrastructure = 0 if infrastructure < 0
-    self.shops = self.shops - (shops.to_i * bonus)
-    self.shops = 0 if self.shops < 0
-    self.barracks = self.barracks - (barracks.to_i * bonus)
-    self.barracks = 0 if self.barracks < 0
-    self.armory = armory - (armories.to_i * bonus)
-    self.armory = 0 if armory < 0
-    self.hangars = self.hangars - (hangars.to_i * bonus)
-    self.hangars = 0 if self.hangars < 0
-    self.dockyards = self.dockyards - (dockyards.to_i * bonus)
-    self.dockyards = 0 if self.dockyards < 0
-    self.labs = self.labs - (labs.to_i * bonus)
-    self.labs = 0 if self.labs < 0
-    self.houses = self.houses - (houses.to_i * bonus)
-    self.houses = 0 if self.houses < 0
-    total_turns = (infra.to_i + shops.to_i + barracks.to_i + armories.to_i + hangars.to_i + dockyards.to_i + labs.to_i + houses.to_i) / 10
-    total_turns = 1 if total_turns < 1
+    req = {
+      infrastructure: infra.to_i,
+      shops: shops.to_i,
+      barracks: barracks.to_i,
+      armory: armories.to_i,
+      hangars: hangars.to_i,
+      dockyards: dockyards.to_i,
+      labs: labs.to_i,
+      houses: houses.to_i
+    }
+    return if req.values.sum <= 0
+    bonus = 10 * ((infrastructure / 1000) + 1)
+    req.each do |attr, turns|
+      next if turns <= 0
+      amount = turns * bonus
+      self[attr] = [self[attr].to_i - amount, 0].max
+    end
+    total_turns = (req.values.sum / 10.0).ceil
+    total_turns = [total_turns, self.turns].min 
     take_turns(total_turns)
   end
 
@@ -66,7 +85,7 @@ class Country < ApplicationRecord
     self.dockyards = self.dockyards + (dockyards.to_i * bonus)
     self.labs = self.labs + (labs.to_i * bonus)
     self.houses = self.houses + (houses.to_i * bonus)
-    infrastructure + self.shops + self.barracks + armory + self.hangars + self.dockyards + self.labs + self.houses < land * 10 && infrastructure <= land
+    self.infrastructure + self.shops + self.barracks + armory + self.hangars + self.dockyards + self.labs + self.houses < land
   end
 
   def infantry_recruit_cost(basic_infantry, air_infantry, sea_infantry, armor_infantry)

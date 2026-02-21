@@ -91,15 +91,36 @@ class UserGamesController < ApplicationController
   end
 
   def build_or_demolish
-    building_params = %i[infrastructure shops barracks armories hangars dockyards labs houses]
-    total_turns_needed = building_params.sum { |param| params[param].to_i }
+    build_keys = %i[infrastructure shops barracks armories hangars dockyards labs houses]
+    demo_keys  = %i[
+      demolish_infrastructure demolish_shops demolish_barracks demolish_armories
+      demolish_hangars demolish_dockyards demolish_labs demolish_houses
+    ]
 
+    if demo_keys.any? { |k| params[k].to_i > 0 }
+      total_turns_needed = (demo_keys.sum { |k| params[k].to_i } / 10.0).ceil
+      redirect_with_alert('Not Enough Turns') and return unless @country.turns >= total_turns_needed
+
+      @country.demolish(
+        params[:demolish_infrastructure].to_i,
+        params[:demolish_shops].to_i,
+        params[:demolish_barracks].to_i,
+        params[:demolish_armories].to_i,
+        params[:demolish_hangars].to_i,
+        params[:demolish_dockyards].to_i,
+        params[:demolish_labs].to_i,
+        params[:demolish_houses].to_i
+      )
+
+      redirect_to user_game_path(@user_game)
+      return
+    end
+
+    total_turns_needed = build_keys.sum { |k| params[k].to_i }
     redirect_with_alert('Not Enough Turns') and return unless @country.turns >= total_turns_needed
-    redirect_with_alert('Not Enough Land') and return unless @country.land_check(*building_params.map do |param|
-                                                                                   params[param].to_i
-                                                                                 end)
+    redirect_with_alert('Not Enough Land') and return unless @country.land_check(*build_keys.map { |k| params[k].to_i })
 
-    @country.build(*building_params.map { |param| params[param].to_i })
+    @country.build(*build_keys.map { |k| params[k].to_i })
     redirect_to user_game_path(@user_game)
   end
 

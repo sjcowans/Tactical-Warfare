@@ -2,14 +2,16 @@
 
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: %i[edit destroy update show]
-  before_action :redirect_if_authenticated, only: [:create]
+  #before_action :redirect_if_authenticated, only: [:create]
 
   def create
     @user = User.find_by_username(params[:user][:username])
     if @user && @user.unconfirmed?
       #@user.send_confirmation_email!
+      login @user
       redirect_to user_path(@user), alert: 'Please confirm your email.'
     elsif @user && @user.confirmed?
+      login @user
       redirect_to user_path(@user)
     else
       @user = User.new(create_user_params)
@@ -28,6 +30,7 @@ class UsersController < ApplicationController
       @user = current_user
       redirect_to user_path(@user)
       flash[:alert] = 'Already Signed In'
+      return
     end
     @user = User.new
   end
@@ -69,7 +72,7 @@ class UsersController < ApplicationController
 
     redirect_to admin_path if @user.admin?
   end
-  
+
   private
 
   def create_user_params
