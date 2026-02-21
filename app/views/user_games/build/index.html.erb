@@ -1,162 +1,164 @@
-<center><div id="banner">
-<h1>Tactical Warfare</h1>
+<div id="banner" class="text-center">
+  <h1>Tactical Warfare</h1>
 </div>
-<h4><div id="banner-2">
-<table class='full-table'>
-  <tr>
-    <td>
-      <%= link_to 'Main&nbsp;Menu'.html_safe, root_path, method: :get, class: 'banner-links' %>
-    </td>
-    <td>
-      <%= link_to 'Dashboard', user_game_path(@user_game), class: 'banner-links' %>
-    </td>
-    <td>
-      <%= link_to 'Recruit', "/user_games/#{@user_game.id}/recruit", class: 'banner-links' %>
-    </td>
-    <td>
-      <%= link_to 'Explore&nbsp;Land'.html_safe,"/user_games/#{@user_game.id}/explore", class: 'banner-links' %>
-    </td>
-    <td>
-      <%= link_to 'Build', "/user_games/#{@user_game.id}/build", class: 'banner-links' %>
-    </td>
-    <td>
-      <%= link_to 'Research', "/user_games/#{@user_game.id}/research", class: 'banner-links' %>
-    </td>
-    <td>
-      <%= link_to 'Nation&nbsp;Leaderboard'.html_safe, "/user_games/#{@user_game.id}/countries", class: 'banner-links' %>
-    </td>
-    <td>
-      <%= link_to "Reports&nbsp;(#{@unread_reports.length})".html_safe, "/user_games/#{@user_game.id}/reports", class: 'banner-links' %>
-    </td>
-  </tr>
-</table>
+
+<div id="banner-2">
+  <table class="full-table">
+    <tr>
+      <td><%= link_to 'Main&nbsp;Menu'.html_safe, root_path, class: 'banner-links' %></td>
+      <td><%= link_to 'Dashboard', user_game_path(@user_game), class: 'banner-links' %></td>
+      <td><%= link_to 'Recruit', "/user_games/#{@user_game.id}/recruit", class: 'banner-links' %></td>
+      <td><%= link_to 'Explore&nbsp;Land'.html_safe, "/user_games/#{@user_game.id}/explore", class: 'banner-links' %></td>
+      <td><%= link_to 'Build', "/user_games/#{@user_game.id}/build", class: 'banner-links' %></td>
+      <td><%= link_to 'Research', "/user_games/#{@user_game.id}/research", class: 'banner-links' %></td>
+      <td><%= link_to 'Nation&nbsp;Leaderboard'.html_safe, "/user_games/#{@user_game.id}/countries", class: 'banner-links' %></td>
+      <td><%= link_to "Reports&nbsp;(#{@unread_reports.length})".html_safe, "/user_games/#{@user_game.id}/reports", class: 'banner-links' %></td>
+    </tr>
+  </table>
 </div>
-</h4>
+
 <div class="green-bg">
-<div class="tan-bg">
-<details>
-    <summary>Build & Demolish Info</summary>
+  <div class="tan-bg">
+    <details>
+      <summary>Build &amp; Demolish Info</summary>
+      <ul>
+        <li>Here you can specify the amount of turns you would like to invest into building different building types.</li>
+        <li>You initially build 1 building per turn.</li>
+        <li>You can have up to 1 building per square mile of land.</li>
+        <li>You can have up to 1 infrastructure per 1 square mile of land.</li>
+        <li>You can demolish at 10 times your build rate.</li>
+      </ul>
+    </details>
+  </div>
 
-    <li>Here you can specify the amount of turns you'd like to invest into building different building types.</li> 
-    <li>You initially build 1 building per turn.</li>
-    <li>You can have up to 10 buildings per square mile of land.</li>
-    <li>You can have up to 1 infrastructure per 1 square mile of land.</li>
-    <li>You can demolish at 10 times your build rate</li> 
-</details>
-</div>
+  <div class="tan-bg">
+    <h4>Turns: <%= @country.turns %></h4>
 
-<div class="tan-bg">
+    <h4>Build:</h4>
 
-<br><h4>Turns: <%=@country.turns%> </h4>
+    <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
+      <details>
+        <summary><b>Houses (<%= @country.houses %>)</b></summary>
+        <ul>
+          <li>Houses hold up to 1,000 population each</li>
+          <li>Houses have an upkeep of $500 per turn</li>
+          <li>Each citizen produces $25 a turn and has an upkeep of $15</li>
+        </ul>
+      </details>
 
-<h4>Build: </h4><br>
+      <%= form.label :houses, "Turns to build houses" %><br>
+      <%= form.number_field :houses %><br>
 
-<%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
-<details>
-  <summary><b>Houses (<%=@country.houses%>)</b></summary>
+      <details>
+        <summary><b>Infrastructure (<%= @country.infrastructure %>)</b></summary>
+        <ul>
+          <li>Infrastructure has an income of $1,500 per turn</li>
+          <li>Infrastructure has a base upkeep of $2,000 per turn and will become exponentially more expensive</li>
+          <li>You build 1 additional building per turn for every 1,000 infrastructure (e.g. 3 buildings/turn at 2,000 infra)</li>
+        </ul>
+      </details>
 
-  <li>Houses hold up to 1,000 population each</li>
-  <li>Houses have an upkeep of $500 per turn</li>
-  <li>Each citizen produces $25 a turn and has an upkeep of $15</li>
-</details>
+      <%= form.label :infrastructure, "Turns to build infrastructure" %><br>
+      <%= form.number_field :infrastructure %><br>
 
-    <%= form.label :turns_to_build_houses %>:<br>
-    <%= form.number_field :houses %> <br>
+      <details>
+        <summary><b>Shops (<%= @country.shops %>)</b></summary>
+        <ul>
+          <li>Shops have an income of $15,000 per turn and expense of $5,000</li>
+        </ul>
+      </details>
 
- <br><details>
-  <summary><b>infrastructure (<%=@country.infrastructure%>)</b></summary>
+      <%= form.label :shops, "Turns to build shops" %><br>
+      <%= form.number_field :shops %><br>
 
-  <li>infrastructure has an income of $1,500 per turn</li>
-  <li>infrastructure has a base upkeep of $2,000 per turn and will become exponentially more expensive</li>
-  <li>You build 1 additional building per turn for every 1,000 infrastructure. (IE 3 buildings per turn at 2000 infra)</li>
-</details>
+      <details>
+        <summary><b>Barracks (<%= @country.barracks %>)</b></summary>
+        <ul>
+          <li>Each barracks increases maximum infantry by 150</li>
+          <li>Barracks have an upkeep of $500 per turn</li>
+        </ul>
+      </details>
 
-   <%= form.label :turns_to_build_infrastructure %>:<br>
-    <%= form.number_field :infrastructure %> <br>
+      <%= form.label :barracks, "Turns to build barracks" %><br>
+      <%= form.number_field :barracks %><br>
 
-<br><details>
-  <summary><b>Shops (<%=@country.shops%>)</b></summary>
+      <details>
+        <summary><b>Armories (<%= @country.armory %>)</b></summary>
+        <ul>
+          <li>Each armory increases maximum vehicles by 50 (25 for tanks)</li>
+          <li>Armories have an upkeep of $500 per turn</li>
+        </ul>
+      </details>
 
-  <li>Shops have an income of $15,000 per turn and expense of $5,000</li>
-</details>
+      <%= form.label :armories, "Turns to build armories" %><br>
+      <%= form.number_field :armories %><br>
 
-    <%= form.label :turns_to_build_shops %>:<br>
-    <%= form.number_field :shops %><br>
+      <details>
+        <summary><b>Hangars (<%= @country.hangars %>)</b></summary>
+        <ul>
+          <li>Each hangar increases maximum aircraft (MRF +15, jets +10, naval bombers +8, heavy bombers +5)</li>
+          <li>Hangars have upkeep of $1,000 per turn</li>
+        </ul>
+      </details>
 
-<br><details>
-  <summary><b>Barracks (<%=@country.barracks%>)</b></summary>
+      <%= form.label :hangars, "Turns to build hangars" %><br>
+      <%= form.number_field :hangars %><br>
 
-  <li>Each barracks increase maximum infantry by 150</li>
-  <li>Barracks have an upkeep of $500 per turn</li>
-</details>
+      <details>
+        <summary><b>Dockyards (<%= @country.dockyards %>)</b></summary>
+        <ul>
+          <li>Each dockyard increases maximum ships (corvettes +10, frigates +5, destroyers +3, cruisers +2)</li>
+          <li>Dockyards have upkeep of $2,500 per turn</li>
+        </ul>
+      </details>
 
-    <%= form.label :turns_to_build_barracks %>:<br>
-    <%= form.number_field :barracks %><br>
+      <%= form.label :dockyards, "Turns to build dockyards" %><br>
+      <%= form.number_field :dockyards %><br>
 
-<br><details>
-  <summary><b>Armories (<%=@country.armory%>)</b></summary>
+      <details>
+        <summary><b>Labs (<%= @country.labs %>)</b></summary>
+        <ul>
+          <li>Each lab produces one research point per turn</li>
+          <li>Labs have a base upkeep of $10,000 per turn and will become exponentially more expensive</li>
+        </ul>
+      </details>
 
-  <li>Each armory increase maximum vehicles by 50 (25 for tanks)</li>
-  <li>Arnmories have an upkeep of $500 per turn</li>
-</details>
+      <%= form.label :labs, "Turns to build labs" %><br>
+      <%= form.number_field :labs %><br><br>
 
-    <%= form.label :turns_to_build_armories %>:<br>
-    <%= form.number_field :armories %><br>
+      <%= form.submit "Build", class: "button" %>
+    <% end %>
+  </div>
 
-<br><details>
-  <summary><b>Hangars (<%=@country.hangars%>)</b></summary>
+  <div class="tan-bg">
+    <h4>Demolish:</h4>
 
-  <li>Each hangar increase maximum amount of aircraft. (multi-role fighters by 15, jet fighters by 10, naval bombers by 8, and heavy bombers by 5)</li>
-  <li>Hangars have upkeep of $1,000 per turn</li>
-</details>
+    <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
+      <%= form.label :demolish_houses, "Turns to demolish houses" %><br>
+      <%= form.number_field :demolish_houses %><br>
 
-    <%= form.label :turns_to_build_hangars %>:<br>
-    <%= form.number_field :hangars %><br>
+      <%= form.label :demolish_infrastructure, "Turns to demolish infrastructure" %><br>
+      <%= form.number_field :demolish_infrastructure %><br>
 
-<br><details>
-  <summary><b>Dockyards (<%=@country.dockyards%>)</b></summary>
+      <%= form.label :demolish_shops, "Turns to demolish shops" %><br>
+      <%= form.number_field :demolish_shops %><br>
 
-  <li>Each dockyard increase maximum amount of ships. (corvettes by 10, frigates by 5, destroyers by 3, and cruisers by 2)</li>
-  <li>Dockyards have upkeep of $2,500 per turn</li>
-</details>
+      <%= form.label :demolish_barracks, "Turns to demolish barracks" %><br>
+      <%= form.number_field :demolish_barracks %><br>
 
-    <%= form.label :turns_to_build_dockyards %>:<br>
-    <%= form.number_field :dockyards %><br>
+      <%= form.label :demolish_armories, "Turns to demolish armories" %><br>
+      <%= form.number_field :demolish_armories %><br>
 
-<br><details>
-  <summary><b>Labs (<%=@country.labs%>)</b></summary>
+      <%= form.label :demolish_hangars, "Turns to demolish hangars" %><br>
+      <%= form.number_field :demolish_hangars %><br>
 
-  <li>Each lab produces on research point per turn.</li>
-  <li>Labs have a base upkeep of $10,000 per turn and will become exponentially more expensive</li>
-</details>
+      <%= form.label :demolish_dockyards, "Turns to demolish dockyards" %><br>
+      <%= form.number_field :demolish_dockyards %><br>
 
-    <%= form.label :turns_to_build_labs %>:<br>
-    <%= form.number_field :labs %><br>
-  <%= form.submit "Build", class: "button" %>
-<% end %><br>
-</div>
-<div class="tan-bg">
-<h4>Demolish: </h4><br>
+      <%= form.label :demolish_labs, "Turns to demolish labs" %><br>
+      <%= form.number_field :demolish_labs %><br><br>
 
-<%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
-    <%= form.label :turns_to_demolish_houses %>:<br>
-    <%= form.number_field :demolish_houses %> <br>
-    <%= form.label :turns_to_demolish_infrastructure %>:<br>
-    <%= form.number_field :demolish_infrastructure %> <br>
-    <%= form.label :turns_to_demolish_shops %>:<br>
-    <%= form.number_field :demolish_shops %><br>
-    <%= form.label :turns_to_demolish_barracks %>:<br>
-    <%= form.number_field :demolish_barracks %><br>
-    <%= form.label :turns_to_demolish_armories %>:<br>
-    <%= form.number_field :demolish_armories %><br>
-    <%= form.label :turns_to_demolish_hangars %>:<br>
-    <%= form.number_field :demolish_hangars %><br>
-    <%= form.label :turns_to_demolish_dockyards %>:<br>
-    <%= form.number_field :demolish_dockyards %><br>
-    <%= form.label :turns_to_demolish_labs %>:<br>
-    <%= form.number_field :demolish_labs %><br>
-  <%= form.submit "Demo", data: { turbo_confirm: 'Are you sure?' }, class: "button" %>
-<% end %><br>
-</div>
-</center>
+      <%= form.submit "Demo", data: { turbo_confirm: "Are you sure?" }, class: "button" %>
+    <% end %>
+  </div>
 </div>
