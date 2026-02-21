@@ -16,11 +16,15 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+<body>
+  <div class="app-shell">
     <% flash.each do |type, msg| %>
       <div class="flash <%= type %>"><%= msg %></div>
     <% end %>
 
-    <%= yield %>
-  </body>
+    <main class="app-main">
+      <%= yield %>
+    </main>
+  </div>
+</body>
 </html>
