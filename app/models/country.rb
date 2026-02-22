@@ -870,14 +870,14 @@ class Country < ApplicationRecord
     attacker.basic_infantry = (attacker.basic_infantry * survivors).round
     attacker.armor_infantry = (attacker.armor_infantry * survivors).round
     attacker.save
-    ground_battle_ratio = (attacker_armor_damage + attacker_armor_to_infantry_damage + attacker_infantry_damage) / (defender.infantry_health + defender.armor_health).to_f
-    if ground_battle_ratio >= 1
+    ground_battle_ratio = (attacker_armor_damage + attacker_armor_to_infantry_damage + attacker_infantry_damage + 1) / (1 + (defender_armor_damage + defender_armor_to_infantry_damage + defender_infantry_damage)).to_f
+    if ground_battle_ratio >= 1.01
       remaining_territory = 1 - (rand(0.025..0.05) * ground_battle_ratio)
       remaining_money = 1 - (0.1 * ground_battle_ratio)
       remaining_money = 0.8 if remaining_money < 0.8
       money_difference = defender.money - (defender.money * remaining_money)
       money_difference = 0 if money_difference < 0
-      remaining_territory = 0.95 if remaining_territory < 0.95
+      remaining_territory = 0.90 if remaining_territory < 0.90
       shop_difference = defender.shops - (defender.shops * remaining_territory)
       infrastructure_difference = defender.infrastructure - (defender.infrastructure * remaining_territory)
       land_difference = defender.land - (defender.land * remaining_territory)
