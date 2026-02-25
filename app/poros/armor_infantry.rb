@@ -16,7 +16,7 @@ class ArmorInfantry < Units
     @soft_attack = 5
     @hard_attack = 20
     @air_attack = 1
-    @naval_attack = 0
+    @naval_attack = 1
     @health = 20
     @cost = 20_000
     @upkeep = 300

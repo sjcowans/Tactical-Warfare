@@ -16,7 +16,7 @@ class AirInfantry < Units
     @soft_attack = 5
     @hard_attack = 5
     @air_attack = 10
-    @naval_attack = 0
+    @naval_attack = 2
     @health = 20
     @cost = 10_000
     @upkeep = 200

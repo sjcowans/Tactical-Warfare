@@ -33,6 +33,25 @@
 </div>
 </h4>
 
+<% def render_stat(label, obj, method_name) %>
+  <% return unless obj.respond_to?(method_name) %>
+  <% value = obj.public_send(method_name) %>
+  <% value = number_to_currency(value) if [:cost, :upkeep].include?(method_name) %>
+  <li><%= label %>: <%= value %></li>
+<% end %>
+
+<% def render_unit_stats(unit, building_count:, cost_per_turn_proc:, recruitment_per_turn_proc:) %>
+  <% render_stat("Soft Attack", unit, :soft_attack) %>
+  <% render_stat("Hard Attack", unit, :hard_attack) %>
+  <% render_stat("Air Attack", unit, :air_attack) %>
+  <% render_stat("Naval Attack", unit, :naval_attack) %>
+  <% render_stat("Health", unit, :health) %>
+  <li>Recruitment Cost: <%= number_to_currency(cost_per_turn_proc.call(building_count)) %> per turn</li>
+  <li>Recruitment Rate: <%= recruitment_per_turn_proc.call(building_count) %> per turn</li>
+  <% render_stat("Upkeep", unit, :upkeep) %>
+  <% render_stat("Population", unit, :population) %>
+<% end %>
+
 <div class="green-bg">
 <h3>Recruit & Decomission</h3>
  <details>
@@ -50,146 +69,138 @@
 <h4>Recruit Infantry: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
 
-<details>
-  <summary><b>Infantry</b></summary>
+  <% @basic_infantry = BasicInfantry.new(1) %>
+  <details>
+    <summary><b><%= @basic_infantry.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@basic_infantry,
+          building_count: @country.barracks,
+          cost_per_turn_proc: ->(b) { 1500 * b },
+          recruitment_per_turn_proc: ->(b) { (150 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-  <li>Soft Attack: 8</li>
-  <li>Hard Attack: 2</li>
-  <li>Air Attack: 0</li>
-  <li>Naval Attack: 0</li>
-  <li>Health: 30</li>
-  <li>Recruitment Cost: <%=number_to_currency(1500 * @country.barracks)%> per turn</li>
-  <li>Recruitment Rate: <%=150/1000.to_f * @country.barracks%> per turn</li>
-  <li>Upkeep: $100</li>
-  <li>Population: 1 </li>
-</details>
+  <%= form.label :turns_to_recruit_infantry %> <br>
+  <%= form.number_field :infantry %> <br>
 
-    <%= form.label :turns_to_recruit_infantry %> <br>
-    <%= form.number_field :infantry %> <br> 
+  <% @air_infantry = AirInfantry.new(1) %>
+  <details>
+    <summary><b><%= @air_infantry.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@air_infantry,
+          building_count: @country.barracks,
+          cost_per_turn_proc: ->(b) { 1500 * b },
+          recruitment_per_turn_proc: ->(b) { (150 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-<details>
-  <summary><b>Anti-Air Infantry</b></summary>
+  <%= form.label :turns_to_recruit_air_infantry %> <br>
+  <%= form.number_field :air_infantry %> <br>
 
-  <li>Soft Attack: 5</li>
-  <li>Hard Attack: 5</li>
-  <li>Air Attack: 7</li>
-  <li>Naval Attack: 0</li>
-  <li>Health: 20</li>
-  <li>Recruitment Cost: <%=number_to_currency(1500 * @country.barracks)%> per turn</li>
-  <li>Recruitment Rate: <%=150/1000.to_f * @country.barracks%> per turn</li>
-  <li>Upkeep: $200</li>
-  <li>Population: 1 </li>
-</details>
+  <% @sea_infantry = SeaInfantry.new(1) %>
+  <details>
+    <summary><b><%= @sea_infantry.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@sea_infantry,
+          building_count: @country.barracks,
+          cost_per_turn_proc: ->(b) { 1500 * b },
+          recruitment_per_turn_proc: ->(b) { (150 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-    <%= form.label :turns_to_recruit_air_infantry %> <br>
-    <%= form.number_field :air_infantry %> <br> 
+  <%= form.label :turns_to_recruit_marines %> <br>
+  <%= form.number_field :sea_infantry %> <br>
 
-<details>
-  <summary><b>Marine Infantry</b></summary>
+  <% @armor_infantry = ArmorInfantry.new(1) %>
+  <details>
+    <summary><b><%= @armor_infantry.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@armor_infantry,
+          building_count: @country.barracks,
+          cost_per_turn_proc: ->(b) { 2500 * b },
+          recruitment_per_turn_proc: ->(b) { (150 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-  <li>Soft Attack: 10</li>
-  <li>Hard Attack: 5</li>
-  <li>Air Attack: 0</li>
-  <li>Naval Attack: 0</li>
-  <li>Health: 24</li>
-  <li>Recruitment Cost: <%=number_to_currency(1500 * @country.barracks)%> per turn</li>
-  <li>Recruitment Rate: <%=150/1000.to_f * @country.barracks%> per turn</li>
-  <li>Upkeep: $200</li>
-  <li>Population: 1 </li>
-</details>
-
-    <%= form.label :turns_to_recruit_marines %> <br>
-    <%= form.number_field :sea_infantry %> <br> 
-
-<details>
-  <summary><b>Anti-Armor Infantry</b></summary>
-
-  <li>Soft Attack: 5</li>
-  <li>Hard Attack: 20</li>
-  <li>Air Attack: 1</li>
-  <li>Naval Attack: 0</li>
-  <li>Health: 20</li>
-  <li>Recruitment Cost: <%=number_to_currency(2500 * @country.barracks)%> per turn</li>
-  <li>Recruitment Rate: <%=150/1000.to_f * @country.barracks%> per turn</li>
-  <li>Upkeep: $300</li>
-  <li>Population: 1 </li>
-</details>
-
-    <%= form.label :turns_to_recruit_armor_infantry %> <br>
-    <%= form.number_field :armor_infantry %> <br>
+  <%= form.label :turns_to_recruit_armor_infantry %> <br>
+  <%= form.number_field :armor_infantry %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
 
 <h4>Recruit Armor: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
-    
-<details>
-  <summary><b>Armored Vehicles</b></summary>
 
-  <li>Soft Attack: 100</li>
-  <li>Hard Attack: 50</li>
-  <li>Air Attack: 0</li>
-  <li>Naval Attack: 0</li>
-  <li>Health: 350</li>
-  <li>Recruitment Cost: <%=number_to_currency(50000 * @country.armory)%> per turn</li>
-  <li>Recruitment Rate: <%=50/1000.to_f * @country.armory%> per turn</li>
-  <li>Upkeep: $1000</li>
-  <li>Population: 6 </li>
-</details>
+  <% @basic_armored = BasicArmored.new(1) %>
+  <details>
+    <summary><b><%= @basic_armored.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@basic_armored,
+          building_count: @country.armory,
+          cost_per_turn_proc: ->(b) { 50_000 * b },
+          recruitment_per_turn_proc: ->(b) { (50 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-    <%= form.label :turns_to_recruit_armored_vehicles %> <br>
-    <%= form.number_field :armored %> <br> 
+  <%= form.label :turns_to_recruit_armored_vehicles %> <br>
+  <%= form.number_field :armored %> <br>
 
-<details>
-  <summary><b>Anti-Air Vehicles</b></summary>
+  <% @air_armored = AirArmored.new(1) %>
+  <details>
+    <summary><b><%= @air_armored.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@air_armored,
+          building_count: @country.armory,
+          cost_per_turn_proc: ->(b) { 50_000 * b },
+          recruitment_per_turn_proc: ->(b) { (50 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-  <li>Soft Attack: 60</li>
-  <li>Hard Attack: 50</li>
-  <li>Air Attack: 100</li>
-  <li>Naval Attack: 5</li>
-  <li>Health: 150</li>
-  <li>Recruitment Cost: <%=number_to_currency(50000 * @country.armory)%> per turn</li>
-  <li>Recruitment Rate: <%=50/1000.to_f * @country.armory%> per turn</li>
-  <li>Upkeep: $1000</li>
-  <li>Population: 6 </li>
-</details>
+  <%= form.label :turns_to_recruit_air_vehicles %> <br>
+  <%= form.number_field :air_armored %> <br>
 
-    <%= form.label :turns_to_recruit_air_vehicles %> <br>
-    <%= form.number_field :air_armored %> <br>
+  <% @sea_armored = SeaArmored.new(1) %>
+  <details>
+    <summary><b><%= @sea_armored.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@sea_armored,
+          building_count: @country.armory,
+          cost_per_turn_proc: ->(b) { 100_000 * b },
+          recruitment_per_turn_proc: ->(b) { (50 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-<details>
-  <summary><b>Amphibious Vehicles</b></summary>
+  <%= form.label :turns_to_recruit_amphibious_vehicles %> <br>
+  <%= form.number_field :sea_armored %> <br>
 
-  <li>Soft Attack: 100</li>
-  <li>Hard Attack: 100</li>
-  <li>Air Attack: 20</li>
-  <li>Naval Attack: 20</li>
-  <li>Health: 350</li>
-  <li>Recruitment Cost: <%=number_to_currency(100000 * @country.armory)%> per turn</li>
-  <li>Recruitment Rate: <%=50/1000.to_f * @country.armory%> per turn</li>
-  <li>Upkeep: $2500</li>
-  <li>Population: 8 </li>
-</details>
+  <% @armor_armored = ArmorArmored.new(1) %>
+  <details>
+    <summary><b><%= @armor_armored.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@armor_armored,
+          building_count: @country.armory,
+          cost_per_turn_proc: ->(b) { 250_000 * b },
+          recruitment_per_turn_proc: ->(b) { (25 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-    <%= form.label :turns_to_recruit_amphibious_vehicles %> <br>
-    <%= form.number_field :sea_armored %> <br> 
-
-<details>
-  <summary><b>Tanks</b></summary>
-
-  <li>Soft Attack: 150</li>
-  <li>Hard Attack: 250</li>
-  <li>Air Attack: 0</li>
-  <li>Naval Attack: 0</li>
-  <li>Health: 700</li>
-  <li>Recruitment Cost: <%=number_to_currency(250000 * @country.armory)%> per turn</li>
-  <li>Recruitment Rate: <%=25/1000.to_f * @country.armory%> per turn</li>
-  <li>Upkeep: $10,000</li>
-  <li>Population: 8 </li>
-</details>
-
-    <%= form.label :turns_to_recruit_tanks %> <br>
-    <%= form.number_field :armor_armored %> <br>
+  <%= form.label :turns_to_recruit_tanks %> <br>
+  <%= form.number_field :armor_armored %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
 
@@ -197,199 +208,189 @@
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
 
 <details>
-  <% @transport_helicopter = TransportHelicopter.new(@country.transport_helicopter)%>
+  <% @transport_helicopter = TransportHelicopter.new(1) %>
   <summary><b><%=@transport_helicopter.name%></b></summary>
-  <li>Soft Attack: <%=@transport_helicopter.soft_attack%></li>
-  <li>Hard Attack: <%=@transport_helicopter.hard_attack%></li>
-  <li>Air Attack: <%=@transport_helicopter.air_attack%></li>
-  <li>Naval Attack: <%=@transport_helicopter.naval_attack%></li>
-  <li>Health: <%=@transport_helicopter.health%></li>
-  <li>Recruitment Cost: <%=number_to_currency(@transport_helicopter.cost_per_turn(@country.hangars))%> per turn</li>
-  <li>Recruitment Rate: <%=@transport_helicopter.recruitment_per_turn(@country.hangars)%> per turn</li>
-  <li>Upkeep:<%=@transport_helicopter.upkeep%></li>
-  <li>Population: <%=@transport_helicopter.population%> </li>
-</details>   
-    
-    <%= form.label :turns_to_recruit_transport_helicopters %><br>
-    <%= form.number_field :transport_helicopter %><br> 
+  <ul>
+    <% render_unit_stats(@transport_helicopter,
+        building_count: @country.hangars,
+        cost_per_turn_proc: ->(b) { @transport_helicopter.cost_per_turn(b) },
+        recruitment_per_turn_proc: ->(b) { @transport_helicopter.recruitment_per_turn(b) }
+      )
+    %>
+  </ul>
+</details>
+
+  <%= form.label :turns_to_recruit_transport_helicopters %><br>
+  <%= form.number_field :transport_helicopter %><br>
 
 <details>
-  <% @attack_helicopter = AttackHelicopter.new(@country.attack_helicopter)%>
+  <% @attack_helicopter = AttackHelicopter.new(1) %>
   <summary><b><%=@attack_helicopter.name%></b></summary>
-  <li>Soft Attack: <%=@attack_helicopter.soft_attack%></li>
-  <li>Hard Attack: <%=@attack_helicopter.hard_attack%></li>
-  <li>Air Attack: <%=@attack_helicopter.air_attack%></li>
-  <li>Naval Attack: <%=@attack_helicopter.naval_attack%></li>
-  <li>Health: <%=@attack_helicopter.health%></li>
-  <li>Recruitment Cost: <%=number_to_currency(@attack_helicopter.cost_per_turn(@country.hangars))%> per turn</li>
-  <li>Recruitment Rate: <%=@attack_helicopter.recruitment_per_turn(@country.hangars)%> per turn</li>
-  <li>Upkeep:<%=@attack_helicopter.upkeep%></li>
-  <li>Population: <%=@attack_helicopter.population%> </li>
-</details>   
-    
-    <%= form.label :turns_to_recruit_attack_helicopters %><br>
-    <%= form.number_field :attack_helicopter %><br> 
+  <ul>
+    <% render_unit_stats(@attack_helicopter,
+        building_count: @country.hangars,
+        cost_per_turn_proc: ->(b) { @attack_helicopter.cost_per_turn(b) },
+        recruitment_per_turn_proc: ->(b) { @attack_helicopter.recruitment_per_turn(b) }
+      )
+    %>
+  </ul>
+</details>
+
+  <%= form.label :turns_to_recruit_attack_helicopters %><br>
+  <%= form.number_field :attack_helicopter %><br>
 
 <details>
-  <% @naval_helicopter = NavalHelicopter.new(@country.naval_helicopter)%>
+  <% @naval_helicopter = NavalHelicopter.new(1) %>
   <summary><b><%=@naval_helicopter.name%></b></summary>
-  <li>Soft Attack: <%=@naval_helicopter.soft_attack%></li>
-  <li>Hard Attack: <%=@naval_helicopter.hard_attack%></li>
-  <li>Air Attack: <%=@naval_helicopter.air_attack%></li>
-  <li>Naval Attack: <%=@naval_helicopter.naval_attack%></li>
-  <li>Health: <%=@naval_helicopter.health%></li>
-  <li>Recruitment Cost: <%=number_to_currency(@naval_helicopter.cost_per_turn(@country.hangars))%> per turn</li>
-  <li>Recruitment Rate: <%=@naval_helicopter.recruitment_per_turn(@country.hangars)%> per turn</li>
-  <li>Upkeep:<%=@naval_helicopter.upkeep%></li>
-  <li>Population: <%=@naval_helicopter.population%> </li>
-</details>   
-    
-    <%= form.label :turns_to_recruit_naval_helicopters %><br>
-    <%= form.number_field :naval_helicopter %><br> 
-
-<details>
-  <summary><b>Multi-Role Fighters</b></summary>
-
-  <li>Soft Attack: 1250</li>
-  <li>Hard Attack: 2000</li>
-  <li>Air Attack: 2000</li>
-  <li>Naval Attack: 1250</li>
-  <li>Health: 2000</li>
-  <li>Recruitment Cost: <%=number_to_currency(900000 * @country.hangars)%> per turn</li>
-  <li>Recruitment Rate: <%=15/1000.to_f * @country.hangars%> per turn</li>
-  <li>Upkeep: $40,000</li>
-  <li>Population: 10 </li>
-</details>   
-    
-    <%= form.label :turns_to_recruit_multi_role_fighters %><br>
-    <%= form.number_field :aircraft %><br> 
-   
-<details>
-  <summary><b>Fighter Jets</b></summary>
-
-  <li>Soft Attack: 750</li>
-  <li>Hard Attack: 1000</li>
-  <li>Air Attack: 5000</li>
-  <li>Naval Attack: 250</li>
-  <li>Health: 3000</li>
-  <li>Recruitment Cost: <%=number_to_currency(1500000 * @country.hangars)%> per turn</li>
-  <li>Recruitment Rate: <%=10/1000.to_f * @country.hangars%> per turn</li>
-  <li>Upkeep: $150,000</li>
-  <li>Population: 10 </li>
+  <ul>
+    <% render_unit_stats(@naval_helicopter,
+        building_count: @country.hangars,
+        cost_per_turn_proc: ->(b) { @naval_helicopter.cost_per_turn(b) },
+        recruitment_per_turn_proc: ->(b) { @naval_helicopter.recruitment_per_turn(b) }
+      )
+    %>
+  </ul>
 </details>
 
-    <%= form.label :turns_to_recruit_fighter_jets %><br>
-    <%= form.number_field :air_aircraft %><br> 
+  <%= form.label :turns_to_recruit_naval_helicopters %><br>
+  <%= form.number_field :naval_helicopter %><br>
 
-<details>
-  <summary><b>Naval Bombers</b></summary>
+  <% @basic_aircraft = BasicAircraft.new(1) %>
+  <details>
+    <summary><b><%= @basic_aircraft.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@basic_aircraft,
+          building_count: @country.hangars,
+          cost_per_turn_proc: ->(b) { 900_000 * b },
+          recruitment_per_turn_proc: ->(b) { (15 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-  <li>Soft Attack: 2500</li>
-  <li>Hard Attack: 2500</li>
-  <li>Air Attack: 0</li>
-  <li>Naval Attack: 10000</li>
-  <li>Health: 2500</li>
-  <li>Recruitment Cost: <%=number_to_currency(750000000 * 8 * 0.001 * @country.hangars)%> per turn</li>
-  <li>Recruitment Rate: <%=8/1000.to_f * @country.hangars%> per turn</li>
-  <li>Upkeep: $600,000</li>
-  <li>Population: 10 </li>
-</details>
+  <%= form.label :turns_to_recruit_multi_role_fighters %><br>
+  <%= form.number_field :aircraft %><br>
 
-    <%= form.label :turns_to_recruit_naval_bombers %><br>
-    <%= form.number_field :sea_aircraft %><br> 
+  <% @air_aircraft = AirAircraft.new(1) %>
+  <details>
+    <summary><b><%= @air_aircraft.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@air_aircraft,
+          building_count: @country.hangars,
+          cost_per_turn_proc: ->(b) { 1_500_000 * b },
+          recruitment_per_turn_proc: ->(b) { (10 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-<details>
-  <summary><b>Heavy Bombers</b></summary>
+  <%= form.label :turns_to_recruit_fighter_jets %><br>
+  <%= form.number_field :air_aircraft %><br>
 
-  <li>Soft Attack: 5000</li>
-  <li>Hard Attack: 10000</li>
-  <li>Air Attack: 0</li>
-  <li>Naval Attack: 5000</li>
-  <li>Health: 5000</li>
-  <li>Recruitment Cost: <%=number_to_currency(5000000 * @country.hangars)%> per turn</li>
-  <li>Recruitment Rate: <%=5/1000.to_f * @country.hangars%> per turn</li>
-  <li>Upkeep: $1,000,000</li>
-  <li>Population: 10 </li>
-</details>
+  <% @sea_aircraft = SeaAircraft.new(1) %>
+  <details>
+    <summary><b><%= @sea_aircraft.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@sea_aircraft,
+          building_count: @country.hangars,
+          cost_per_turn_proc: ->(b) { 750_000_000 * 8 * 0.001 * b },
+          recruitment_per_turn_proc: ->(b) { (8 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-    <%= form.label :turns_to_recruit_heavy_bombers %><br>
-    <%= form.number_field :armor_aircraft %> <br>
+  <%= form.label :turns_to_recruit_naval_bombers %><br>
+  <%= form.number_field :sea_aircraft %><br>
+
+  <% @armor_aircraft = ArmorAircraft.new(1) %>
+  <details>
+    <summary><b><%= @armor_aircraft.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@armor_aircraft,
+          building_count: @country.hangars,
+          cost_per_turn_proc: ->(b) { 5_000_000 * b },
+          recruitment_per_turn_proc: ->(b) { (5 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
+
+  <%= form.label :turns_to_recruit_heavy_bombers %><br>
+  <%= form.number_field :armor_aircraft %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
 
 <h4>Recruit Ships: </h4>
 <%= form_with url: user_game_path(@user_game), method: :patch, local: true do |form| %>
-    
-<details>
-  <summary><b>Corvettes</b></summary>
 
-  <li>Soft Attack: 1500</li>
-  <li>Hard Attack: 1000</li>
-  <li>Air Attack: 2000</li>
-  <li>Naval Attack: 5000</li>
-  <li>Health: 5000</li>
-  <li>Recruitment Cost: <%=number_to_currency(45000000 * @country.dockyards)%> per turn</li>
-  <li>Recruitment Rate: <%=10/1000.to_f * @country.dockyards%> per turn</li>
-  <li>Upkeep: $100,000</li>
-  <li>Population: 300 </li>
-</details>
+  <% @basic_ship = BasicShip.new(1) %>
+  <details>
+    <summary><b><%= @basic_ship.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@basic_ship,
+          building_count: @country.dockyards,
+          cost_per_turn_proc: ->(b) { 45_000_000 * b },
+          recruitment_per_turn_proc: ->(b) { (10 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-    <%= form.label :turns_to_recruit_corvettes %> <br>
-    <%= form.number_field :ship %> <br>
+  <%= form.label :turns_to_recruit_corvettes %> <br>
+  <%= form.number_field :ship %> <br>
 
-<details>
-  <summary><b>Frigates</b></summary>
+  <% @air_ship = AirShip.new(1) %>
+  <details>
+    <summary><b><%= @air_ship.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@air_ship,
+          building_count: @country.dockyards,
+          cost_per_turn_proc: ->(b) { 5_000_000 * b },
+          recruitment_per_turn_proc: ->(b) { (5 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-  <li>Soft Attack: 2000</li>
-  <li>Hard Attack: 3000</li>
-  <li>Air Attack: 20000</li>
-  <li>Naval Attack: 5000</li>
-  <li>Health: 20000</li>
-  <li>Recruitment Cost: <%=number_to_currency(5000000 * @country.dockyards)%> per turn</li>
-  <li>Recruitment Rate: <%=5/1000.to_f * @country.dockyards%> per turn</li>
-  <li>Upkeep: $1,000,000</li>
-  <li>Population: 500 </li>
-</details>
+  <%= form.label :turns_to_recruit_frigates %> <br>
+  <%= form.number_field :air_ship %> <br>
 
-    <%= form.label :turns_to_recruit_frigates %> <br>
-    <%= form.number_field :air_ship %> <br>
+  <% @sea_ship = SeaShip.new(1) %>
+  <details>
+    <summary><b><%= @sea_ship.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@sea_ship,
+          building_count: @country.dockyards,
+          cost_per_turn_proc: ->(b) { 5_000_000 * b },
+          recruitment_per_turn_proc: ->(b) { (3 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-<details>
-  <summary><b>Destroyers</b></summary>
+  <%= form.label :turns_to_recruit_destroyers %> <br>
+  <%= form.number_field :sea_ship %> <br>
 
-  <li>Soft Attack: 5000</li>
-  <li>Hard Attack: 10000</li>
-  <li>Air Attack: 4000</li>
-  <li>Naval Attack: 40000</li>
-  <li>Health: 25000</li>
-  <li>Recruitment Cost: <%=number_to_currency(5000000 * @country.dockyards)%> per turn</li>
-  <li>Recruitment Rate: <%=3/1000.to_f * @country.dockyards%> per turn</li>
-  <li>Upkeep: $1,000,000</li>
-  <li>Population: 600 </li>
-</details>
+  <% @armor_ship = ArmorShip.new(1) %>
+  <details>
+    <summary><b><%= @armor_ship.name %></b></summary>
+    <ul>
+      <% render_unit_stats(@armor_ship,
+          building_count: @country.dockyards,
+          cost_per_turn_proc: ->(b) { 2_000_000 * b },
+          recruitment_per_turn_proc: ->(b) { (2 / 1000.to_f) * b }
+        )
+      %>
+    </ul>
+  </details>
 
-    <%= form.label :turns_to_recruit_destroyers %> <br>
-    <%= form.number_field :sea_ship %> <br>
-
-<details>
-  <summary><b>Cruisers</b></summary>
-
-  <li>Soft Attack: 8000</li>
-  <li>Hard Attack: 15000</li>
-  <li>Air Attack: 10000</li>
-  <li>Naval Attack: 25000</li>
-  <li>Health: 90000</li>
-  <li>Recruitment Cost: <%=number_to_currency(2000000 * @country.dockyards)%> per turn</li>
-  <li>Recruitment Rate: <%=2/1000.to_f * @country.dockyards%> per turn</li>
-  <li>Upkeep: $2,500,000</li>
-  <li>Population: 3000 </li>
-</details>
-
-    <%= form.label :turns_to_recruit_cruisers %> <br>
-    <%= form.number_field :armor_ship %> <br>
+  <%= form.label :turns_to_recruit_cruisers %> <br>
+  <%= form.number_field :armor_ship %> <br>
   <%= form.submit "Recruit", class: "button" %>
 <% end %><br>
 </div>
+
 <div class="tan-bg">
 <details>
  <summary><h3>Decomission<h3></summary>
