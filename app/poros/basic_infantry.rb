@@ -14,9 +14,9 @@ class BasicInfantry < Units
   def initialize(count)
     @name = 'Infantry'
     @soft_attack = 8
-    @hard_attack = 2
-    @air_attack = 0
-    @naval_attack = 0
+    @hard_attack = 3
+    @air_attack = 1
+    @naval_attack = 1
     @health = 30
     @cost = 10_000
     @upkeep = 100

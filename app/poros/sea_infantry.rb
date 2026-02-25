@@ -13,9 +13,9 @@ class SeaInfantry < Units
   def initialize(count)
     @name = 'Marines'
     @soft_attack = 10
-    @hard_attack = 4
-    @air_attack = 0
-    @naval_attack = 0
+    @hard_attack = 5
+    @air_attack = 1
+    @naval_attack = 5
     @health = 24
     @cost = 10_000
     @upkeep = 200
