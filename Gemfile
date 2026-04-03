@@ -19,7 +19,7 @@ gem 'pg'
 gem 'puma', '5.6.5'
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem 'importmap-rails'
+gem 'importmap-rails', '>= 1.2.2'
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem 'turbo-rails'
