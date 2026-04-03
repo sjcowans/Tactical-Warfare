@@ -1,24 +1,44 @@
-# README
+# Tactical Warfare
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Tactical Warfare is a turn-based strategy game built with Ruby on Rails where players develop and manage their own country over time while competing against other players. The game uses a timed progression system that grants players one turn per minute, enabling asynchronous multiplayer gameplay focused on long-term strategy, resource management, and combat.
 
-Things you may want to cover:
+## 🚀 Features
 
-* Ruby version
+- ⏱️ Timed turn system with 1 turn generated per minute
+- 🌍 Country-building mechanics with resource and population management
+- ⚔️ Combat systems for attacking and competing with other players
+- 👥 Asynchronous multiplayer gameplay (no real-time requirement)
+- 📈 Persistent player progression and game-state tracking
+- 🧠 Strategic decision-making systems for growth and combat
 
-* System dependencies
+## 🛠️ Tech Stack
 
-* Configuration
+- **Language:** Ruby (3.2.3)
+- **Framework:** Rails 7.0.4.3
+- **Database:** PostgreSQL
+- **Web Server:** Puma
+- **Frontend:** Hotwire (Turbo + Stimulus), Importmap, jQuery
+- **Testing:** RSpec
+- **Linting:** RuboCop
 
-* Database creation
+## 🧠 System Design Highlights
 
-* Database initialization
+- Built as a **Rails monolith** to centralize game logic, persistence, and user interactions
+- Implemented **time-based progression** using a turn-generation model (1 turn per minute)
+- Designed **relational database schemas** to support players, countries, resources, units, and combat
+- Created **asynchronous multiplayer systems**, allowing players to interact without being online simultaneously
+- Focused on **consistent state management** and long-term progression systems
+- Utilized **scheduled job processing concepts** to support recurring turn-based updates
 
-* How to run the test suite
+## 📌 Future Improvements
 
-* Services (job queues, cache servers, search engines, etc.)
+- Improve combat balancing and game mechanics
+- Enhance UI/UX for player decision-making
+- Add alliance, diplomacy, or ranking systems
+- Introduce analytics for player progression and balancing
+- Explore AI-driven simulation or decision modeling
 
-* Deployment instructions
+## 👤 Author
 
-* ...
+Sean Cowans  
+GitHub: https://github.com/sjcowans
