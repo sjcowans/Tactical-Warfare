@@ -7,7 +7,7 @@ ruby '3.2.3'
 gem 'bcrypt', '3.1.18'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.0.4', '>= 7.0.4.3'
+gem 'rails', '~> 7.0.8', '>= 7.0.8.1'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
@@ -19,13 +19,13 @@ gem 'pg'
 gem 'puma', '5.6.5'
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem 'importmap-rails'
+gem 'importmap-rails', '>= 1.2.2'
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-gem 'turbo-rails'
+gem 'turbo-rails', '>= 1.5.0'
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-gem 'stimulus-rails'
+gem 'stimulus-rails', '>= 1.2.2'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
@@ -61,7 +61,7 @@ group :development, :test do
   gem 'launchy'
   gem 'net-http'
   gem 'pry'
-  gem 'rspec-rails', '~> 4.0.1'
+  gem 'rspec-rails', '~> 4.1.0'
   gem 'simplecov'
   gem 'turbolinks'
 end
@@ -69,13 +69,13 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'web-console'
+  gem 'web-console', '>= 4.2.1'
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem 'rubocop-rails'
+  gem 'rubocop-rails', '>= 2.21.0'
 end
 
 group :test do
@@ -83,5 +83,5 @@ group :test do
   gem 'orderly'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
-  gem 'webdrivers'
+  gem 'webdrivers', '>= 5.3.0'
 end
