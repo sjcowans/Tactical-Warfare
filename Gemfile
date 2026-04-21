@@ -7,7 +7,7 @@ ruby '3.2.3'
 gem 'bcrypt', '3.1.18'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.0.4', '>= 7.0.4.3'
+gem 'rails', '~> 7.0.7', '>= 7.0.7.1'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
@@ -25,7 +25,7 @@ gem 'importmap-rails'
 gem 'turbo-rails'
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-gem 'stimulus-rails'
+gem 'stimulus-rails', '>= 1.2.2'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
@@ -61,7 +61,7 @@ group :development, :test do
   gem 'launchy'
   gem 'net-http'
   gem 'pry'
-  gem 'rspec-rails', '~> 4.0.1'
+  gem 'rspec-rails', '~> 4.1.0'
   gem 'simplecov'
   gem 'turbolinks'
 end
